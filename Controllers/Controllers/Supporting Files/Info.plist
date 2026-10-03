@@ -19,6 +19,8 @@
 	<false/>
 	<key>LSHasLocalizedDisplayName</key>
 	<true/>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

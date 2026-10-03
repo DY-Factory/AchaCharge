@@ -48,9 +48,13 @@ final class TesterModel: ObservableObject {
     private let manager = GameControllerManager.shared
     
     init() {
-        manager.delegate = self
+        manager.addDelegate(self)
         manager.inputDelegate = self
         setupController()
+        // Tester 탭을 처음 열기 전에 이미 연결된 컨트롤러가 있으면 연결 상태를 바로 반영한다.
+        if manager.getControlelrInfo() != nil {
+            didConnectedController()
+        }
     }
     
     func setupController() {

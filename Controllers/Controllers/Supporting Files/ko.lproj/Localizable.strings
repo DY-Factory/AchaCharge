@@ -19,6 +19,12 @@
 
 "Current Battery is %@" = "현재 배터리가 %@ 입니다 !";
 
+// MARK: - Charge Alert
+"Battery is low %@" = "배터리가 %@ 입니다. 충전이 필요해요!";
+"Charge Alert Threshold" = "충전 알림 기준";
+"Charge Alert Threshold Message" = "선택한 값 이하로 배터리가 떨어지면 알림을 받습니다.";
+"Cancel" = "취소";
+
 // MARK: - Alert
 "Ok!" = "확인";
 "Done" = "완료";

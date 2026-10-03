@@ -35,17 +35,32 @@ final class ControllerModel: ObservableObject {
             batteryLevel = 0.0
             return
         }
-        
+
         NSLog("batteryLevel: \(info.batteryLevel)")
         vendorName = info.vendorName
         batteryLevel = info.batteryLevel
         UserDefaults.shared.setValue(info.batteryLevel, forKey: StringKey.BATTERY_LEVEL)
+
+        // 활성화된 Live Activity 가 있으면 배터리 정보를 갱신한다.
+        LiveActivityManager.shared.update(batteryLevel: info.batteryLevel,
+                                          batteryState: info.batteryState.rawValue)
+    }
+}
+
+// MARK: - Live Activity
+extension ControllerModel {
+    /// 컨트롤러 연결 시 배터리 Live Activity 를 시작한다. (프리미엄 구독자 전용)
+    private func startLiveActivity() {
+        guard let info = manager.getControlelrInfo() else { return }
+        LiveActivityManager.shared.start(vendorName: info.vendorName,
+                                         batteryLevel: info.batteryLevel,
+                                         batteryState: info.batteryState.rawValue)
     }
 }
 
 extension ControllerModel {
     private func addControllerObservers() {
-        manager.delegate = self
+        manager.addDelegate(self)
     }
 }
 
@@ -54,10 +69,12 @@ extension ControllerModel: GameControllerDelegate {
     func didConnectedController() {
         isConnected = true
         updateControllerInfo()
+        startLiveActivity()
     }
-    
+
     func didDisConnectedController() {
         isConnected = false
         updateControllerInfo()
+        LiveActivityManager.shared.end()
     }
 }
