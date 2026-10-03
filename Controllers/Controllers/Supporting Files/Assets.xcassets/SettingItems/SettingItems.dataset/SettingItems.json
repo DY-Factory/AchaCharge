@@ -1,21 +1,28 @@
 [
     {
-        "sectionTypeCode":0,
-        "typeImageName":"crown.fill",
-        "title":"Premium",
-        "isNewBadge":"N",
-        "buttonTitle":"Upgrade"
+        "sectionTypeCode": 0,
+        "typeImageName": "crown.fill",
+        "title": "Premium",
+        "isNewBadge": "N",
+        "buttonTitle": "Upgrade"
     },
     {
-        "sectionTypeCode":0,
-        "typeImageName":"arrow.clockwise",
-        "title":"restorepurchase",
-        "isNewBadge":"N",
+        "sectionTypeCode": 0,
+        "typeImageName": "arrow.clockwise",
+        "title": "restorepurchase",
+        "isNewBadge": "N"
     },
     {
-        "sectionTypeCode":1,
-        "typeImageName":"info.circle.fill",
-        "title":"Info",
-        "isNewBadge":"N",
+        "sectionTypeCode": 0,
+        "typeImageName": "bell.badge",
+        "title": "Charge Alert Threshold",
+        "isNewBadge": "Y",
+        "buttonTitle": "20%"
     },
+    {
+        "sectionTypeCode": 1,
+        "typeImageName": "info.circle.fill",
+        "title": "Info",
+        "isNewBadge": "N"
+    }
 ]

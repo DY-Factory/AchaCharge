@@ -19,6 +19,12 @@
 "restorepurchase" = "Restore Purchase";
 "Info" = "info";
 
+// MARK: - Charge Alert
+"Battery is low %@" = "Battery is low: %@. Time to charge!";
+"Charge Alert Threshold" = "Charge Alert Threshold";
+"Charge Alert Threshold Message" = "Get notified when the battery drops to or below the selected level.";
+"Cancel" = "Cancel";
+
 // MARK: - Alert
 "Ok!" = "Ok!";
 "Done" = "Done";
