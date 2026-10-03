@@ -65,6 +65,12 @@ final class SettingItemCell: UITableViewCell {
             rightButton.setTitleColor(UIColor.label, for: .normal)
         }
     }
+
+    /// 우측 버튼의 타이틀을 갱신한다. (예: 충전 알림 기준의 현재 임계값 표시)
+    public func updateButtonTitle(_ title: String) {
+        rightButton.setTitle(title, for: .normal)
+        rightButton.setTitleColor(UIColor.label, for: .normal)
+    }
 }
 
 extension SettingItemCell {

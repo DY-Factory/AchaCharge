@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ACACACAC000000000000D002 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000D001 /* PrivacyInfo.xcprivacy */; };
+		ACACACAC000000000000E002 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000E001 /* PrivacyInfo.xcprivacy */; };
 		369B340A2A4C515300DBCC29 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369B34082A4C511E00DBCC29 /* ProgressBar.swift */; };
+		ACACACAC000000000000A002 /* ControllerActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000A001 /* ControllerActivityAttributes.swift */; };
+		ACACACAC000000000000A003 /* ControllerActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000A001 /* ControllerActivityAttributes.swift */; };
+		ACACACAC000000000000B002 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000B001 /* LiveActivityManager.swift */; };
+		ACACACAC000000000000C002 /* ControllerLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000C001 /* ControllerLiveActivity.swift */; };
 		369B340C2A4D13B300DBCC29 /* StringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369B340B2A4D13B300DBCC29 /* StringKey+.swift */; };
 		B511FEE02B20C7A600742111 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B511FEDF2B20C7A600742111 /* ImageButton.swift */; };
 		B511FEE22B20C8D600742111 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B511FEE12B20C8D600742111 /* UIButton.swift */; };
@@ -98,6 +104,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		ACACACAC000000000000D001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		ACACACAC000000000000E001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		369B34082A4C511E00DBCC29 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		369B340B2A4D13B300DBCC29 /* StringKey+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringKey+.swift"; sourceTree = "<group>"; };
 		B511FEDF2B20C7A600742111 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
@@ -162,6 +170,9 @@
 		EF9362612A9E2D3E0009E8E8 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		EFC1A1312A83D6E00023754E /* ControllersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ControllersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC1A1332A83D6E00023754E /* ControllersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllersTests.swift; sourceTree = "<group>"; };
+		ACACACAC000000000000A001 /* ControllerActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerActivityAttributes.swift; sourceTree = "<group>"; };
+		ACACACAC000000000000B001 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
+		ACACACAC000000000000C001 /* ControllerLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerLiveActivity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,9 +303,11 @@
 			children = (
 				EF789B922A30ABFA006EC6D8 /* ControllersWidgetBundle.swift */,
 				EF789B942A30ABFA006EC6D8 /* ControllersWidget.swift */,
+				ACACACAC000000000000C001 /* ControllerLiveActivity.swift */,
 				369B34082A4C511E00DBCC29 /* ProgressBar.swift */,
 				EF789B962A30ABFB006EC6D8 /* Assets.xcassets */,
 				EF789B982A30ABFB006EC6D8 /* Info.plist */,
+				ACACACAC000000000000E001 /* PrivacyInfo.xcprivacy */,
 			);
 			path = ControllersWidget;
 			sourceTree = "<group>";
@@ -366,6 +379,8 @@
 				EF9362492A9BA61A0009E8E8 /* CustomJSONDecoder.swift */,
 				B5F403FD2AC126EB00D4A6BD /* FetchGameControllerOperation.swift */,
 				B55974352ACDC33100FC01FE /* ProductIdentifiers.swift */,
+				ACACACAC000000000000A001 /* ControllerActivityAttributes.swift */,
+				ACACACAC000000000000B001 /* LiveActivityManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -377,6 +392,7 @@
 				EF789B7C2A24D6DD006EC6D8 /* LaunchScreen.storyboard */,
 				EF789B7F2A24D6DD006EC6D8 /* Info.plist */,
 				EF9362312A9A56D50009E8E8 /* ProductIDs.plist */,
+				ACACACAC000000000000D001 /* PrivacyInfo.xcprivacy */,
 				EF9362352A9B49B70009E8E8 /* ColorAsset.xcassets */,
 				EF9362572A9E26120009E8E8 /* InfoPlist.strings */,
 				EF93625C2A9E2B670009E8E8 /* Localizable.strings */,
@@ -547,6 +563,7 @@
 				B52050632B90EBB60006E63E /* TestProductIDs.plist in Resources */,
 				EF93625A2A9E2B670009E8E8 /* Localizable.strings in Resources */,
 				EF9362322A9A56D50009E8E8 /* ProductIDs.plist in Resources */,
+				ACACACAC000000000000D002 /* PrivacyInfo.xcprivacy in Resources */,
 				EF9362362A9B49B70009E8E8 /* ColorAsset.xcassets in Resources */,
 				EF789B7B2A24D6DD006EC6D8 /* Assets.xcassets in Resources */,
 			);
@@ -557,6 +574,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF789B972A30ABFB006EC6D8 /* Assets.xcassets in Resources */,
+				ACACACAC000000000000E002 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +625,8 @@
 				EF9362502A9CF5AD0009E8E8 /* UIApplication+.swift in Sources */,
 				EF93622C2A9646D50009E8E8 /* SettingViewController.swift in Sources */,
 				B5F403FE2AC126EB00D4A6BD /* FetchGameControllerOperation.swift in Sources */,
+				ACACACAC000000000000A002 /* ControllerActivityAttributes.swift in Sources */,
+				ACACACAC000000000000B002 /* LiveActivityManager.swift in Sources */,
 				EF38A0972A4C745A00DF1AF9 /* UserDefaults+.swift in Sources */,
 				B5E3BDC72DCF901F000622FD /* ProgressBarView.swift in Sources */,
 				B5C7FAE62DDE24C0009F6BD1 /* Bundle+.swift in Sources */,
@@ -622,6 +642,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF789B932A30ABFA006EC6D8 /* ControllersWidgetBundle.swift in Sources */,
+				ACACACAC000000000000A003 /* ControllerActivityAttributes.swift in Sources */,
+				ACACACAC000000000000C002 /* ControllerLiveActivity.swift in Sources */,
 				B5CDDBAF2BE54815007610BC /* StringKey+.swift in Sources */,
 				369B340A2A4C515300DBCC29 /* ProgressBar.swift in Sources */,
 				EF789B952A30ABFA006EC6D8 /* ControllersWidget.swift in Sources */,

@@ -12,5 +12,8 @@ import SwiftUI
 struct ControllersWidgetBundle: WidgetBundle {
     var body: some Widget {
         ControllersWidget()
+        if #available(iOS 16.1, *) {
+            ControllerLiveActivity()
+        }
     }
 }

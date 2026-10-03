@@ -20,6 +20,12 @@
 
 "Current Battery is %@" = "今バッテリーが%@残りました !";
 
+// MARK: - Charge Alert
+"Battery is low %@" = "バッテリーが%@です。充電してください！";
+"Charge Alert Threshold" = "充電通知の基準";
+"Charge Alert Threshold Message" = "選択した値以下にバッテリーが下がると通知します。";
+"Cancel" = "キャンセル";
+
 // MARK: - Alert
 "Ok!" = "オッケー";
 "Done" = "完了";

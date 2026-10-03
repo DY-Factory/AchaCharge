@@ -20,6 +20,7 @@ final class SettingViewController: UIViewController {
     enum PremiumSectionType: String {
         case premium
         case restorepurchase
+        case chargeAlertThreshold = "chargealertthreshold"
     }
     
     enum CsInfoSectionType: String {
@@ -121,7 +122,10 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
         case .premium:
             guard let item = premiumItems[safe: indexPath.row] else { return cell }
             convertedCell.setData(item)
-            
+            if premiumType(of: item) == .chargeAlertThreshold {
+                convertedCell.updateButtonTitle("\(UserDefaults.shared.batteryNotificationThreshold)%")
+            }
+
             return convertedCell
             
         case .csInfo:
@@ -137,11 +141,9 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
         
         switch sectionType[indexPath.section] {
         case .premium:
-            
-            guard let title = premiumItems[safe: indexPath.row]?.title else { return }
-            let typeString = title.replacingOccurrences(of: " ", with: "").lowercased()
-            
-            guard let type = PremiumSectionType(rawValue: typeString) else { return }
+
+            guard let item = premiumItems[safe: indexPath.row],
+                  let type = premiumType(of: item) else { return }
             switch type {
             case .premium:
                 tappedPurchaseButton()
@@ -149,6 +151,9 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             case .restorepurchase:
                 tappedRestoreButton()
                 print("restorepurchase")
+            case .chargeAlertThreshold:
+                presentThresholdPicker(at: indexPath)
+                print("chargeAlertThreshold tapped!")
             }
             
         case .csInfo:
@@ -200,6 +205,43 @@ extension SettingViewController {
             }
             donePurchases()
         }
+    }
+}
+
+// MARK: - Charge Alert Threshold
+extension SettingViewController {
+    /// 설정 행의 title 을 PremiumSectionType 으로 변환한다.
+    private func premiumType(of item: SettingItemDTO) -> PremiumSectionType? {
+        let typeString = item.title.replacingOccurrences(of: " ", with: "").lowercased()
+        return PremiumSectionType(rawValue: typeString)
+    }
+
+    /// 충전 알림 임계값(10/20/30/50%)을 선택하는 액션시트를 띄운다.
+    private func presentThresholdPicker(at indexPath: IndexPath) {
+        let options = [10, 20, 30, 50]
+        let current = UserDefaults.shared.batteryNotificationThreshold
+
+        let alert = UIAlertController(title: "Charge Alert Threshold".localized,
+                                      message: "Charge Alert Threshold Message".localized,
+                                      preferredStyle: .actionSheet)
+
+        options.forEach { option in
+            let checkMark = option == current ? "  ✓" : ""
+            let action = UIAlertAction(title: "\(option)%\(checkMark)", style: .default) { [weak self] _ in
+                UserDefaults.shared.batteryNotificationThreshold = option
+                self?.tableView.reloadRows(at: [indexPath], with: .none)
+            }
+            alert.addAction(action)
+        }
+        alert.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel))
+
+        // iPad 대응: 액션시트는 popover 로 표시되므로 sourceView 지정 필요
+        if let popover = alert.popoverPresentationController {
+            popover.sourceView = tableView
+            popover.sourceRect = tableView.rectForRow(at: indexPath)
+        }
+
+        present(alert, animated: true)
     }
 }
 

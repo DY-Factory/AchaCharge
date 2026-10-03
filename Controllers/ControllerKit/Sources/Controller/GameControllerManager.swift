@@ -19,11 +19,20 @@ public protocol ControllerInputDelegate: AnyObject {
 public final class GameControllerManager {
     public static let shared: GameControllerManager = .init()
     
-    public weak var delegate: GameControllerDelegate?
+    /// 연결/해제 이벤트 구독자. 여러 모델(Controller, Tester)이 동시에 받을 수 있도록 weak 컬렉션으로 보관한다.
+    private let delegates = NSHashTable<AnyObject>.weakObjects()
     public weak var inputDelegate: ControllerInputDelegate?
-    
+
     private init() {
         addObserver()
+    }
+
+    public func addDelegate(_ delegate: GameControllerDelegate) {
+        delegates.add(delegate)
+    }
+
+    private var allDelegates: [GameControllerDelegate] {
+        delegates.allObjects.compactMap { $0 as? GameControllerDelegate }
     }
     
     public var controllers: [GCController] = []
@@ -231,7 +240,7 @@ extension GameControllerManager {
             setupControllerInputHandlers()
         }
         
-        delegate?.didConnectedController()
+        allDelegates.forEach { $0.didConnectedController() }
     }
     
     private func getCurrentController() -> Controller? {
@@ -254,7 +263,9 @@ extension GameControllerManager {
     @objc
     private func didDisConnectedController() {
         NSLog("Disconnected Game Controller !!)")
-        delegate?.didDisConnectedController()
+        // 남은 컨트롤러가 없으면 nil 이 되어, 해제 후 이전 컨트롤러 정보가 남지 않는다.
+        current = getCurrentController()
+        allDelegates.forEach { $0.didDisConnectedController() }
     }
 }
 
