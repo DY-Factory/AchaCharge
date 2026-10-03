@@ -30,7 +30,7 @@
 - 두 UI 프레임워크를 한 코드베이스에서 유지 → 컨벤션·테마·컴포넌트 중복 우려
 - 신규 iOS API(@Observable, NavigationStack 등) 사용 불가
 
-**현재 상태**: `refactor/#8-uikit--swiftui` 브랜치에서 SwiftUI 전환 진행 중. `main`은 UIKit 유지. 전환 완료 시 본 결정과 결정 #2, #3 재작성 필요.
+**현재 상태**: SwiftUI 전환이 `develop`에 머지됨 (#9, 2025-05). 메인 앱은 SwiftUI, 설정 화면만 UIKit(`SettingViewRepresentable`). 1.1.0부터 최소 iOS 15. 본 결정과 결정 #2, #3 재작성 필요.
 
 **참고**:
 - [AppDelegate.swift:8](Controllers/Controllers/Applications/AppDelegate.swift)
@@ -177,14 +177,14 @@ extension UserDefaults {
 **상품 ID**: `com.Arex.Controller.month` (월 구독) — [ProductIDs.plist](Controllers/Controllers/ProductIDs.plist)
 
 **근거**:
-- iOS 14 deployment target → StoreKit 2(iOS 15+) 사용 불가
-- 외부 라이브러리(SwiftyStoreKit) 없이 표준 API만으로 처리
+- iOS 14 deployment target → StoreKit 2(iOS 15+) 사용 불가 (1.1.0에서 iOS 15로 상향되어 이 제약은 해소됨)
+- 구매·복원·트랜잭션 완료는 SwiftyStoreKit(StoreKit 1 래퍼)로 처리
 
 **트레이드오프**:
 - `async/await` 기반 StoreKit 2 대비 콜백/delegate 패턴이 장황함
 - 영수증 검증을 직접 구현해야 함 (`hotfix/1.0.12-iapverify` 브랜치에서 진행 중)
 
-**재검토 기준**: deployment target이 iOS 15 이상으로 상향되면 StoreKit 2 마이그레이션 검토.
+**재검토 기준**: deployment target이 iOS 15 이상으로 상향되면 StoreKit 2 마이그레이션 검토. → 1.1.0에서 충족됨. 마이그레이션은 별도 작업으로 미정.
 
 ---
 
@@ -242,9 +242,9 @@ final class GameControllerManager {
 
 - **macOS 타깃 분기 전략**: 조건부 컴파일(`#if os(macOS)`) vs 별도 타깃 vs 공유 코드 모듈화 — `Feature/macOSTarget`에서 진행 중
 - **AccessorySetupKit 도입 여부**: 결정 #9 참조
-- **StoreKit 2 마이그레이션**: 결정 #7 참조 — deployment target 상향이 선결
+- **StoreKit 2 마이그레이션**: 결정 #7 참조 — 선결 조건(iOS 15 상향)은 1.1.0에서 충족
 - **영수증 검증 책임자**: 클라이언트 단독 vs 서버 사이드 — `hotfix/1.0.12-iapverify`에서 진행 중
-- **SwiftUI 전환 완료 후 컨벤션**: `refactor/#8-uikit--swiftui` 머지 시 결정 #1, #2, #3 재작성 필요
+- **SwiftUI 전환 완료 후 컨벤션**: `refactor/#8-uikit--swiftui` 머지됨(#9) — 결정 #1, #2, #3 재작성 필요
 - **Localization 도입**: DESIGN.md 로드맵 참조 — 도입 시 본 문서에도 결정 추가
 - **폴더 일관성**: `Sources/Controller/` 안에 ViewController와 커스텀 뷰가 혼재 → 추후 `DesignSystem/`, `Scenes/` 등으로 분리 검토
 - **enum 오타 `TabType.controlelr`** — 별도 리팩토링 작업
