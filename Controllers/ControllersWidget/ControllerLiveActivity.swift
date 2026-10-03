@@ -26,17 +26,13 @@ struct ControllerLiveActivity: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    Label {
-                        Text(context.attributes.vendorName)
-                            .font(.caption)
-                            .lineLimit(1)
-                    } icon: {
-                        Image(systemName: "gamecontroller.fill")
-                    }
+                    // 이름은 bottom 진행 바 라벨에 한 번만 표시한다 (leading 은 폭이 좁아 잘림)
+                    Image(systemName: "gamecontroller.fill")
+                        .font(.title3)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     Label {
-                        Text(LiveActivityFormat.percentText(context.state.batteryLevel))
+                        LiveActivityFormat.percentLabel(context.state)
                             .font(.title3)
                             .fontWeight(.semibold)
                     } icon: {
@@ -55,10 +51,11 @@ struct ControllerLiveActivity: Widget {
             } compactLeading: {
                 Image(systemName: "gamecontroller.fill")
             } compactTrailing: {
-                Text(LiveActivityFormat.percentText(context.state.batteryLevel))
+                LiveActivityFormat.percentLabel(context.state)
                     .foregroundColor(LiveActivityFormat.batteryColor(context.state.batteryLevel))
             } minimal: {
-                Image(systemName: LiveActivityFormat.batteryIconName(for: context.state))
+                // 공간이 아이콘 하나뿐이라 충전 중에는 번개, 아니면 잔량 아이콘
+                Image(systemName: context.state.batteryState == 1 ? "bolt.fill" : LiveActivityFormat.batteryIconName(for: context.state))
                     .foregroundColor(LiveActivityFormat.batteryColor(context.state.batteryLevel))
             }
         }
@@ -83,6 +80,7 @@ struct LockScreenLiveActivityView: View {
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .lineLimit(1)
+                    .minimumScaleFactor(0.7)
 
                 ProgressView(value: Double(state.batteryLevel))
                     .tint(LiveActivityFormat.batteryColor(state.batteryLevel))
@@ -92,7 +90,7 @@ struct LockScreenLiveActivityView: View {
 
             HStack(spacing: 4) {
                 Image(systemName: LiveActivityFormat.batteryIconName(for: state))
-                Text(LiveActivityFormat.percentText(state.batteryLevel))
+                LiveActivityFormat.percentLabel(state)
                     .fontWeight(.semibold)
             }
             .font(.headline)
@@ -109,12 +107,15 @@ enum LiveActivityFormat {
         "\(Int(level * 100))%"
     }
 
-    /// 배터리 잔량/상태에 맞는 SF Symbol 이름을 반환한다.
+    /// "82%" 텍스트. 충전 중(batteryState == 1)이면 번개 아이콘을 붙인다.
+    static func percentLabel(_ state: ControllerActivityAttributes.ContentState) -> Text {
+        let text = Text(percentText(state.batteryLevel))
+        return state.batteryState == 1 ? text + Text(" \(Image(systemName: "bolt.fill"))") : text
+    }
+
+    /// 배터리 잔량에 맞는 SF Symbol 이름을 반환한다.
+    /// (충전 중 표시는 percentLabel 의 번개로 한다. battery.100.bolt 는 잔량과 무관하게 가득 찬 모양이라 쓰지 않음)
     static func batteryIconName(for state: ControllerActivityAttributes.ContentState) -> String {
-        // batteryState == 1 (charging)
-        if state.batteryState == 1 {
-            return "battery.100.bolt"
-        }
         switch state.batteryLevel {
         case ..<0.1:  return "battery.0"
         case ..<0.25: return "battery.25"

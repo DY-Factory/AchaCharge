@@ -46,12 +46,14 @@ struct TesterView: View {
                     }
                     
                     Spacer()
-                        .frame(height: 60)
-                    ZStack {
+                        .frame(height: 12)
+                    // offset 은 레이아웃에 반영되지 않아 스틱이 카드 밖(iOS 26 탭바 아래)으로 나갔음.
+                    // 음수 spacing 으로 겹치게 배치해 카드 높이에 포함시킨다.
+                    VStack(spacing: -50) {
                         // 중앙 영역
-                        HStack(spacing: 40) {
+                        // D-패드·얼굴 버튼을 양 끝(L1/R1 아래)에 두고, 가운데 남는 폭에 스틱 + PS 버튼이 겹쳐 들어간다.
+                        HStack {
                             // D-패드
-                            Spacer()
                             DPadView(xValue: model.dpadX, yValue: model.dpadY)
                             Spacer()
                             // 얼굴 버튼
@@ -63,19 +65,17 @@ struct TesterView: View {
                                 }
                                 ControllerButton(systemName: "x.circle", size: 60, isPressed: model.buttonA)
                             }
-                            Spacer()
                         }
-                        .offset(y: -20)
-                        
+                        .padding(.horizontal, 24)
+
                         // 하단 버튼
-                        HStack(spacing: 40) {
+                        HStack(spacing: 24) {
                             // 왼쪽 스틱 (옵션)
                             ThumbstickView(direction: .left, xValue: model.leftStickX, yValue: model.leftStickY)
                             ControllerButton(systemName: "playstation.logo", size: 60, isPressed: model.buttonHome)
                             // 오른쪽 스틱 (옵션)
                             ThumbstickView(direction: .right, xValue: model.rightStickX, yValue: model.rightStickY)
                         }
-                        .offset(y: 60)
                     }
                     
                 }
