@@ -184,7 +184,7 @@ extension UserDefaults {
 - `async/await` 기반 StoreKit 2 대비 콜백/delegate 패턴이 장황함
 - 영수증 검증을 직접 구현해야 함 (`hotfix/1.0.12-iapverify` 브랜치에서 진행 중)
 
-**재검토 기준**: deployment target이 iOS 15 이상으로 상향되면 StoreKit 2 마이그레이션 검토. → 1.1.0에서 충족됨. 마이그레이션은 별도 작업으로 미정.
+**재검토 기준**: deployment target이 iOS 15 이상으로 상향되면 StoreKit 2 마이그레이션 검토. → 1.1.0에서 충족됨. 구독 상태 확인·복원·가격 표시는 StoreKit 2(`Transaction.currentEntitlements`, `AppStore.sync()`, `Product`)로 전환했고, 구매는 SwiftyStoreKit(StoreKit 1)을 유지한다.
 
 ---
 

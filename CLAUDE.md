@@ -120,12 +120,13 @@ xcodebuild -project Controllers/Controllers.xcodeproj -scheme Controllers \
 - 배터리 로컬 알림은 앱이 보냅니다 (`FetchGameControllerOperation`, 구독자 전용 BG Task)
 
 ### IAP
-- **StoreKit 1** 기반. 구매·복원·트랜잭션 완료는 **SwiftyStoreKit**으로 처리
-  - 앱 시작 시 `SwiftyStoreKit.completeTransactions` ([AppDelegate.swift](Controllers/Controllers/Applications/AppDelegate.swift))
-  - 구매·복원: `SettingViewController`, `IAPOnboardingViewController`
-  - 구독 여부: `StoreKitManager.shared.isSubscribed`
-- 1.1.0부터 최소 iOS 15라 StoreKit 2를 쓸 수 있지만 아직 전환하지 않았습니다 (ARCHITECTURE.md 결정 #7)
-- 영수증 검증은 별도 브랜치 (`hotfix/1.0.12-iapverify`)에서 작업 중. 본 브랜치에는 미반영
+- **구매는 StoreKit 1(SwiftyStoreKit)**, **구독 상태·복원·가격 표시는 StoreKit 2**로 처리 ([StoreKitManager.swift](Controllers/Controllers/Sources/Models/StoreKitManager.swift))
+  - 구매: `SwiftyStoreKit.purchaseProduct` (`IAPOnboardingViewController`), 트랜잭션 finish는 SwiftyStoreKit 담당
+  - 구독 여부: `refreshSubscriptionStatus()`가 `Transaction.currentEntitlements`로 판단해 `StoreKitManager.shared.isSubscribed`에 저장. 앱 활성화 시와 `Transaction.updates` 수신 시 호출
+  - 복원: `restoreSubscription()` (`AppStore.sync()` 후 재계산)
+  - 구독 화면 가격: `displayPrices()` (`Product.displayPrice`, 현지 통화). 가격을 코드에 쓰지 마세요
+- 서버 검증은 쓰지 않습니다. 유료 기능이 기기 안에서만 동작해서, 서버 검증이 보안상 추가로 막는 게 없습니다
+- `hotfix/1.0.12-iapverify` 브랜치의 영수증 검증 작업은 위 StoreKit 2 권한 확인으로 대체할 수 있습니다. 머지 전에 필요 여부를 다시 판단하세요
 - 상품 ID는 절대 코드에 하드코딩 금지 — `ProductIDs.plist`에서 로드
 
 ### 컬러

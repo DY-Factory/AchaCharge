@@ -24,3 +24,9 @@
 "Ok!" = "オッケー";
 "Done" = "完了";
 "Purchase is completed" = "購入が完了しました。";
+
+// MARK: - IAP
+"/week" = "/週";
+"/month" = "/月";
+"/year" = "/年";
+"No subscription to restore" = "復元できるサブスクリプションがありません。";

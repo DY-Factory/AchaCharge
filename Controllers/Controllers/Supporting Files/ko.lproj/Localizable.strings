@@ -33,3 +33,7 @@
 "Start Premium" = "프리미엄 시작하기";
 "termOfUse" = "이용약관";
 "privacy Policy" = "개인정보 처리방침";
+"/week" = "/주";
+"/month" = "/월";
+"/year" = "/연";
+"No subscription to restore" = "복원할 구독이 없습니다.";

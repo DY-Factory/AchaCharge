@@ -28,6 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidBecomeActive(_ scene: UIScene) {
         isBackground = false
+        Task { await StoreKitManager.shared.refreshSubscriptionStatus() }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {}

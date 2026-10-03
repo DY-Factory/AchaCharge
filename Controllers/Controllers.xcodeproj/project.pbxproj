@@ -38,7 +38,6 @@
 		B5E3BDC52DCF8C2A000622FD /* ControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3BDC42DCF8C2A000622FD /* ControllerModel.swift */; };
 		B5E3BDC72DCF901F000622FD /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3BDC62DCF901F000622FD /* ProgressBarView.swift */; };
 		B5F403FE2AC126EB00D4A6BD /* FetchGameControllerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F403FD2AC126EB00D4A6BD /* FetchGameControllerOperation.swift */; };
-		B5F403FF2AC2CF7B00D4A6BD /* StoreObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF93622D2A9657FB0009E8E8 /* StoreObserver.swift */; };
 		B5F404002AC2CFD400D4A6BD /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9362332A9A63890009E8E8 /* StoreKitManager.swift */; };
 		B5F404152AC36BF500D4A6BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF9362572A9E26120009E8E8 /* InfoPlist.strings */; };
 		EF38A0972A4C745A00DF1AF9 /* UserDefaults+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF38A0962A4C745A00DF1AF9 /* UserDefaults+.swift */; };
@@ -145,7 +144,6 @@
 		EF789B982A30ABFB006EC6D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF9362292A9645100009E8E8 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		EF93622B2A9646D50009E8E8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		EF93622D2A9657FB0009E8E8 /* StoreObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreObserver.swift; sourceTree = "<group>"; };
 		EF9362312A9A56D50009E8E8 /* ProductIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ProductIDs.plist; sourceTree = "<group>"; };
 		EF9362332A9A63890009E8E8 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		EF9362352A9B49B70009E8E8 /* ColorAsset.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ColorAsset.xcassets; sourceTree = "<group>"; };
@@ -364,7 +362,6 @@
 		EF93623E2A9B9A1E0009E8E8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				EF93622D2A9657FB0009E8E8 /* StoreObserver.swift */,
 				EF9362332A9A63890009E8E8 /* StoreKitManager.swift */,
 				EF9362492A9BA61A0009E8E8 /* CustomJSONDecoder.swift */,
 				B5F403FD2AC126EB00D4A6BD /* FetchGameControllerOperation.swift */,
@@ -604,7 +601,6 @@
 				EF9362382A9B4A860009E8E8 /* UIColor+.swift in Sources */,
 				B58AA1B32BFB4A7300EAC37F /* ControllerView.swift in Sources */,
 				B58A16DF2DE46D26005CEA4F /* ThumbstickView.swift in Sources */,
-				B5F403FF2AC2CF7B00D4A6BD /* StoreObserver.swift in Sources */,
 				B58A16E32DE46D43005CEA4F /* ControllerButton.swift in Sources */,
 				EF789B742A24D6DC006EC6D8 /* SceneDelegate.swift in Sources */,
 				EF9362482A9BA5270009E8E8 /* SettingDTO.swift in Sources */,
