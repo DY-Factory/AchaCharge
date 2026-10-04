@@ -50,7 +50,6 @@ final class SettingViewController: UIViewController {
         fetchJSON()
         initLayout()
         configureTableView()
-        StoreObserver.shared.resotreDelegate = self
     }
 }
 
@@ -196,7 +195,16 @@ extension SettingViewController {
     
     @objc
     private func tappedRestoreButton() {
-        StoreObserver.shared.restorePurchases()
+        Task {
+            await StoreKitManager.shared.restoreSubscription()
+            guard StoreKitManager.shared.isSubscribed else {
+                let alert = UIAlertController(title: nil, message: "No subscription to restore".localized, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok!".localized, style: .default))
+                present(alert, animated: true)
+                return
+            }
+            donePurchases()
+        }
     }
 }
 
@@ -235,15 +243,6 @@ extension SettingViewController {
 
         present(alert, animated: true)
     }
-}
-
-// MARK: - DidRestoredDelegate Method
-extension SettingViewController: DidResotreDelegate {
-    func didRestored() {
-        donePurchases()
-    }
-    
-    
 }
 
 

@@ -78,7 +78,7 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 │   │   │   ├── Controller/                 # ControllerView, ControllerModel, ProgressBarView
 │   │   │   ├── Tester/                     # TesterView, TesterModel, SubViews/ (DPad, Thumbstick, Trigger 등)
 │   │   │   ├── Setting/                    # SettingViewController (UIKit), IAPOnboardingViewController (UIKit), InfoView
-│   │   │   ├── Models/                     # StoreKitManager, StoreObserver, FetchGameControllerOperation, LiveActivityManager, ControllerActivityAttributes
+│   │   │   ├── Models/                     # StoreKitManager, FetchGameControllerOperation, LiveActivityManager, ControllerActivityAttributes
 │   │   │   ├── Component/                  # ImageButton
 │   │   │   └── Extensions/                 # StringKey+, UserDefaults+, String+(localized), UIColor+ 등
 │   │   └── Supporting Files/               # Info.plist, ProductIDs.plist, Assets/ColorAsset.xcassets, ko/en/ja.lproj
@@ -138,10 +138,13 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 - 갱신은 로컬(ActivityKit)만 사용, Push 기반 갱신 없음
 
 ### IAP
-- **SwiftyStoreKit**: 구매(`purchaseProduct`), 앱 시작 시 `completeTransactions`
-- **StoreKit 1 직접 사용**: `StoreObserver`(구매 복원), `SKPaymentQueue.canMakePayments()`
-- 구독 여부는 `StoreKitManager.shared.isSubscribed` (`UserDefaults.standard` 플래그). 영수증 검증 로직은 없음
-- 1.1.0부터 최소 iOS 15라 StoreKit 2를 쓸 수 있지만 아직 전환하지 않음 (ARCHITECTURE.md 결정 #7)
+- **구매는 StoreKit 1(SwiftyStoreKit)**, **구독 상태·복원·가격 표시는 StoreKit 2**로 처리 ([StoreKitManager.swift](Controllers/Controllers/Sources/Models/StoreKitManager.swift))
+  - 구매: `SwiftyStoreKit.purchaseProduct` (`IAPOnboardingViewController`), 트랜잭션 finish는 SwiftyStoreKit 담당
+  - 구독 여부: `refreshSubscriptionStatus()`가 `Transaction.currentEntitlements`로 판단해 `StoreKitManager.shared.isSubscribed`에 저장. 앱 활성화 시와 `Transaction.updates` 수신 시 호출
+  - 복원: `restoreSubscription()` (`AppStore.sync()` 후 재계산)
+  - 구독 화면 가격: `displayPrices()` (`Product.displayPrice`, 현지 통화). 가격을 코드에 쓰지 마세요
+- 서버 검증은 쓰지 않습니다. 유료 기능이 기기 안에서만 동작해서, 서버 검증이 보안상 추가로 막는 게 없습니다
+- `hotfix/1.0.12-iapverify`는 develop에 머지됐지만 그 검증 코드는 남아 있지 않습니다. 위 StoreKit 2 판정이 그 역할을 대신합니다
 - 상품 ID는 절대 코드에 하드코딩 금지 — `ProductIDs.plist`에서 로드
 
 ### 로컬라이제이션
@@ -156,7 +159,7 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 ### 명명
 - 파일/타입: PascalCase (`MainTabView`, `GameControllerManager`)
 - enum case: lowerCamelCase
-- 알려진 오타 (별도 작업으로 분리, 임의 수정 금지): `MainTabView.TabType.controlelr`, `GameControllerManager.getControlelrInfo()`, `DidResotreDelegate`
+- 알려진 오타 (별도 작업으로 분리, 임의 수정 금지): `MainTabView.TabType.controlelr`, `GameControllerManager.getControlelrInfo()`
 
 ## 브랜치 / 진행 중인 변경 사항
 

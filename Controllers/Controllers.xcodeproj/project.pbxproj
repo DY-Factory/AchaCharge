@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ACACACAC000000000000D002 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000D001 /* PrivacyInfo.xcprivacy */; };
-		ACACACAC000000000000E002 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000E001 /* PrivacyInfo.xcprivacy */; };
 		369B340A2A4C515300DBCC29 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369B34082A4C511E00DBCC29 /* ProgressBar.swift */; };
+		369B340C2A4D13B300DBCC29 /* StringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369B340B2A4D13B300DBCC29 /* StringKey+.swift */; };
 		ACACACAC000000000000A002 /* ControllerActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000A001 /* ControllerActivityAttributes.swift */; };
 		ACACACAC000000000000A003 /* ControllerActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000A001 /* ControllerActivityAttributes.swift */; };
 		ACACACAC000000000000B002 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000B001 /* LiveActivityManager.swift */; };
 		ACACACAC000000000000C002 /* ControllerLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000C001 /* ControllerLiveActivity.swift */; };
-		369B340C2A4D13B300DBCC29 /* StringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369B340B2A4D13B300DBCC29 /* StringKey+.swift */; };
+		ACACACAC000000000000D002 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000D001 /* PrivacyInfo.xcprivacy */; };
+		ACACACAC000000000000E002 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACACACAC000000000000E001 /* PrivacyInfo.xcprivacy */; };
 		B511FEE02B20C7A600742111 /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B511FEDF2B20C7A600742111 /* ImageButton.swift */; };
 		B511FEE22B20C8D600742111 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B511FEE12B20C8D600742111 /* UIButton.swift */; };
 		B520505E2B90E1A30006E63E /* InAppPurchaseTest+Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = B520505D2B90E1A30006E63E /* InAppPurchaseTest+Type.swift */; };
@@ -44,7 +44,6 @@
 		B5E3BDC52DCF8C2A000622FD /* ControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3BDC42DCF8C2A000622FD /* ControllerModel.swift */; };
 		B5E3BDC72DCF901F000622FD /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3BDC62DCF901F000622FD /* ProgressBarView.swift */; };
 		B5F403FE2AC126EB00D4A6BD /* FetchGameControllerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F403FD2AC126EB00D4A6BD /* FetchGameControllerOperation.swift */; };
-		B5F403FF2AC2CF7B00D4A6BD /* StoreObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF93622D2A9657FB0009E8E8 /* StoreObserver.swift */; };
 		B5F404002AC2CFD400D4A6BD /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9362332A9A63890009E8E8 /* StoreKitManager.swift */; };
 		B5F404152AC36BF500D4A6BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF9362572A9E26120009E8E8 /* InfoPlist.strings */; };
 		EF38A0972A4C745A00DF1AF9 /* UserDefaults+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF38A0962A4C745A00DF1AF9 /* UserDefaults+.swift */; };
@@ -105,12 +104,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		ACACACAC000000000000D001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		ACACACAC000000000000E001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		369B34082A4C511E00DBCC29 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		369B340B2A4D13B300DBCC29 /* StringKey+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringKey+.swift"; sourceTree = "<group>"; };
+		ACACACAC000000000000A001 /* ControllerActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerActivityAttributes.swift; sourceTree = "<group>"; };
+		ACACACAC000000000000B001 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
+		ACACACAC000000000000C001 /* ControllerLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerLiveActivity.swift; sourceTree = "<group>"; };
+		ACACACAC000000000000D001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		ACACACAC000000000000E001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		B511FEDF2B20C7A600742111 /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		B511FEE12B20C8D600742111 /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		B51D8AEA30719E2C00937CD8 /* AchaCharge.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = AchaCharge.storekit; sourceTree = "<group>"; };
 		B520505D2B90E1A30006E63E /* InAppPurchaseTest+Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InAppPurchaseTest+Type.swift"; sourceTree = "<group>"; };
 		B520505F2B90E74B0006E63E /* TestProductIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TestProductIDs.plist; sourceTree = "<group>"; };
 		B52050642B91F3FE0006E63E /* TestProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestProduct.swift; sourceTree = "<group>"; };
@@ -153,7 +156,6 @@
 		EF789B982A30ABFB006EC6D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF9362292A9645100009E8E8 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		EF93622B2A9646D50009E8E8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		EF93622D2A9657FB0009E8E8 /* StoreObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreObserver.swift; sourceTree = "<group>"; };
 		EF9362312A9A56D50009E8E8 /* ProductIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ProductIDs.plist; sourceTree = "<group>"; };
 		EF9362332A9A63890009E8E8 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		EF9362352A9B49B70009E8E8 /* ColorAsset.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ColorAsset.xcassets; sourceTree = "<group>"; };
@@ -172,9 +174,6 @@
 		EF9362612A9E2D3E0009E8E8 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		EFC1A1312A83D6E00023754E /* ControllersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ControllersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC1A1332A83D6E00023754E /* ControllersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllersTests.swift; sourceTree = "<group>"; };
-		ACACACAC000000000000A001 /* ControllerActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerActivityAttributes.swift; sourceTree = "<group>"; };
-		ACACACAC000000000000B001 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
-		ACACACAC000000000000C001 /* ControllerLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerLiveActivity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +258,7 @@
 		EF789B652A24D6DC006EC6D8 = {
 			isa = PBXGroup;
 			children = (
+				B51D8AEA30719E2C00937CD8 /* AchaCharge.storekit */,
 				EF38A0952A4C736500DF1AF9 /* ControllersWidgetExtension.entitlements */,
 				EF789B702A24D6DC006EC6D8 /* Controllers */,
 				EF789B912A30ABFA006EC6D8 /* ControllersWidget */,
@@ -377,7 +377,6 @@
 		EF93623E2A9B9A1E0009E8E8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				EF93622D2A9657FB0009E8E8 /* StoreObserver.swift */,
 				EF9362332A9A63890009E8E8 /* StoreKitManager.swift */,
 				EF9362492A9BA61A0009E8E8 /* CustomJSONDecoder.swift */,
 				B5F403FD2AC126EB00D4A6BD /* FetchGameControllerOperation.swift */,
@@ -622,7 +621,6 @@
 				EF9362382A9B4A860009E8E8 /* UIColor+.swift in Sources */,
 				B58AA1B32BFB4A7300EAC37F /* ControllerView.swift in Sources */,
 				B58A16DF2DE46D26005CEA4F /* ThumbstickView.swift in Sources */,
-				B5F403FF2AC2CF7B00D4A6BD /* StoreObserver.swift in Sources */,
 				B58A16E32DE46D43005CEA4F /* ControllerButton.swift in Sources */,
 				EF789B742A24D6DC006EC6D8 /* SceneDelegate.swift in Sources */,
 				EF9362482A9BA5270009E8E8 /* SettingDTO.swift in Sources */,

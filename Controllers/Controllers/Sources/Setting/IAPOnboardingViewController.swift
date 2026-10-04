@@ -187,30 +187,38 @@ final class IAPOnboardingViewController: UIViewController {
     
     // MARK: - Properties
     private let storKitManager: StoreKitManager = StoreKitManager.shared
-    private var priceInfo: String = "₩1,400 /주" {
+    private var priceInfo: String = "" {
         didSet {
             priceLabel.text = priceInfo
         }
     }
-    
-    private var subscriptionType: SubscriptionType = .week {
-        didSet {
-            switch subscriptionType {
-            case .week:
-                priceInfo = "₩1,400 /주"
-            case .month:
-                priceInfo = "₩4,400 /월"
-            case .yearly:
-                priceInfo = "₩45,000 /연"
-            }
-        }
+
+    /// 상품 ID별 현지 통화 가격. App Store에서 받아온다.
+    private var displayPrices: [String: String] = [:] {
+        didSet { updatePriceInfo() }
     }
-    
+
+    private var subscriptionType: SubscriptionType = .week {
+        didSet { updatePriceInfo() }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         initLayout()
-//        StoreObserver.shared.uiDelegate = self
+        Task { displayPrices = await storKitManager.displayPrices() }
+    }
+
+    private func updatePriceInfo() {
+        guard let price = displayPrices[subscriptionType.identifier] else {
+            priceInfo = ""
+            return
+        }
+        switch subscriptionType {
+        case .week: priceInfo = price + " " + "/week".localized
+        case .month: priceInfo = price + " " + "/month".localized
+        case .yearly: priceInfo = price + " " + "/year".localized
+        }
     }
 }
 
@@ -382,7 +390,7 @@ extension IAPOnboardingViewController {
                 print("Purchase Success: \(purchase.productId)")
                 UserDefaults.standard.setValue(true, forKey: StringKey.IS_SUBSCRIBED)
             case .error(let error):
-                UserDefaults.standard.setValue(false, forKey: StringKey.IS_SUBSCRIBED)
+                // 결제 실패·취소는 기존 구독 여부와 무관하다. 상태는 refreshSubscriptionStatus()가 판단한다.
                 switch error.code {
                 case .unknown: print("Unknown error. Please contact support")
                 case .clientInvalid: print("Not allowed to make the payment")

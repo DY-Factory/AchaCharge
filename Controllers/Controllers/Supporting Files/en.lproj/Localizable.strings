@@ -29,3 +29,9 @@
 "Ok!" = "Ok!";
 "Done" = "Done";
 "Purchase is completed" = "Purchase is completed";
+
+// MARK: - IAP
+"/week" = "/week";
+"/month" = "/month";
+"/year" = "/year";
+"No subscription to restore" = "No subscription to restore";

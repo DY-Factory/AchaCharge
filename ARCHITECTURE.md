@@ -12,7 +12,7 @@
 | DI | 싱글톤 Manager, 컨테이너 없음 | `GameControllerManager.shared`, `StoreKitManager.shared`, `LiveActivityManager.shared` |
 | 모듈 구조 | 단일 .xcodeproj / 4 타깃 + 로컬 SPM 패키지 `ControllerKit` | [ControllerKit/Package.swift](Controllers/ControllerKit/Package.swift) |
 | 영속화 | `UserDefaults` (App Group + standard) | [UserDefaults+.swift](Controllers/Controllers/Sources/Extensions/UserDefaults+.swift) |
-| IAP | SwiftyStoreKit + StoreKit 1 혼용 | [StoreKitManager.swift](Controllers/Controllers/Sources/Models/StoreKitManager.swift), [IAPOnboardingViewController.swift](Controllers/Controllers/Sources/Setting/IAPOnboardingViewController.swift) |
+| IAP | 구매: SwiftyStoreKit / 구독 판정·복원·가격: StoreKit 2 | [StoreKitManager.swift](Controllers/Controllers/Sources/Models/StoreKitManager.swift), [IAPOnboardingViewController.swift](Controllers/Controllers/Sources/Setting/IAPOnboardingViewController.swift) |
 | 위젯 IPC | App Group `UserDefaults` 단방향 | [ControllersWidget.swift](Controllers/ControllersWidget/ControllersWidget.swift) |
 | 컨트롤러 페어링·입력 | `GameController` 프레임워크 (ControllerKit으로 래핑) | [GameControllerManager.swift](Controllers/ControllerKit/Sources/Controller/GameControllerManager.swift) |
 | 백그라운드 알림 | `BGAppRefreshTask` + 로컬 알림 + 사용자 설정 기준값 | [FetchGameControllerOperation.swift](Controllers/Controllers/Sources/Models/FetchGameControllerOperation.swift) |
@@ -143,37 +143,41 @@ GCController 알림 (.GCControllerDidConnect / DidDisconnect)
 - App Group을 쓰면 위젯과 바로 공유 (결정 #8)
 
 **트레이드오프**:
-- 구독 여부가 평문 플래그라 기기에서 조작 가능 (결정 #7의 영수증 검증 부재와 연결)
+- 구독 여부는 StoreKit 2 판정 결과를 캐시한 평문 플래그. 앱 활성화마다 다시 계산되지만, 앱 자체를 변조하면 우회 가능 (결정 #7)
 - 구독 여부가 `standard`에 있어 위젯에서는 읽을 수 없음
 
 **재검토 기준**: 구독 상태를 위젯에 노출하거나 보안을 강화해야 하면 저장 위치·Keychain 도입 검토.
 
 ---
 
-## 결정 #7 — IAP: SwiftyStoreKit + StoreKit 1 혼용
+## 결정 #7 — IAP: 구매는 SwiftyStoreKit, 구독 판정은 StoreKit 2
 
-**결정**: 구매 처리는 SwiftyStoreKit, 복원과 결제 가능 여부 확인은 StoreKit 1 API를 직접 사용한다. StoreKit 2는 아직 채택하지 않았다.
+**결정**: 구매는 SwiftyStoreKit(StoreKit 1)으로 처리하고, 구독 상태 판정·복원·가격 표시는 StoreKit 2로 처리한다. 서버 검증은 두지 않는다.
 
 | 기능 | 구현 |
 |---|---|
 | 앱 시작 시 미완료 트랜잭션 정리 | `AppDelegate` — `SwiftyStoreKit.completeTransactions` |
 | 구매 | `IAPOnboardingViewController` — `SwiftyStoreKit.purchaseProduct` |
-| 복원 | `StoreObserver` — `SKPaymentQueue.restoreCompletedTransactions` |
-| 결제 가능 여부 / 상품 ID | `StoreKitManager` — `canMakePayments()`, `ProductIDs.plist` 로드 |
-| 구독 여부 | `StoreKitManager.shared.isSubscribed` (`UserDefaults.standard`) |
+| 구독 여부 판정 | `StoreKitManager.refreshSubscriptionStatus()` — `Transaction.currentEntitlements`. 앱 활성화 시와 `Transaction.updates` 수신 시 호출하고, 결과를 `isSubscribed`(`UserDefaults.standard`)에 저장 |
+| 복원 | `StoreKitManager.restoreSubscription()` — `AppStore.sync()` 후 재판정 |
+| 구독 화면 가격 | `StoreKitManager.displayPrices()` — `Product.displayPrice` (현지 통화) |
+| 상품 ID | `StoreKitManager` — `ProductIDs.plist` 로드 |
 
 **상품 ID**: `weekly`, `monthly.10percent`, `yearly.25percent` — [ProductIDs.plist](Controllers/Controllers/Supporting%20Files/ProductIDs.plist)
 
 **근거**:
 - 도입 당시 iOS 14 배포 타깃 → StoreKit 2(iOS 15+) 사용 불가. 1.1.0에서 iOS 15로 올라가 이 제약은 해소됨
 - StoreKit 1의 장황한 트랜잭션 처리를 SwiftyStoreKit으로 줄임 (`[refactor] SwiftyStoreKit`)
+- 구매 시점에 저장한 플래그만으로는 만료·환불을 알 수 없었고, `StoreObserver`가 결제 큐에 등록되지 않아 복원도 동작하지 않았음 → 판정을 `currentEntitlements`로 옮기고 `StoreObserver`는 삭제. StoreKit 1로 산 구독도 StoreKit 2에서 그대로 조회됨
+- 서버 검증을 두지 않는 이유: 유료 기능(백그라운드 알림)이 기기 안에서만 동작한다. 앱을 변조하면 서버 판정도 무시할 수 있어 보안상 이득이 없고 운영 비용만 생김
 
 **트레이드오프**:
-- 두 방식이 섞여 있어 트랜잭션 처리 경로가 둘로 나뉨
-- 영수증 검증 없음 — 구매 성공 콜백에서 플래그만 저장. `hotfix/1.0.12-iapverify`는 develop에 머지됐지만 검증 코드는 현재 코드에 없음
+- 구매(StoreKit 1)와 판정(StoreKit 2) 경로가 나뉨. 트랜잭션 finish는 SwiftyStoreKit이 담당
+- 만료는 앱이 활성화될 때 반영됨. 만료 후 앱을 열지 않으면, 마지막으로 예약된 백그라운드 알림 1회는 나갈 수 있음
+- `hotfix/1.0.12-iapverify`는 develop에 머지됐지만 그 검증 코드는 남아 있지 않음 → 이 결정이 대체
 - SwiftyStoreKit은 사실상 유지보수가 멈춘 라이브러리
 
-**재검토 기준**: 배포 타깃 iOS 15 조건은 1.1.0에서 충족. StoreKit 2로 통합하고 SwiftyStoreKit을 제거하는 작업은 별도로 일정 미정.
+**재검토 기준**: SwiftyStoreKit이 최신 iOS에서 문제를 일으키면 구매도 StoreKit 2(`Product.purchase()`)로 옮기고 제거. 서버 기능(동기화 등)이 생기면 App Store Server API 검증 추가.
 
 ---
 
@@ -271,10 +275,10 @@ GCController 알림 (.GCControllerDidConnect / DidDisconnect)
 
 - **macOS 타깃 분기 전략**: ControllerKit 공유까지는 완료. 앱 레이어는 `Feature/macOSTarget`에서 진행 중이며 develop에는 템플릿만 있음
 - **AccessorySetupKit 도입 여부**: 결정 #9 참조
-- **StoreKit 2 마이그레이션 + SwiftyStoreKit 제거**: 결정 #7 — 선결 조건(iOS 15)은 1.1.0에서 충족
+- **구매까지 StoreKit 2로 통합 + SwiftyStoreKit 제거**: 결정 #7 — 구독 판정·복원·가격 표시는 전환 완료, 구매만 남음
 - **영수증 검증**: 현재 없음. 클라이언트 단독 vs 서버 사이드 결정 필요
 - **테스트 실행 불가**: `Controllers` scheme TestAction에 `ControllersTests` 미등록 → CI test 단계 비활성화 상태
-- **오타**: `TabType.controlelr`, `getControlelrInfo()`, `DidResotreDelegate` — 별도 리팩토링 작업
+- **오타**: `TabType.controlelr`, `getControlelrInfo()` — 별도 리팩토링 작업
 
 ---
 
