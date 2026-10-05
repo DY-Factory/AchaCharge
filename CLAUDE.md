@@ -17,8 +17,8 @@
 
 | 구분 | 버전 | 내용 |
 |---|---|---|
-| App Store 라이브 | 1.0.13 (2024-05-21) | UIKit 앱, iOS 14+, 테스터 없음 |
-| `develop` + PR #15 | 1.1.0 준비 중 | SwiftUI 전환(#9) + 컨트롤러 테스터(#10), iOS 15+ |
+| App Store 라이브 | **1.1.0 (20)** — 2026-10-05 심사 통과, 태그 `1.1.0` | SwiftUI, 컨트롤러 테스터, 충전 알림 기준값, Live Activity, StoreKit 2 구독 확인, iOS 15+ |
+| 이전 버전 | 1.0.13 (2024-05-21), 태그 `1.0.13` | UIKit 앱, iOS 14+ |
 
 ## 빌드 / 실행 / 테스트
 
@@ -163,15 +163,16 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 
 ## 브랜치 / 진행 중인 변경 사항
 
-- **`develop`이 통합 브랜치**이자 GitHub 기본 브랜치입니다 (PR 대상). `main`은 오래된 커밋(`0a2d005`)에 머물러 있습니다.
+- **`develop`이 통합 브랜치**이자 GitHub 기본 브랜치입니다. 브랜치 흐름:
+  1. `Feature/*`, `fix/*`, `docs/*` → `develop` (PR, merge commit)
+  2. 출시 준비가 되면 `develop` → `release` fast-forward push → **Xcode Cloud `pre-release` 워크플로가 아카이브·App Store Connect 업로드** (빌드 번호 자동)
+  3. App Store 심사 통과 후 `release` → `main` (PR, merge commit) + 빌드된 커밋에 버전 태그(annotated, 예: `1.1.0`)
+  4. 머지된 브랜치는 로컬·원격에서 삭제
 - 브랜치 prefix 대소문자를 섞지 마세요 (`Feature/` vs `feature/`). macOS 파일시스템은 대소문자를 구분하지 않아, `git pack-refs` 이후 HEAD가 존재하지 않는 ref를 가리키게 됩니다. 기존 브랜치가 `Feature/`이므로 새 브랜치도 `Feature/`를 사용하세요.
-- `refactor/#8-uikit--swiftui`, `Feature/tester-controller-buttons`, `Feature/refactoringiOSTarget`, `hotfix/1.0.12-iapverify`는 develop에 머지 완료
 
 | 브랜치 | 작업 내용 | 머지 전 주의점 |
 |---|---|---|
-| `chore/1.1.0-release-prep` (PR #15) | 1.1.0 버전, 최소 iOS 15.0 상향, 문서 갱신 | — |
-| `Feature/charge-alert-enhancements` | 충전 알림 기준값 설정 + Live Activity ([PLAN.md](PLAN.md)) | PR #15 위에 쌓여 있음 → #15 머지 후 develop 대상 PR. `PLAN.md` 검증 체크리스트 충족 필요 |
-| `Feature/macOSTarget` | macOS App Open 로직, ControllerView 지원 | develop 미머지 |
+| `Feature/macOSTarget` | macOS App Open 로직, ControllerView 지원 | develop 미머지 (develop보다 오래된 base) |
 | `Feature/AccesorySetupKit` | AccessorySetupKit 도입 검토 (로컬 전용) | 현재 페어링은 GameController 프레임워크가 자동 처리 |
 
 ## 상세 문서
