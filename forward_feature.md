@@ -44,6 +44,6 @@
 
 ## 진행 현황
 
-- [ ] ② 충전 알림 임계값 커스터마이즈 — `feature/charge-alert-enhancements` (PLAN.md)
-- [ ] ③ Live Activity / Dynamic Island — `feature/charge-alert-enhancements` (PLAN.md)
+- [x] ② 충전 알림 임계값 커스터마이즈 — 1.1.0 출시 (#16)
+- [x] ③ Live Activity / Dynamic Island — 1.1.0 출시 (#16, #17)
 - 그 외 항목: 미착수 (백로그)
