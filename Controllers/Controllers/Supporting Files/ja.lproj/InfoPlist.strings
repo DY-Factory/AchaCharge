@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Controllers
+
+  Created by 강동영 on 2023/08/29.
+  
+*/
+
+/* 현지화된 번들 표시 이름 */
+"CFBundleDisplayName" = "忘れないで！";

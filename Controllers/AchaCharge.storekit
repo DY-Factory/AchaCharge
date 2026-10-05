@@ -1,0 +1,183 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "58D51462",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6450749898",
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
+    "_billingIssuesEnabled" : false,
+    "_developerTeamID" : "FL4QTRRKMD",
+    "_disableDialogs" : false,
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 812752431.95089698,
+    "_locale" : "en_US",
+    "_renewalBillingIssuesEnabled" : false,
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+
+    ],
+    "_timeRate" : 0
+  },
+  "subscriptionBundleGroups" : [
+
+  ],
+  "subscriptionGroups" : [
+    {
+      "id" : "21395338",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "아차 충전 ! 프리미엄 스탠다드",
+          "locale" : "ko"
+        },
+        {
+          "description" : "",
+          "displayName" : "아차 충전 ! 프리미엄 스탠다드",
+          "locale" : "ko"
+        }
+      ],
+      "name" : "아차 충전 ! 프리미엄 - 스탠다드",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "29.99",
+              "displayPrice" : "29.99",
+              "internalID" : "6468592754_BILLED_UPFRONT",
+              "isEnabled" : true
+            }
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "29.99",
+          "familyShareable" : false,
+          "groupNumber" : 3,
+          "internalID" : "6468592754",
+          "introductoryOffers" : [
+
+          ],
+          "localizations" : [
+            {
+              "description" : "이제는 충전 까먹지 마세요!",
+              "displayName" : "아차 충전 ! 프리미엄 스탠다드",
+              "locale" : "ko"
+            }
+          ],
+          "productID" : "yearly.25percent",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "아차 충전 ! 프리미엄 스탠다드 - 연간 구독",
+          "subscriptionGroupID" : "21395338",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "2.99",
+              "displayPrice" : "2.99",
+              "internalID" : "6468592649_BILLED_UPFRONT",
+              "isEnabled" : true
+            }
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "2.99",
+          "familyShareable" : false,
+          "groupNumber" : 4,
+          "internalID" : "6468592649",
+          "introductoryOffers" : [
+
+          ],
+          "localizations" : [
+            {
+              "description" : "이제는 충전 까먹지 마세요!",
+              "displayName" : "아차 충전 ! 프리미엄 스탠다드",
+              "locale" : "ko"
+            }
+          ],
+          "productID" : "monthly.10percent",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "아차 충전 ! 프리미엄 스탠다드 - 월간 구독",
+          "subscriptionGroupID" : "21395338",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "0.99",
+              "displayPrice" : "0.99",
+              "internalID" : "6468592558_BILLED_UPFRONT",
+              "isEnabled" : true
+            }
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 5,
+          "internalID" : "6468592558",
+          "introductoryOffers" : [
+
+          ],
+          "localizations" : [
+            {
+              "description" : "이제는 충전 까먹지 마세요!",
+              "displayName" : "아차 충전 ! 프리미엄 스탠다드",
+              "locale" : "ko"
+            }
+          ],
+          "productID" : "weekly",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "아차 충전 ! 프리미엄 스탠다드 - 주간 구독",
+          "subscriptionGroupID" : "21395338",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "subscriptionSuiteGroups" : [
+
+  ],
+  "version" : {
+    "major" : 6,
+    "minor" : 3
+  }
+}

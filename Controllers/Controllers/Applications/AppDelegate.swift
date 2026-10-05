@@ -8,23 +8,37 @@
 import UIKit
 import UserNotifications
 import BackgroundTasks
-import StoreKit
+import ControllerKit
+import SwiftyStoreKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    let iapObserver = StoreObserver()
-    
+    var orientationLock = UIInterfaceOrientationMask.all
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-       
-        requestNotificationAuthorization()
-        addStoreKitQueue()
         registBackgroundTask()
+        StoreKitManager.shared.observeTransactionUpdates()
+        SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
+            for purchase in purchases {
+                switch purchase.transaction.transactionState {
+                case .purchased, .restored:
+                    if purchase.needsFinishTransaction {
+                        SwiftyStoreKit.finishTransaction(purchase.transaction)
+                    }
+                case .failed, .purchasing, .deferred:
+                    BGTaskScheduler.shared.cancelAllTaskRequests()
+                @unknown default:
+                    BGTaskScheduler.shared.cancelAllTaskRequests()
+                }
+            }
+        }
         
+        requestNotificationAuthorization()
+        
+        let isSubscribed = UserDefaults.standard.value(forKey: StringKey.IS_SUBSCRIBED) as? Bool
         return true
     }
     
-    // MARK: UISceneSession Lifecycle
+    // MARK: - UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -37,16 +51,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    func applicationWillTerminate(_ application: UIApplication) {
-        
-        SKPaymentQueue.default().remove(iapObserver)
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        orientationLock
     }
 }
 
 
-// MARK: Push Notifications Method
+// MARK: - Push Notifications Method
 extension AppDelegate {
-    
     private func requestNotificationAuthorization() {
         
         let center = UNUserNotificationCenter.current()
@@ -60,74 +72,54 @@ extension AppDelegate {
     }
 }
 
-// MARK: StoreKit Method
-extension AppDelegate {
-    
-    private func addStoreKitQueue() {
-        SKPaymentQueue.default().add(iapObserver)
-    }
-}
 
-
-// MARK: BGTask Method
+// MARK: - BGTask Method
 extension AppDelegate {
-    
     private func registBackgroundTask() {
         // STEP1
         // Register for background app refresh task
         BGTaskScheduler.shared.register(forTaskWithIdentifier: StringKey.BATTERY_IDENTIFIER, using: nil) { task in
             // Perform your background fetch here
-            self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
+            
+            print(#function, "isSubscribed:", StoreKitManager.shared.isSubscribed)
+            if StoreKitManager.shared.isSubscribed {
+                self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
+            }
         }
     }
     
-    func handleAppRefreshTask(task: BGAppRefreshTask) {
+    private func handleAppRefreshTask(task: BGAppRefreshTask) {
         // STEP2
         // Perform background fetch here
             
         // Be sure to call the completion handler when the task is complete
-        scheduleAppRefresh()
-        GameControllerManager.shared.getControllerCount()
-        if GameControllerManager.shared.controllers.count > 0 {
-            let info = GameControllerManager.shared.getBatteryInfo()
-            let center = UNUserNotificationCenter.current()
-            let content = UNMutableNotificationContent()
-            content.title = "아차 충전 !"
-            content.body = "level: \(info?.level), state: \(info?.state)"
-            
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-            
-            let request = UNNotificationRequest(identifier: "batterPush", content: content, trigger: trigger)
-            center.add(request)
-        } else {
-            let center = UNUserNotificationCenter.current()
-            let content = UNMutableNotificationContent()
-            content.title = "아차 충전 !"
-            content.body = "컨트롤러 연결 안되어있음 !"
-            
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-            
-            let request = UNNotificationRequest(identifier: "batterPush.off", content: content, trigger: trigger)
-            center.add(request)
-        }
+//        scheduleAppRefresh()
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
         
-        task.setTaskCompleted(success: true)
+        let operation = FetchGameControllerOperation(manager: GameControllerManager.shared)
+        queue.addOperation(operation)
+        
+        task.expirationHandler = {
+            // After all operations are cancelled, the completion block below is called to set the task to complete.
+            queue.cancelAllOperations()
+        }
+
+        operation.completionBlock = {
+            task.setTaskCompleted(success: !operation.isCancelled)
+        }
+
+        queue.waitUntilAllOperationsAreFinished()
     }
     
     // STEP3
-    func scheduleAppRefresh() {
+    public func scheduleAppRefresh() {
         
-        //1. 원하는 형태의 TaskRequest를 만듭니다. 이 때, 사용되는 identifier는 위의 1, 2과정에서 등록한 info.plist의 identifier여야 해요!
+        
         let request = BGAppRefreshTaskRequest(identifier: StringKey.BATTERY_IDENTIFIER)
+        request.earliestBeginDate = nil
         
-        //2. 리퀘스트가 언제 실행되면 좋겠는지 지정합니다. 기존의 setMinimumFetchInterval과 동일하다고 합니다.
-        //여전히, 언제 실행될지는 시스템의 마음입니다...
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
-        
-        
-        //3. 실제로 task를 submit 합니다.
-        //이 때 주의사항은, submit은 synchronous한 함수라, launching 때 실행하면 메인 스레드가 블락 될 수 있으니
-        //OperationQueue, GCD등을 이용해 다른 스레드에서 호출하는 것을 권장한다고 하네요.
+        // TEST: e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWithIdentifier:@"com.controller.battery"]
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {

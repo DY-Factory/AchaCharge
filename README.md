@@ -1,3 +1,5 @@
+[![Swift 5.8](https://img.shields.io/badge/swift-5.8-ED523F.svg?style=flat)](https://swift.org/download/) [![Xcode 15.2](https://img.shields.io/badge/Xcode-15.2-ED523F.svg?style=flat&color=blue)](https://swift.org/download/) [![@arex_dev](https://img.shields.io/badge/contact-@arex_dev-5AA9E7.svg?style=flat&color=green)](https://www.instagram.com/arex_dev)
+
 # AchaCharge
 아차 ! 충전 까먹었다
 

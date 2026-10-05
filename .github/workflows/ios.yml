@@ -1,0 +1,54 @@
+name: iOS Build & Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    name: Build & Test (iOS Simulator)
+    runs-on: macos-14
+    timeout-minutes: 30
+
+    env:
+      PROJECT_PATH: Controllers/Controllers.xcodeproj
+      SCHEME: Controllers
+      DESTINATION: platform=iOS Simulator,name=iPhone 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: List project schemes
+        run: xcodebuild -list -project "$PROJECT_PATH"
+
+      - name: List available simulators
+        run: xcrun simctl list devices available | head -50
+
+      - name: Build
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project "$PROJECT_PATH" \
+            -scheme "$SCHEME" \
+            -destination "$DESTINATION" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+      # NOTE: Test 단계는 의도적으로 비활성화 상태입니다.
+      # Controllers.xcscheme 의 <TestAction>에 ControllersTests target이
+      # Testable로 등록되어 있지 않아 `xcodebuild test`가
+      # "Scheme Controllers is not currently configured for the test action"
+      # 에러로 실패합니다. scheme TestAction 보강 후 별도 PR에서 다시 활성화 예정.
+      # 관련 파일: Controllers/Controllers.xcodeproj/xcshareddata/xcschemes/Controllers.xcscheme

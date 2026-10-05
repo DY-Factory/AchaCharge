@@ -1,0 +1,37 @@
+/* 
+  Localizable.strings
+  Controllers
+
+  Created by 강동영 on 2023/08/29.
+  
+*/
+"Controllers" = "Ah Charge !";
+"아차 충전 !" = "Ah Charge !";
+
+"Controller" = "Controller";
+"Tester" = "Tester";
+"Setting" = "Setting";
+
+"Not connected.." = "Not connected..";
+"Refresh" = "Refresh";
+
+"Premium" = "Premium";
+"restorepurchase" = "Restore Purchase";
+"Info" = "info";
+
+// MARK: - Charge Alert
+"Battery is low %@" = "Battery is low: %@. Time to charge!";
+"Charge Alert Threshold" = "Charge Alert Threshold";
+"Charge Alert Threshold Message" = "Get notified when the battery drops to or below the selected level.";
+"Cancel" = "Cancel";
+
+// MARK: - Alert
+"Ok!" = "Ok!";
+"Done" = "Done";
+"Purchase is completed" = "Purchase is completed";
+
+// MARK: - IAP
+"/week" = "/week";
+"/month" = "/month";
+"/year" = "/year";
+"No subscription to restore" = "No subscription to restore";

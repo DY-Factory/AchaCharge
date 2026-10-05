@@ -7,6 +7,7 @@
 
 import WidgetKit
 import SwiftUI
+import ControllerKit
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
@@ -84,9 +85,7 @@ struct SimpleEntry: TimelineEntry {
 struct ControllersWidgetEntryView : View {
     var entry: Provider.Entry
     let size: CGFloat = 100.0
-    
-    @State var progressValue: Float = 0.8
-    
+
     var body: some View {
         ZStack {
             VStack {
@@ -95,15 +94,12 @@ struct ControllersWidgetEntryView : View {
             }
             
             VStack {
-                ProgressBar(progress: self.$progressValue)
+                // 위젯은 onAppear 가 실행되지 않아 @State 로 갱신하면 항상 초기값(0.8)이 그려졌음 → 엔트리 값을 직접 사용
+                ProgressBar(progress: .constant(entry.batteryLevel))
                     .frame(width: size, height: size)
                     .padding(40.0)
                 
                 Spacer()
-            }
-            .onAppear {
-                print("progressValue = entry.batteryLevel: \(entry.batteryLevel)")
-                progressValue = entry.batteryLevel
             }
         }
     }

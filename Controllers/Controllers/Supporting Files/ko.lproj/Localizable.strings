@@ -1,0 +1,45 @@
+/* 
+  Localizable.strings
+  Controllers
+
+  Created by 강동영 on 2023/08/29.
+  
+*/
+"Controllers" = "아차 충전 !";
+"Controller" = "컨트롤러";
+"Tester" = "테스터";
+"Setting" = "설정";
+
+"Not connected.." = "연결 안됨..";
+"Refresh" = "새로고침";
+
+"Premium" = "프리미엄";
+"restorepurchase" = "구매 복원";
+"Info" = "정보";
+
+"Current Battery is %@" = "현재 배터리가 %@ 입니다 !";
+
+// MARK: - Charge Alert
+"Battery is low %@" = "배터리가 %@ 입니다. 충전이 필요해요!";
+"Charge Alert Threshold" = "충전 알림 기준";
+"Charge Alert Threshold Message" = "선택한 값 이하로 배터리가 떨어지면 알림을 받습니다.";
+"Cancel" = "취소";
+
+// MARK: - Alert
+"Ok!" = "확인";
+"Done" = "완료";
+"Purchase is completed" = "구매가 완료되었습니다.";
+"Already Subscribing !" = "이미 구독하셨습니다 !";
+// MARK: - IAP
+"Notifications can also be sent to the controller's battery information during game play" = "게임 플레이 중에도 컨트롤러의 배터리를 알림을 통해 전달 받을 수 있습니다.";
+
+"Week Plan" = "주간 플랜";
+"Month Plan" = "월간 플랜";
+"Year Plan" = "연간 플랜";
+"Start Premium" = "프리미엄 시작하기";
+"termOfUse" = "이용약관";
+"privacy Policy" = "개인정보 처리방침";
+"/week" = "/주";
+"/month" = "/월";
+"/year" = "/연";
+"No subscription to restore" = "복원할 구독이 없습니다.";

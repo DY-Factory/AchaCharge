@@ -1,0 +1,38 @@
+/* 
+  Localizable.strings
+  Controllers
+
+  Created by 강동영 on 2023/08/29.
+  
+*/
+"Controllers" = "忘れないで！";
+"아차 충전 !" = "忘れないで！";
+"Controller" = "コントローラー";
+"Tester" = "テスター";
+"Setting" = "設定";
+
+"Not connected.." = "連結なし。。。";
+"Refresh" = "リロード";
+
+"Premium" = "プリミアム";
+"restorepurchase" = "購入製品のリストア";
+"Info" = "詳細";
+
+"Current Battery is %@" = "今バッテリーが%@残りました !";
+
+// MARK: - Charge Alert
+"Battery is low %@" = "バッテリーが%@です。充電してください！";
+"Charge Alert Threshold" = "充電通知の基準";
+"Charge Alert Threshold Message" = "選択した値以下にバッテリーが下がると通知します。";
+"Cancel" = "キャンセル";
+
+// MARK: - Alert
+"Ok!" = "オッケー";
+"Done" = "完了";
+"Purchase is completed" = "購入が完了しました。";
+
+// MARK: - IAP
+"/week" = "/週";
+"/month" = "/月";
+"/year" = "/年";
+"No subscription to restore" = "復元できるサブスクリプションがありません。";
