@@ -47,7 +47,7 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 
 ### CI
 
-[.github/workflows/ios.yml](.github/workflows/ios.yml) — `main`/`develop` push·PR 시 `macos-14`에서 `Controllers` scheme **빌드만** 수행. test 단계는 위 TestAction 문제로 비활성화.
+[.github/workflows/ios.yml](.github/workflows/ios.yml) — `main`/`develop` push·PR 시 `macos-15`(Xcode 16 이상 — Google Mobile Ads 13 요구)에서 `Controllers` scheme **빌드만** 수행. test 단계는 위 TestAction 문제로 비활성화.
 
 ### 주요 식별자
 
