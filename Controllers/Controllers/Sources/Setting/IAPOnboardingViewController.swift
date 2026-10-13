@@ -74,6 +74,7 @@ final class IAPOnboardingViewController: UIViewController {
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Notifications can also be sent to the controller's battery information during game play".localized
+            + "\n\n" + "Pro No Ads".localized
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
@@ -149,10 +150,42 @@ final class IAPOnboardingViewController: UIViewController {
         return button
     }()
     
+    /// 광고를 끝까지 보면 일정 시간 Pro 기능을 쓸 수 있다.
+    private lazy var rewardedPassButton: UIButton = {
+        var configuration = UIButton.Configuration.tinted()
+        configuration.image = UIImage(systemName: "play.rectangle.fill")
+        configuration.imagePadding = 8
+        configuration.baseBackgroundColor = .systemPink
+        configuration.baseForegroundColor = .systemPink
+        configuration.cornerStyle = .medium
+        
+        let button = UIButton(configuration: configuration)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(tappedRewardedPassButton), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    /// EU·영국 등 광고 동의가 필요한 지역에서만 보인다.
+    private lazy var adPrivacyButton: UIButton = {
+        let button = UIButton()
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(tappedAdPrivacyButton), for: .touchUpInside)
+        button.setTitle("Ad Privacy Settings".localized, for: .normal)
+        button.setTitleColor(.secondaryLabel, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14)
+        button.setUnderline()
+        button.isHidden = true
+        
+        return button
+    }()
+    
     private lazy var premiumContentsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(startPremiumButton)
+        view.addSubview(rewardedPassButton)
         view.backgroundColor = .systemBackground
         return view
     }()
@@ -206,6 +239,7 @@ final class IAPOnboardingViewController: UIViewController {
         super.viewDidLoad()
 
         initLayout()
+        updateRewardedPassButton()
         Task { displayPrices = await storKitManager.displayPrices() }
     }
 
@@ -233,7 +267,7 @@ extension IAPOnboardingViewController {
         [scrollView, premiumContentsView, priceLabel, closeButton, dimmedView].forEach { view.addSubview($0) }
         dimmedView.addSubview(indicatorView)
         scrollView.addSubview(scrollContentsView)
-        [titleLabel, infoLabel, monthlyButton, weeklyButton, yearlyButton, termOfUseButton, privacyPolicyButton].forEach { scrollContentsView.addSubview($0) }
+        [titleLabel, infoLabel, monthlyButton, weeklyButton, yearlyButton, termOfUseButton, privacyPolicyButton, adPrivacyButton].forEach { scrollContentsView.addSubview($0) }
     }
     
     private func addConstraints() {
@@ -256,7 +290,8 @@ extension IAPOnboardingViewController {
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            // 아래 고정 영역(가격 + 구매 버튼 + 광고 버튼) 위에서 끝나야 약관 링크가 가려지지 않는다.
+            scrollView.bottomAnchor.constraint(equalTo: priceLabel.topAnchor, constant: -8),
             
             scrollContentsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
             scrollContentsView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
@@ -267,15 +302,20 @@ extension IAPOnboardingViewController {
             premiumContentsView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             premiumContentsView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             premiumContentsView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            premiumContentsView.heightAnchor.constraint(equalToConstant: 100),
+            premiumContentsView.heightAnchor.constraint(equalToConstant: 150),
             
             startPremiumButton.topAnchor.constraint(equalTo: premiumContentsView.safeAreaLayoutGuide.topAnchor, constant: 15),
             startPremiumButton.leadingAnchor.constraint(equalTo: premiumContentsView.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             startPremiumButton.trailingAnchor.constraint(equalTo: premiumContentsView.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            startPremiumButton.bottomAnchor.constraint(equalTo: premiumContentsView.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            startPremiumButton.heightAnchor.constraint(equalToConstant: 70),
+            
+            rewardedPassButton.topAnchor.constraint(equalTo: startPremiumButton.bottomAnchor, constant: 10),
+            rewardedPassButton.leadingAnchor.constraint(equalTo: startPremiumButton.leadingAnchor),
+            rewardedPassButton.trailingAnchor.constraint(equalTo: startPremiumButton.trailingAnchor),
+            rewardedPassButton.bottomAnchor.constraint(equalTo: premiumContentsView.safeAreaLayoutGuide.bottomAnchor, constant: -10),
         ])
         
-        let contentViewHeight = scrollContentsView.heightAnchor.constraint(greaterThanOrEqualTo: view.heightAnchor)
+        let contentViewHeight = scrollContentsView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.frameLayoutGuide.heightAnchor)
         contentViewHeight.priority = .defaultLow
         contentViewHeight.isActive = true
         
@@ -306,11 +346,14 @@ extension IAPOnboardingViewController {
             
             termOfUseButton.heightAnchor.constraint(equalTo: yearlyButton.heightAnchor, multiplier: 0.5),
             termOfUseButton.trailingAnchor.constraint(equalTo: yearlyButton.centerXAnchor, constant: -15),
-            termOfUseButton.bottomAnchor.constraint(equalTo: scrollContentsView.safeAreaLayoutGuide.bottomAnchor, constant: -(premiumContentsView.frame.height + 150)),
+            termOfUseButton.bottomAnchor.constraint(equalTo: adPrivacyButton.topAnchor, constant: -4),
             
             privacyPolicyButton.heightAnchor.constraint(equalTo: yearlyButton.heightAnchor, multiplier: 0.5),
             privacyPolicyButton.leadingAnchor.constraint(equalTo: yearlyButton.centerXAnchor, constant: 15),
-            privacyPolicyButton.bottomAnchor.constraint(equalTo: scrollContentsView.safeAreaLayoutGuide.bottomAnchor, constant: -(premiumContentsView.frame.height + 150)),
+            privacyPolicyButton.bottomAnchor.constraint(equalTo: adPrivacyButton.topAnchor, constant: -4),
+            
+            adPrivacyButton.bottomAnchor.constraint(equalTo: scrollContentsView.bottomAnchor, constant: -16),
+            adPrivacyButton.centerXAnchor.constraint(equalTo: scrollContentsView.centerXAnchor),
         ])
         
         NSLayoutConstraint.activate([
@@ -343,6 +386,33 @@ extension IAPOnboardingViewController {
         indicatorView.alpha = 0
         dimmedView.alpha = 0
     }
+    
+    /// 이용권이 남아 있으면 만료 시각을 보여 주고 버튼을 막는다.
+    private func updateRewardedPassButton() {
+        if RewardedPassManager.isPassActive, let expiration = RewardedPassManager.passExpirationDate {
+            rewardedPassButton.configuration?.title = "Pro Pass Active %@".localized(with: [Self.expirationText(expiration)])
+            rewardedPassButton.isEnabled = false
+        } else {
+            rewardedPassButton.configuration?.title = "Watch Ad Pro Pass %@".localized(with: [RewardedPassManager.passDurationText])
+            rewardedPassButton.isEnabled = true
+        }
+        adPrivacyButton.isHidden = !AdConsentManager.shared.isPrivacyOptionsRequired
+    }
+    
+    private func showAlert(message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok!".localized, style: .default) { _ in completion?() })
+        present(alert, animated: true)
+    }
+    
+    /// 예: "오늘 오후 9:30", "Today at 9:30 PM"
+    private static func expirationText(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        formatter.doesRelativeDateFormatting = true
+        return formatter.string(from: date)
+    }
 }
 
 // MARK: - User Interactions
@@ -365,16 +435,41 @@ extension IAPOnboardingViewController {
     
     @objc
     private func tappedTerms(_ button: UIButton) {
+        // Safari에서 돌아올 때 앱 오프닝 광고를 띄우지 않는다.
+        AppOpenAdManager.shared.skipNextAd()
         if button == termOfUseButton {
-            let urlString = "https://voracious-pigment-aaf.notion.site/Terms-edb94eab4fd74b6ca85c3aac0b17b7d1?pvs=4"
+            let urlString = "https://dy-solution.kr/terms.html"
             if let url = URL(string: urlString) {
                 UIApplication.shared.open(url)
             }
         } else if button == privacyPolicyButton {
-            let urlString = "https://voracious-pigment-aaf.notion.site/30f23504cad7456e9472ac959c3e95b8?pvs=4"
+            let urlString = "https://dy-solution.kr/privacy.html#acha-charge"
             if let url = URL(string: urlString) {
                 UIApplication.shared.open(url)
             }
+        }
+    }
+    
+    @objc
+    private func tappedRewardedPassButton() {
+        startIndicator()
+        Task { @MainActor in
+            let outcome = await RewardedPassManager.shared.showRewardedAd(from: self)
+            stopIndicator()
+            updateRewardedPassButton()
+            showAlert(message: outcome.message) { [weak self] in
+                // 이용권을 받았으면 구매 화면을 닫는다.
+                if outcome == .rewarded {
+                    self?.dismiss(animated: true)
+                }
+            }
+        }
+    }
+    
+    @objc
+    private func tappedAdPrivacyButton() {
+        Task { @MainActor in
+            await AdConsentManager.shared.presentPrivacyOptions(from: self)
         }
     }
     

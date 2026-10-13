@@ -49,7 +49,7 @@ final class ControllerModel: ObservableObject {
 
 // MARK: - Live Activity
 extension ControllerModel {
-    /// 컨트롤러 연결 시 배터리 Live Activity 를 시작한다. (프리미엄 구독자 전용)
+    /// 컨트롤러 연결 시 배터리 Live Activity 를 시작한다. (구독자·광고 이용권 사용자 전용)
     private func startLiveActivity() {
         guard let info = manager.getControlelrInfo() else { return }
         LiveActivityManager.shared.start(vendorName: info.vendorName,
@@ -61,6 +61,11 @@ extension ControllerModel {
 extension ControllerModel {
     private func addControllerObservers() {
         manager.addDelegate(self)
+        // 컨트롤러가 연결된 채로 광고 이용권을 받으면 바로 Live Activity 를 띄운다.
+        NotificationCenter.default.addObserver(forName: .proPassGranted, object: nil, queue: .main) { [weak self] _ in
+            guard self?.isConnected == true else { return }
+            self?.startLiveActivity()
+        }
     }
 }
 
@@ -70,6 +75,10 @@ extension ControllerModel: GameControllerDelegate {
         isConnected = true
         updateControllerInfo()
         startLiveActivity()
+        // 유료 기능을 쓰지 않는 사용자에게 앱 실행 후 첫 연결 때 Pro 소개 팝업을 띄운다.
+        Task { @MainActor in
+            ProPromotionManager.shared.controllerDidConnect()
+        }
     }
 
     func didDisConnectedController() {

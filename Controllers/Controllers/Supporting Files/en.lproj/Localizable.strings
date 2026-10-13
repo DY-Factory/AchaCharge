@@ -35,3 +35,18 @@
 "/month" = "/month";
 "/year" = "/year";
 "No subscription to restore" = "No subscription to restore";
+
+// MARK: - Rewarded Pro Pass
+"Watch Ad Pro Pass %@" = "Watch an ad for %@ of Pro";
+"Pro Pass Active %@" = "Pro active until %@";
+"Pro Pass Granted %@" = "You can use Pro for %@.";
+"Ad Not Completed" = "Watch the whole ad to get the pass.";
+"Ad Not Available" = "No ad is available right now. Please try again later.";
+"Ad Privacy Settings" = "Ad Privacy Settings";
+
+// MARK: - Pro Promotion
+"Pro Promo Title" = "Get battery alerts while you play";
+"Pro Promo Message %@" = "With Pro, you'll be notified when your controller battery drops to %@ or below, even while using other apps. No ads, either.";
+"See Pro Plans" = "See Pro Plans";
+"Not Now" = "Not Now";
+"Pro No Ads" = "Use the app without ads.";

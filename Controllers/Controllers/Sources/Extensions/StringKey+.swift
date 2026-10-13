@@ -16,6 +16,8 @@ final class StringKey {
     static let BATTERY_IDENTIFIER: String = "com.controller.battery"
 
     static let IS_SUBSCRIBED: String = "isSubscribed"
+    static let PRO_PASS_EXPIRATION: String = "proPassExpiration"
+    static let LAST_APP_OPEN_AD_DATE: String = "lastAppOpenAdDate"
 
     static let BATTERY_NOTIFICATION_THRESHOLD: String = "batteryNotificationThreshold"
 }

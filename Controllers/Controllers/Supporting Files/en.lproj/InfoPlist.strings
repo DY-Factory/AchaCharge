@@ -9,3 +9,6 @@
 /* 현지화된 번들 표시 이름 */
 "CFBundleDisplayName" = "Ah Charge!";
 
+
+/* ATT tracking permission prompt */
+"NSUserTrackingUsageDescription" = "Used to show you more relevant ads. The app and ad rewards work the same whether or not you allow this.";

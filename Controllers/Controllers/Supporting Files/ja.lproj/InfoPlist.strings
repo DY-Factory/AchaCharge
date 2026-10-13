@@ -8,3 +8,6 @@
 
 /* 현지화된 번들 표시 이름 */
 "CFBundleDisplayName" = "忘れないで！";
+
+/* ATT トラッキング許可の説明 */
+"NSUserTrackingUsageDescription" = "より関連性の高い広告を表示するために使用します。許可しなくても、アプリの機能や広告の特典は変わりません。";

@@ -8,3 +8,6 @@
 
 /* 현지화된 번들 표시 이름 */
 "CFBundleDisplayName" = "아차 충전 !";
+
+/* ATT 추적 허용 요청 문구 */
+"NSUserTrackingUsageDescription" = "맞춤 광고를 보여 드리는 데 사용됩니다. 허용하지 않아도 앱 기능과 광고 보상은 똑같아요.";

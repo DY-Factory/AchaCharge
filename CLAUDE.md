@@ -6,9 +6,9 @@
 
 **AchaCharge** ("아차! 충전 까먹었다")는 Game Controller의 배터리 충전 시기를 알려주는 iOS 앱입니다. 내부 Xcode 프로젝트명은 `Controllers`이며, 홈 화면 표시 이름은 ko `아차 충전 !` / en `Ah Charge!` / ja `忘れないで！` 입니다.
 
-- **핵심 기능**: 컨트롤러 배터리 모니터링 · 버튼 입력 테스터 · 백그라운드 저전력 알림 · 홈 화면 위젯 · Live Activity · 월 구독(IAP)
+- **핵심 기능**: 컨트롤러 배터리 모니터링 · 버튼 입력 테스터 · 백그라운드 저전력 알림 · 홈 화면 위젯 · Live Activity · 월 구독(IAP) · 광고 시청 Pro 이용권
 - **지원 OS**: 앱/위젯 iOS 15.0 이상 (1.1.0부터 — Xcode 27이 지원하는 최소값). 테스트 타깃 16.4, Live Activity 16.1+ 런타임 가드. macOS 타깃(14.1)은 템플릿만 존재
-- **외부 의존성**: [SwiftyStoreKit](https://github.com/bizz84/SwiftyStoreKit) 0.16.4 (SPM) 1개 + 로컬 패키지 `ControllerKit`
+- **외부 의존성**: [SwiftyStoreKit](https://github.com/bizz84/SwiftyStoreKit) 0.16.4, Google Mobile Ads 13.x, Google UMP 3.x (모두 SPM) + 로컬 패키지 `ControllerKit`
 - **공식 지원 컨트롤러**: Sony PlayStation DualSense Wireless Controller
 
 상세 슬로건·외부 소개는 [README.md](README.md) 참조.
@@ -47,7 +47,7 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 
 ### CI
 
-[.github/workflows/ios.yml](.github/workflows/ios.yml) — `main`/`develop` push·PR 시 `macos-14`에서 `Controllers` scheme **빌드만** 수행. test 단계는 위 TestAction 문제로 비활성화.
+[.github/workflows/ios.yml](.github/workflows/ios.yml) — `main`/`develop` push·PR 시 `macos-15`(Xcode 16 이상 — Google Mobile Ads 13 요구)에서 `Controllers` scheme **빌드만** 수행. test 단계는 위 TestAction 문제로 비활성화.
 
 ### 주요 식별자
 
@@ -109,6 +109,10 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
   - `GameControllerManager.shared` (ControllerKit) — 연결 감지·배터리 조회·입력 매핑
   - `StoreKitManager.shared` — 구독 여부, 상품 ID 로드
   - `LiveActivityManager.shared` — Live Activity 시작/갱신/종료
+  - `RewardedPassManager.shared` — 보상형 광고(로드·표시)와 광고 이용권
+  - `AdConsentManager.shared` — 광고 요청 전 UMP 동의·ATT·SDK 시작
+  - `AppOpenAdManager.shared` — 포어그라운드 복귀 시 앱 오프닝 광고
+  - `ProPromotionManager.shared` — 컨트롤러 연결 시 Pro 소개 팝업
 - 새 Manager 추가 시 같은 패턴 유지
 
 ### ControllerKit (로컬 패키지)
@@ -117,7 +121,7 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 
 ### 영속화
 - **`UserDefaults.shared`** (App Group `group.arex.achaCharge`) — 컨트롤러 연결 여부, 배터리, 알림 기준값 등 위젯과 공유하는 값
-- **`UserDefaults.standard`** — 구독 여부(`StringKey.IS_SUBSCRIBED`)만 저장. 위젯에서 읽을 수 없음
+- **`UserDefaults.standard`** — 구독 여부(`StringKey.IS_SUBSCRIBED`), 광고 이용권 만료 시각(`StringKey.PRO_PASS_EXPIRATION`), 마지막 앱 오프닝 광고 시각(`StringKey.LAST_APP_OPEN_AD_DATE`). 위젯에서 읽을 수 없음
 - 헬퍼: [UserDefaults+.swift](Controllers/Controllers/Sources/Extensions/UserDefaults+.swift) (`batteryNotificationThreshold` 등 계산 프로퍼티)
 - 키는 `StringKey` 네임스페이스에 상수로 정의 — 새 키 추가 시 동일 패턴
 - CoreData/Realm/Keychain 미사용. 도입 시 ARCHITECTURE.md에 의사결정 기록 필요
@@ -128,11 +132,11 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 - 위젯이 읽는 키: `StringKey.CONTROLLER_CONNECTED`, `StringKey.BATTERY_LEVEL`
 - 위젯에서 Push를 보내던 코드는 제거됨 (커밋 `ba362d5`). 위젯 → 앱 통신을 다시 넣지 마세요
 
-### 백그라운드 알림 (구독자 전용)
-- `AppDelegate`가 BGTask를 등록 → `SceneDelegate.sceneDidEnterBackground`에서 구독자일 때만 `scheduleAppRefresh()`
+### 백그라운드 알림 (구독자·광고 이용권 사용자 전용)
+- `AppDelegate`가 BGTask를 등록 → `SceneDelegate.sceneDidEnterBackground`에서 `PremiumAccess.isActive`일 때만 `scheduleAppRefresh()`
 - 작업 실행 시 [FetchGameControllerOperation](Controllers/Controllers/Sources/Models/FetchGameControllerOperation.swift)이 배터리를 읽어 **기준값(기본 20%) 이하일 때만** 로컬 알림 발송
 
-### Live Activity (iOS 16.1+, 구독자 전용)
+### Live Activity (iOS 16.1+, 구독자·광고 이용권 사용자 전용)
 - `ControllerActivityAttributes`는 **앱 + 위젯 양쪽 타깃 멤버십** 필요
 - ActivityKit 코드는 전부 `@available(iOS 16.1, *)` + 런타임 `if #available` 가드. 앱 배포 타깃(15.0)은 올리지 않음
 - 갱신은 로컬(ActivityKit)만 사용, Push 기반 갱신 없음
@@ -146,6 +150,19 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 - 서버 검증은 쓰지 않습니다. 유료 기능이 기기 안에서만 동작해서, 서버 검증이 보안상 추가로 막는 게 없습니다
 - `hotfix/1.0.12-iapverify`는 develop에 머지됐지만 그 검증 코드는 남아 있지 않습니다. 위 StoreKit 2 판정이 그 역할을 대신합니다
 - 상품 ID는 절대 코드에 하드코딩 금지 — `ProductIDs.plist`에서 로드
+- 유료 기능 여부는 `StoreKitManager.shared.isSubscribed`가 아니라 **`PremiumAccess.isActive`**(구독 ‖ 광고 이용권)로 판단
+
+### 광고 (AdMob)
+유료 기능을 쓰지 않는 사용자(`!PremiumAccess.isActive`)에게만 광고가 나갑니다. 구독자와 광고 이용권 사용자는 광고를 보지 않습니다.
+
+- **앱 시작 흐름** (`SceneDelegate.runLaunchFlow`, 실행당 1회): 알림 권한 답 기다림(최대 10초) → 구독자가 아니면 [AdConsentManager](Controllers/Controllers/Sources/Models/AdConsentManager.swift)가 UMP 동의 → ATT → SDK 시작 → 앱 오프닝 광고 미리 로드 → Pro 팝업 허용. 시스템 팝업이 겹치지 않게 이 순서를 지키세요
+- **보상형 → 광고 이용권** ([RewardedPassManager.swift](Controllers/Controllers/Sources/Models/RewardedPassManager.swift)): 구매 화면 버튼·Pro 팝업에서 시청. 끝까지 보면 `passDuration` 동안 이용권
+- **앱 오프닝 광고** ([AppOpenAdManager.swift](Controllers/Controllers/Sources/Models/AppOpenAdManager.swift)): 백그라운드에서 돌아올 때만(콜드 스타트·제어 센터 제외), 마지막 노출 후 `minimumInterval`(15분)이 지나야 표시. AdMob 정책상 앱을 열거나 돌아오는 시점에는 전면(interstitial) 광고를 쓰면 안 됩니다
+- **Pro 팝업** ([ProPromotionManager.swift](Controllers/Controllers/Sources/Models/ProPromotionManager.swift)): 앱 실행 후 첫 컨트롤러 연결 때 1회. 광고 이용권 받기 / 구매 화면 / 나중에
+- 앱이 사용자를 밖으로 보내는 코드(`UIApplication.shared.open` 등)를 추가하면 그 직전에 `AppOpenAdManager.shared.skipNextAd()`를 부르세요. 안 그러면 돌아오자마자 광고가 뜹니다
+- DEBUG 빌드는 Google 테스트 광고 단위를 씀. 실제 광고 단위로 개발 중 광고를 누르지 마세요(AdMob 무효 트래픽)
+- AdMob 앱 ID `ca-app-pub-7469152743628808~7969925639`(Info.plist `GADApplicationIdentifier`), 보상형 `pro_pass_rewarded` `.../7469653173`, 앱 오프닝 `app_open_foreground` `.../3611967519`
+- 광고 SDK가 데이터를 수집하므로 App Store 개인정보 라벨(추적 포함)과 dy-solution.kr 개인정보처리방침을 같이 관리. 근거는 ARCHITECTURE.md 결정 #12, #13
 
 ### 로컬라이제이션
 - ko / en / ja `Localizable.strings` + `InfoPlist.strings`

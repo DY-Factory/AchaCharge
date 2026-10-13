@@ -17,6 +17,8 @@
 | 컨트롤러 페어링·입력 | `GameController` 프레임워크 (ControllerKit으로 래핑) | [GameControllerManager.swift](Controllers/ControllerKit/Sources/Controller/GameControllerManager.swift) |
 | 백그라운드 알림 | `BGAppRefreshTask` + 로컬 알림 + 사용자 설정 기준값 | [FetchGameControllerOperation.swift](Controllers/Controllers/Sources/Models/FetchGameControllerOperation.swift) |
 | 잠금화면 노출 | ActivityKit Live Activity (iOS 16.1+) | [LiveActivityManager.swift](Controllers/Controllers/Sources/Models/LiveActivityManager.swift) |
+| 광고 이용권 | AdMob 보상형 광고 → 기기 안에서 시간제 Pro | [RewardedPassManager.swift](Controllers/Controllers/Sources/Models/RewardedPassManager.swift) |
+| 비구독자 광고·Pro 유도 | 앱 오프닝 광고(복귀 시) + 컨트롤러 연결 시 Pro 팝업 | [AppOpenAdManager.swift](Controllers/Controllers/Sources/Models/AppOpenAdManager.swift), [ProPromotionManager.swift](Controllers/Controllers/Sources/Models/ProPromotionManager.swift) |
 
 ---
 
@@ -266,6 +268,60 @@ GCController 알림 (.GCControllerDidConnect / DidDisconnect)
 **트레이드오프**:
 - 실행 중인 Activity는 메모리에 따로 들고 있지 않고 시스템 목록(`Activity<ControllerActivityAttributes>.activities`)에서 찾음 → 앱이 재시작돼도 이어서 갱신, 종료 시 남은 Activity까지 모두 정리
 - 앱이 백그라운드에서 깨어나지 않으면 갱신되지 않음 (Push 갱신 미사용)
+
+---
+
+## 결정 #12 — 광고 이용권: AdMob 보상형 광고 + 기기 안 만료 시각
+
+**결정**: 구독하지 않은 사용자도 보상형 광고를 끝까지 보면 `RewardedPassManager.passDuration` 동안 유료 기능(백그라운드 충전 알림, Live Activity)을 쓴다. 유료 기능 판정은 `PremiumAccess.isActive`(구독 중 ‖ 이용권 남음) 한 곳으로 모은다.
+
+| 항목 | 구현 |
+|---|---|
+| 광고 SDK | Google Mobile Ads 13.x + UMP 3.x (SPM) |
+| 광고 요청 순서 | UMP 동의 갱신·필요 시 동의 화면 → ATT 요청 → `MobileAds.start` → `RewardedAd.load` → 표시. 동의·ATT는 `AdConsentManager`가 맡고 앱 시작 때도 묻는다(결정 #13) |
+| 이용권 저장 | 만료 시각을 `UserDefaults.standard`(`StringKey.PRO_PASS_EXPIRATION`)에 저장. 시청 중에는 다시 받을 수 없음(누적 없음) |
+| 유료 기능 판정 | BGTask 실행·예약, Live Activity 시작·갱신, 앱 활성화 시 Live Activity 정리 모두 `PremiumAccess.isActive` |
+| 광고 단위 | DEBUG는 Google 테스트 단위, Release는 AdMob 'pro_pass_rewarded'. 앱 ID는 Info.plist `GADApplicationIdentifier` |
+| EU 동의 | AdMob '아차 충전 iOS - 유럽 규정' 메시지. 동의가 필요한 지역이면 구매 화면에 '광고 개인정보 설정' 링크 표시 |
+
+**근거**:
+- 결제하지 않는 사용자에게도 유료 기능을 맛보게 하고 광고 수익을 얻음. 가이드라인 3.2.2(x)는 광고 시청에 대한 보상을 허용
+- 판정을 기기 안에서 하는 이유는 결정 #7의 서버 검증 미사용과 같음 (유료 기능이 기기 안에서만 동작)
+- ATT 허용 여부와 관계없이 보상은 같음 → 허용은 맞춤 광고 단가에만 영향
+
+**트레이드오프**:
+- 광고 SDK가 기기 식별자·광고 데이터·대략적 위치·진단 정보를 수집 → App Store 개인정보 라벨(추적 포함)과 개인정보처리방침(dy-solution.kr)을 함께 갱신해야 함
+- 기기 시계를 바꾸면 이용권을 늘릴 수 있음 (서버 시간 검증 없음)
+- 이용권이 끝나도 실행 중인 Live Activity는 다음 갱신이나 앱 활성화 때 닫힘
+- AdMob 앱 인증은 App Store의 개발자 웹사이트(마케팅 URL) 도메인에 있는 app-ads.txt로 확인됨 → 마케팅 URL이 비어 있으면 광고 게재가 제한됨
+
+**재검토 기준**: 구독 전환율이 떨어지면 `passDuration`을 줄이거나 하루 시청 횟수를 제한. 광고 수익이 의미 없으면 SDK째 제거(개인정보 라벨·방침도 되돌림).
+
+---
+
+## 결정 #13 — 비구독자 광고: 앱 오프닝 광고 + 컨트롤러 연결 시 Pro 팝업
+
+**결정**: 유료 기능을 쓰지 않는 사용자(`!PremiumAccess.isActive`)에게 두 가지를 보여 준다. 구독자·광고 이용권 사용자에게는 보이지 않으며, 이로써 "광고 제거"가 Pro 혜택이 된다.
+
+| 항목 | 구현 |
+|---|---|
+| 앱 시작 흐름 | `SceneDelegate.runLaunchFlow` (실행당 1회): 알림 권한 답(최대 10초 대기) → 비구독자면 UMP 동의·ATT·SDK 시작 → 앱 오프닝 광고 미리 로드 → Pro 팝업 허용 |
+| 앱 오프닝 광고 | 백그라운드에서 돌아올 때만(`sceneDidBecomeActive`에서 직전에 `sceneDidEnterBackground`를 거쳤는지로 판단). 마지막 노출 후 15분(`AppOpenAdManager.minimumInterval`, `UserDefaults.standard`에 저장), 불러온 지 4시간 지난 광고는 버림 |
+| 앱 오프닝 광고를 건너뛰는 경우 | 약관 링크·광고 클릭으로 앱이 사용자를 밖으로 보낸 직후 1회(`skipNextAd()`), 다른 광고·팝업(`UIAlertController`)이 떠 있을 때 |
+| Pro 팝업 | 앱 실행 후 첫 컨트롤러 연결 때 1회(날짜와 무관, 메모리 플래그). 앱 시작 흐름이 끝나고 다른 광고·팝업이 없을 때 표시. 구매 화면을 보고 있으면 생략 |
+| 광고 단위 | 앱 오프닝 'app_open_foreground'. DEBUG는 Google 테스트 단위 |
+
+**근거**:
+- AdMob 정책상 앱 로드·복귀 시점에 전면(interstitial) 광고는 금지. 이 시점용 형식이 앱 오프닝 광고
+- 컨트롤러를 연결한 순간이 백그라운드 충전 알림이 가장 와닿는 때. 기존에는 Pro 진입점이 설정 탭 한 곳뿐이었음
+- 알림 권한 팝업이 떠 있으면 앱이 비활성이라 ATT 팝업이 무시됨 → 순서를 코드로 강제
+
+**트레이드오프**:
+- 배터리만 잠깐 확인하고 나가는 사용자에게 광고가 끼어듦 → 간격 15분으로 완화
+- Pro 팝업은 컨트롤러를 켠 채 앱을 실행할 때마다 뜸(연결 이벤트가 실행 직후 옴)
+- 알림 권한 팝업이 10초 안에 뜨지 않으면 다음 단계로 넘어감. 그 뒤에 뜨더라도 `AdConsentManager.prepare()`가 앱이 다시 활성화될 때까지 기다리므로 ATT와 겹치지 않음
+
+**재검토 기준**: 리뷰·별점에서 광고 불만이 늘면 간격을 늘리거나 앱 오프닝 광고를 끔. 팝업이 성가시다는 의견이 많으면 하루 1회로 제한.
 
 ---
 
