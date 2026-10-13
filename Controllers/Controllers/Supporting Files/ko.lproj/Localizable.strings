@@ -43,3 +43,18 @@
 "/month" = "/월";
 "/year" = "/연";
 "No subscription to restore" = "복원할 구독이 없습니다.";
+
+// MARK: - Rewarded Pro Pass
+"Watch Ad Pro Pass %@" = "광고 보고 %@ 무료로 Pro 쓰기";
+"Pro Pass Active %@" = "%@까지 Pro 이용 중";
+"Pro Pass Granted %@" = "%@ 동안 Pro 기능을 쓸 수 있어요.";
+"Ad Not Completed" = "광고를 끝까지 봐야 이용권을 받을 수 있어요.";
+"Ad Not Available" = "지금은 광고를 불러올 수 없어요. 잠시 후 다시 시도해 주세요.";
+"Ad Privacy Settings" = "광고 개인정보 설정";
+
+// MARK: - Pro Promotion
+"Pro Promo Title" = "게임하는 동안 배터리 알림 받기";
+"Pro Promo Message %@" = "Pro를 쓰면 다른 앱을 쓰는 중에도 컨트롤러 배터리가 %@ 이하로 떨어질 때 알려 드려요. 광고도 나오지 않아요.";
+"See Pro Plans" = "Pro 구독 보기";
+"Not Now" = "나중에";
+"Pro No Ads" = "광고 없이 이용할 수 있습니다.";

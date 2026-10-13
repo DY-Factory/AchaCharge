@@ -14,6 +14,8 @@ import SwiftyStoreKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var orientationLock = UIInterfaceOrientationMask.all
+    /// 알림 권한 팝업에 답했는지. SceneDelegate의 앱 시작 흐름이 이 값을 보고 광고 동의·ATT를 묻는다.
+    private(set) var isNotificationAuthorizationAnswered = false
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         registBackgroundTask()
         StoreKitManager.shared.observeTransactionUpdates()
@@ -32,7 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        requestNotificationAuthorization()
+        Task {
+            await requestNotificationAuthorization()
+            isNotificationAuthorizationAnswered = true
+        }
         
         let isSubscribed = UserDefaults.standard.value(forKey: StringKey.IS_SUBSCRIBED) as? Bool
         return true
@@ -59,15 +64,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 // MARK: - Push Notifications Method
 extension AppDelegate {
-    private func requestNotificationAuthorization() {
-        
+    /// 사용자가 답할 때까지 기다린다. 이미 답했으면 바로 끝난다.
+    private func requestNotificationAuthorization() async {
         let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            
+        do {
+            let granted = try await center.requestAuthorization(options: [.alert, .sound, .badge])
             print("Permission granted: \(granted)")
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
@@ -81,9 +85,12 @@ extension AppDelegate {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: StringKey.BATTERY_IDENTIFIER, using: nil) { task in
             // Perform your background fetch here
             
-            print(#function, "isSubscribed:", StoreKitManager.shared.isSubscribed)
-            if StoreKitManager.shared.isSubscribed {
+            print(#function, "isPremiumActive:", PremiumAccess.isActive)
+            if PremiumAccess.isActive {
                 self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
+            } else {
+                // 광고 이용권이 끝났거나 구독이 만료됐다. 할 일 없이 바로 끝낸다.
+                task.setTaskCompleted(success: true)
             }
         }
     }

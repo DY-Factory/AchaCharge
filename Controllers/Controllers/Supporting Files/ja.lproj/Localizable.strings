@@ -36,3 +36,18 @@
 "/month" = "/月";
 "/year" = "/年";
 "No subscription to restore" = "復元できるサブスクリプションがありません。";
+
+// MARK: - Rewarded Pro Pass
+"Watch Ad Pro Pass %@" = "広告を見て%@無料でProを使う";
+"Pro Pass Active %@" = "%@までPro利用中";
+"Pro Pass Granted %@" = "%@の間、Pro機能を使えます。";
+"Ad Not Completed" = "広告を最後まで見るとパスがもらえます。";
+"Ad Not Available" = "現在、広告を読み込めません。しばらくしてからもう一度お試しください。";
+"Ad Privacy Settings" = "広告のプライバシー設定";
+
+// MARK: - Pro Promotion
+"Pro Promo Title" = "ゲーム中もバッテリーをお知らせ";
+"Pro Promo Message %@" = "Proなら、他のアプリを使っている間もコントローラーのバッテリーが%@以下になるとお知らせします。広告も表示されません。";
+"See Pro Plans" = "Proプランを見る";
+"Not Now" = "あとで";
+"Pro No Ads" = "広告なしでご利用いただけます。";

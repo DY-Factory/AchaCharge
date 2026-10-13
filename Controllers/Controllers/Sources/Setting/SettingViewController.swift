@@ -50,6 +50,10 @@ final class SettingViewController: UIViewController {
         fetchJSON()
         initLayout()
         configureTableView()
+        // 구매 화면(전체 화면 모달)에서 이용권을 받으면 프리미엄 행을 갱신한다.
+        NotificationCenter.default.addObserver(forName: .proPassGranted, object: nil, queue: .main) { [weak self] _ in
+            self?.tableView.reloadData()
+        }
     }
 }
 
@@ -124,6 +128,13 @@ extension SettingViewController: UITableViewDataSource, UITableViewDelegate {
             convertedCell.setData(item)
             if premiumType(of: item) == .chargeAlertThreshold {
                 convertedCell.updateButtonTitle("\(UserDefaults.shared.batteryNotificationThreshold)%")
+            }
+            if premiumType(of: item) == .premium,
+               !StoreKitManager.shared.isSubscribed,
+               RewardedPassManager.isPassActive,
+               let expiration = RewardedPassManager.passExpirationDate {
+                let time = DateFormatter.localizedString(from: expiration, dateStyle: .none, timeStyle: .short)
+                convertedCell.updateButtonTitle("~ \(time)")
             }
 
             return convertedCell

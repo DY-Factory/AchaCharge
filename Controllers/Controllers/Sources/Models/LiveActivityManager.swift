@@ -16,7 +16,7 @@ final class LiveActivityManager {
 
     // MARK: - Public API (버전 무관 진입점)
 
-    /// 컨트롤러 연결 시 Live Activity 를 시작한다. (프리미엄 구독자 전용)
+    /// 컨트롤러 연결 시 Live Activity 를 시작한다. (구독자·광고 이용권 사용자 전용)
     func start(vendorName: String, batteryLevel: Float, batteryState: Int) {
         if #available(iOS 16.1, *) {
             startActivity(vendorName: vendorName, batteryLevel: batteryLevel, batteryState: batteryState)
@@ -47,8 +47,8 @@ final class LiveActivityManager {
 
     @available(iOS 16.1, *)
     private func startActivity(vendorName: String, batteryLevel: Float, batteryState: Int) {
-        // 구독자에게만 제공하는 기능
-        guard StoreKitManager.shared.isSubscribed else { return }
+        // 구독자와 광고 이용권 사용자에게만 제공하는 기능
+        guard PremiumAccess.isActive else { return }
         // 사용자가 Live Activity 를 허용한 경우에만 시작
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
 
@@ -85,6 +85,11 @@ final class LiveActivityManager {
     @available(iOS 16.1, *)
     private func updateActivity(batteryLevel: Float, batteryState: Int) {
         guard let activity = currentActivity else { return }
+        // 광고 이용권이 끝나면 다음 갱신 때 닫는다.
+        guard PremiumAccess.isActive else {
+            endActivity()
+            return
+        }
 
         let contentState = ControllerActivityAttributes.ContentState(
             batteryLevel: batteryLevel,
