@@ -438,12 +438,12 @@ extension IAPOnboardingViewController {
         // Safari에서 돌아올 때 앱 오프닝 광고를 띄우지 않는다.
         AppOpenAdManager.shared.skipNextAd()
         if button == termOfUseButton {
-            let urlString = "https://voracious-pigment-aaf.notion.site/Terms-edb94eab4fd74b6ca85c3aac0b17b7d1?pvs=4"
+            let urlString = "https://dy-solution.kr/terms.html"
             if let url = URL(string: urlString) {
                 UIApplication.shared.open(url)
             }
         } else if button == privacyPolicyButton {
-            let urlString = "https://voracious-pigment-aaf.notion.site/30f23504cad7456e9472ac959c3e95b8?pvs=4"
+            let urlString = "https://dy-solution.kr/privacy.html#acha-charge"
             if let url = URL(string: urlString) {
                 UIApplication.shared.open(url)
             }
