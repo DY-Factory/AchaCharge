@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"Controllers" = "Ah Charge !";
+"Controller" = "Controller";
+"Tester" = "Tester";
+"Setting" = "Einstellungen";
+"Not connected.." = "Nicht verbunden..";
+"Refresh" = "Aktualisieren";
+"Premium" = "Premium";
+"restorepurchase" = "Kauf wiederherstellen";
+"Info" = "Info";
+"Battery is low %@" = "Akku schwach: %@. Zeit zum Laden!";
+"Charge Alert Threshold" = "Schwelle für Ladehinweis";
+"Charge Alert Threshold Message" = "Erhalte einen Hinweis, wenn der Akku auf die gewählte Stufe oder darunter fällt.";
+"Cancel" = "Abbrechen";
+"Ok!" = "Ok!";
+"Done" = "Fertig";
+"Purchase is completed" = "Kauf abgeschlossen";
+"/week" = "/Woche";
+"/month" = "/Monat";
+"/year" = "/Jahr";
+"No subscription to restore" = "Kein Abo zum Wiederherstellen vorhanden";
+"Watch Ad Pro Pass %@" = "Werbung ansehen und %@ Pro nutzen";
+"Pro Pass Active %@" = "Pro aktiv bis %@";
+"Pro Pass Granted %@" = "Du kannst Pro %@ lang nutzen.";
+"Ad Not Completed" = "Sieh dir die ganze Werbung an, um den Pass zu erhalten.";
+"Ad Not Available" = "Derzeit ist keine Werbung verfügbar. Bitte versuche es später erneut.";
+"Ad Privacy Settings" = "Werbe-Datenschutz";
+"Pro Promo Title" = "Akku-Hinweise, während du spielst";
+"Pro Promo Message %@" = "Mit Pro erhältst du einen Hinweis, wenn der Akku deines Controllers auf %@ oder weniger fällt, auch in anderen Apps. Und ohne Werbung.";
+"See Pro Plans" = "Pro-Pläne ansehen";
+"Not Now" = "Nicht jetzt";
+"Pro No Ads" = "Nutze die App ohne Werbung.";
+"%@ connected" = "%@ verbunden";
+"Controller not connected" = "Controller nicht verbunden";
+"Upgrade to Pro" = "Auf Pro upgraden";
+"Already Subscribing !" = "Du hast bereits ein Abo!";
+"Current Battery is %@" = "Aktueller Akkustand: %@!";
+"Month Plan" = "Monatsplan";
+"Notifications can also be sent to the controller's battery information during game play" = "Erhalte Hinweise zum Akkustand deines Controllers, auch während du spielst.";
+"privacy Policy" = "Datenschutzerklärung";
+"Start Premium" = "Premium starten";
+"termOfUse" = "Nutzungsbedingungen";
+"Week Plan" = "Wochenplan";
+"Year Plan" = "Jahresplan";
+"Connect Guide Title" = "Controller verbinden";
+"Connect Guide Subtitle" = "Einmal koppeln, und der Akkustand erscheint hier.";
+"Connect Guide Step 1" = "Halte die PS-Taste und die Create-Taste gleichzeitig gedrückt, bis die Lichtleiste blinkt.";
+"Connect Guide Step 2" = "Öffne Einstellungen > Bluetooth und wähle \"DualSense Wireless Controller\".";
+"Connect Guide Step 3" = "Sobald die Verbindung steht, erscheint der Akkustand hier automatisch.";
+"Connect Guide Waiting" = "Warte auf Verbindung…";
+"Connect Guide Support Note" = "Offiziell unterstützt: DualSense. Andere Controller zeigen den Akku evtl. nicht an.";
+"No Battery Info" = "Dieser Controller liefert keine Akkuinfos";
+"Charging" = "Wird geladen";

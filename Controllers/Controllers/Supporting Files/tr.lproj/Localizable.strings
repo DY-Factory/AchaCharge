@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"Controllers" = "Ah Charge !";
+"Controller" = "Kontrolcü";
+"Tester" = "Test";
+"Setting" = "Ayarlar";
+"Not connected.." = "Bağlı değil..";
+"Refresh" = "Yenile";
+"Premium" = "Premium";
+"restorepurchase" = "Satın Alımı Geri Yükle";
+"Info" = "Bilgi";
+"Battery is low %@" = "Pil az: %@. Şarj etme zamanı!";
+"Charge Alert Threshold" = "Şarj Uyarısı Eşiği";
+"Charge Alert Threshold Message" = "Pil seçilen seviyeye veya altına düştüğünde bildirim al.";
+"Cancel" = "İptal";
+"Ok!" = "Tamam!";
+"Done" = "Bitti";
+"Purchase is completed" = "Satın alma tamamlandı";
+"/week" = "/hafta";
+"/month" = "/ay";
+"/year" = "/yıl";
+"No subscription to restore" = "Geri yüklenecek abonelik yok";
+"Watch Ad Pro Pass %@" = "Reklam izle, %@ Pro kazan";
+"Pro Pass Active %@" = "Pro şu tarihe kadar etkin: %@";
+"Pro Pass Granted %@" = "Pro'yu %@ boyunca kullanabilirsin.";
+"Ad Not Completed" = "Geçişi kazanmak için reklamın tamamını izle.";
+"Ad Not Available" = "Şu an gösterilecek reklam yok. Lütfen daha sonra tekrar dene.";
+"Ad Privacy Settings" = "Reklam Gizliliği";
+"Pro Promo Title" = "Oynarken pil uyarıları al";
+"Pro Promo Message %@" = "Pro ile kontrolcünün pili %@ veya altına düştüğünde, başka uygulamalar kullanırken bile bildirim alırsın. Üstelik reklamsız.";
+"See Pro Plans" = "Pro Planlarını Gör";
+"Not Now" = "Şimdi Değil";
+"Pro No Ads" = "Uygulamayı reklamsız kullan.";
+"%@ connected" = "%@ bağlı";
+"Controller not connected" = "Kontrolcü bağlı değil";
+"Upgrade to Pro" = "Pro'ya Geç";
+"Already Subscribing !" = "Zaten abonesin!";
+"Current Battery is %@" = "Mevcut pil: %@!";
+"Month Plan" = "Aylık Plan";
+"Notifications can also be sent to the controller's battery information during game play" = "Oynarken bile kontrolcünün pil seviyesiyle ilgili bildirim al.";
+"privacy Policy" = "Gizlilik Politikası";
+"Start Premium" = "Premium'u Başlat";
+"termOfUse" = "Kullanım Koşulları";
+"Week Plan" = "Haftalık Plan";
+"Year Plan" = "Yıllık Plan";
+"Connect Guide Title" = "Kontrolcünü bağla";
+"Connect Guide Subtitle" = "Bir kez eşleştir, pil seviyesi burada görünsün.";
+"Connect Guide Step 1" = "Işık çubuğu yanıp sönene kadar PS düğmesine ve Create düğmesine birlikte basılı tut.";
+"Connect Guide Step 2" = "Ayarlar > Bluetooth'a git ve \"DualSense Wireless Controller\" seç.";
+"Connect Guide Step 3" = "Bağlanınca pil seviyesi burada otomatik olarak görünür.";
+"Connect Guide Waiting" = "Bağlantı bekleniyor…";
+"Connect Guide Support Note" = "Resmi destek: DualSense. Diğer kontrolcüler pil bilgisi göstermeyebilir.";
+"No Battery Info" = "Bu kontrolcü pil bilgisi sağlamıyor";
+"Charging" = "Şarj oluyor";

@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"widget.name" = "Batterie de la manette";
+"widget.description" = "Voyez d'un coup d'œil la connexion et la batterie de votre manette.";
+"widget.controller" = "Manette";
+"widget.notConnected" = "Non connectée";
+"widget.charging" = "En charge";
+"widget.notCharging" = "Ne charge pas";
+"widget.last %@" = "Dernier : %@";
+"widget.updated %@" = "Actualisé il y a %@";
+"widget.noBatteryInfo" = "Pas d'infos de batterie";

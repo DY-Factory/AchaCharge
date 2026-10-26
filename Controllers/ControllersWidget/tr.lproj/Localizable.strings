@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"widget.name" = "Kontrolcü Pili";
+"widget.description" = "Kontrolcünün bağlantısını ve pilini tek bakışta gör.";
+"widget.controller" = "Kontrolcü";
+"widget.notConnected" = "Bağlı değil";
+"widget.charging" = "Şarj oluyor";
+"widget.notCharging" = "Şarj olmuyor";
+"widget.last %@" = "Son: %@";
+"widget.updated %@" = "%@ önce güncellendi";
+"widget.noBatteryInfo" = "Pil bilgisi yok";

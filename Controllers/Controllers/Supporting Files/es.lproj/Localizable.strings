@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"Controllers" = "Ah Charge !";
+"Controller" = "Mando";
+"Tester" = "Probador";
+"Setting" = "Ajustes";
+"Not connected.." = "Sin conexión..";
+"Refresh" = "Actualizar";
+"Premium" = "Premium";
+"restorepurchase" = "Restaurar compra";
+"Info" = "Info";
+"Battery is low %@" = "Batería baja: %@. ¡Hora de cargar!";
+"Charge Alert Threshold" = "Umbral de aviso de carga";
+"Charge Alert Threshold Message" = "Recibe un aviso cuando la batería baje al nivel elegido o por debajo.";
+"Cancel" = "Cancelar";
+"Ok!" = "¡Ok!";
+"Done" = "Listo";
+"Purchase is completed" = "Compra completada";
+"/week" = "/semana";
+"/month" = "/mes";
+"/year" = "/año";
+"No subscription to restore" = "No hay ninguna suscripción que restaurar";
+"Watch Ad Pro Pass %@" = "Mira un anuncio y obtén Pro por %@";
+"Pro Pass Active %@" = "Pro activo hasta %@";
+"Pro Pass Granted %@" = "Puedes usar Pro durante %@.";
+"Ad Not Completed" = "Mira el anuncio completo para obtener el pase.";
+"Ad Not Available" = "Ahora no hay anuncios disponibles. Inténtalo de nuevo más tarde.";
+"Ad Privacy Settings" = "Privacidad de anuncios";
+"Pro Promo Title" = "Avisos de batería mientras juegas";
+"Pro Promo Message %@" = "Con Pro, te avisaremos cuando la batería del mando baje al %@ o menos, incluso si estás en otras apps. Y sin anuncios.";
+"See Pro Plans" = "Ver planes Pro";
+"Not Now" = "Ahora no";
+"Pro No Ads" = "Usa la app sin anuncios.";
+"%@ connected" = "%@ conectado";
+"Controller not connected" = "Mando no conectado";
+"Upgrade to Pro" = "Mejorar a Pro";
+"Already Subscribing !" = "¡Ya estás suscrito!";
+"Current Battery is %@" = "¡La batería actual es %@!";
+"Month Plan" = "Plan mensual";
+"Notifications can also be sent to the controller's battery information during game play" = "Recibe avisos del nivel de batería de tu mando incluso mientras juegas.";
+"privacy Policy" = "Política de privacidad";
+"Start Premium" = "Empezar Premium";
+"termOfUse" = "Términos de uso";
+"Week Plan" = "Plan semanal";
+"Year Plan" = "Plan anual";
+"Connect Guide Title" = "Conecta tu mando";
+"Connect Guide Subtitle" = "Vincúlalo una vez y aquí verás el nivel de batería.";
+"Connect Guide Step 1" = "Mantén pulsados a la vez el botón PS y el botón Create hasta que la barra de luz parpadee.";
+"Connect Guide Step 2" = "Abre Ajustes > Bluetooth y selecciona \"DualSense Wireless Controller\".";
+"Connect Guide Step 3" = "Al conectarse, el nivel de batería aparecerá aquí automáticamente.";
+"Connect Guide Waiting" = "Esperando conexión…";
+"Connect Guide Support Note" = "Compatibilidad oficial: DualSense. Es posible que otros mandos no muestren la batería.";
+"No Battery Info" = "Este mando no ofrece información de batería";
+"Charging" = "Cargando";
