@@ -6,7 +6,6 @@
   
 */
 "Controllers" = "Ah Charge !";
-"아차 충전 !" = "Ah Charge !";
 
 "Controller" = "Controller";
 "Tester" = "Tester";
@@ -50,3 +49,17 @@
 "See Pro Plans" = "See Pro Plans";
 "Not Now" = "Not Now";
 "Pro No Ads" = "Use the app without ads.";
+
+// MARK: - Tester & Paywall
+"%@ connected" = "%@ connected";
+"Controller not connected" = "Controller not connected";
+"Upgrade to Pro" = "Upgrade to Pro";
+"Already Subscribing !" = "You're already subscribed!";
+"Current Battery is %@" = "Current battery is %@!";
+"Month Plan" = "Monthly Plan";
+"Notifications can also be sent to the controller's battery information during game play" = "Get notified about your controller's battery level even while you play.";
+"privacy Policy" = "Privacy Policy";
+"Start Premium" = "Start Premium";
+"termOfUse" = "Terms of Use";
+"Week Plan" = "Weekly Plan";
+"Year Plan" = "Yearly Plan";

@@ -58,3 +58,8 @@
 "See Pro Plans" = "Pro 구독 보기";
 "Not Now" = "나중에";
 "Pro No Ads" = "광고 없이 이용할 수 있습니다.";
+
+// MARK: - Tester & Paywall
+"%@ connected" = "%@ 연결됨";
+"Controller not connected" = "컨트롤러 연결 안됨";
+"Upgrade to Pro" = "Pro로 업그레이드";

@@ -30,15 +30,17 @@ struct TesterView: View {
                         
                         VStack {
                             // 트리거 버튼 (L2, R2)
-                            HStack(spacing: 400) {
+                            HStack(spacing: 0) {
                                 TriggerButtonView(systemName: "l2.button.roundedtop.horizontal.fill", value: model.triggerL2)
+                                Spacer()
                                 TriggerButtonView(systemName: "r2.button.roundedtop.horizontal.fill", value: model.triggerR2)
                             }
                             
                             
                             // 어깨 버튼 (L1, R1)
-                            HStack(spacing: 400) {
+                            HStack(spacing: 0) {
                                 ControllerButton(systemName: "l1.button.roundedbottom.horizontal.fill", isPressed: model.buttonL1)
+                                Spacer()
                                 ControllerButton(systemName: "r1.button.roundedbottom.horizontal.fill", isPressed: model.buttonR1)
                             }
                         }
@@ -99,8 +101,10 @@ struct TesterView: View {
                 Circle()
                     .fill(model.isConnected ? Color.green : Color.red)
                     .frame(width: 12, height: 12)
-                Text(model.isConnected ? "\(model.vendorName) 연결됨" : "컨트롤러 연결 안됨")
+                Text(model.isConnected ? "%@ connected".localized(with: [model.vendorName]) : "Controller not connected".localized)
                     .font(.subheadline)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
             }
             
             Spacer()

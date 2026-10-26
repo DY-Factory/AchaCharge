@@ -6,7 +6,6 @@
   
 */
 "Controllers" = "忘れないで！";
-"아차 충전 !" = "忘れないで！";
 "Controller" = "コントローラー";
 "Tester" = "テスター";
 "Setting" = "設定";
@@ -51,3 +50,16 @@
 "See Pro Plans" = "Proプランを見る";
 "Not Now" = "あとで";
 "Pro No Ads" = "広告なしでご利用いただけます。";
+
+// MARK: - Tester & Paywall
+"%@ connected" = "%@に接続中";
+"Controller not connected" = "コントローラー未接続";
+"Upgrade to Pro" = "Proにアップグレード";
+"Already Subscribing !" = "すでに登録済みです！";
+"Month Plan" = "月額プラン";
+"Notifications can also be sent to the controller's battery information during game play" = "ゲームのプレイ中でも、コントローラーのバッテリー残量を通知でお知らせします。";
+"privacy Policy" = "プライバシーポリシー";
+"Start Premium" = "プレミアムを始める";
+"termOfUse" = "利用規約";
+"Week Plan" = "週額プラン";
+"Year Plan" = "年額プラン";
