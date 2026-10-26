@@ -285,7 +285,20 @@ extension IAPOnboardingViewController {
     }
     
     private func addConstraints() {
-        let readable = view.readableContentGuide
+        // iPad·가로 화면에서 콘텐츠가 너무 넓어지지 않게 가운데 최대 560pt 폭으로 제한한다.
+        // (readableContentGuide 는 iPad 세로에서 거의 전체 폭이 돼서 따로 둔다)
+        let readable = UILayoutGuide()
+        view.addLayoutGuide(readable)
+        let preferredWidth = readable.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, constant: -30)
+        preferredWidth.priority = .defaultHigh
+        NSLayoutConstraint.activate([
+            readable.topAnchor.constraint(equalTo: view.topAnchor),
+            readable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            readable.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            readable.widthAnchor.constraint(lessThanOrEqualToConstant: 560),
+            readable.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -30),
+            preferredWidth,
+        ])
         NSLayoutConstraint.activate([
             dimmedView.topAnchor.constraint(equalTo: view.topAnchor),
             dimmedView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
