@@ -1,0 +1,10 @@
+/* ControllersWidget */
+"widget.name" = "コントローラーのバッテリー";
+"widget.description" = "コントローラーの接続とバッテリー残量をひと目で確認できます。";
+"widget.controller" = "コントローラー";
+"widget.notConnected" = "未接続";
+"widget.charging" = "充電中";
+"widget.notCharging" = "充電していません";
+"widget.last %@" = "前回: %@";
+"widget.updated %@" = "%@前に更新";
+"widget.noBatteryInfo" = "バッテリー情報なし";

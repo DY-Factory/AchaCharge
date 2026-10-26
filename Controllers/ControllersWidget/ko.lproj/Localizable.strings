@@ -1,0 +1,10 @@
+/* ControllersWidget */
+"widget.name" = "컨트롤러 배터리";
+"widget.description" = "컨트롤러 연결과 배터리 상태를 한눈에 확인하세요.";
+"widget.controller" = "컨트롤러";
+"widget.notConnected" = "연결 안 됨";
+"widget.charging" = "충전 중";
+"widget.notCharging" = "충전 중 아님";
+"widget.last %@" = "마지막: %@";
+"widget.updated %@" = "%@ 전 갱신";
+"widget.noBatteryInfo" = "배터리 정보 없음";

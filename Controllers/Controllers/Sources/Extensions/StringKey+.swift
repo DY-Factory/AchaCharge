@@ -13,6 +13,9 @@ final class StringKey {
     static let CONTROLLER_CONNECTED: String = "isConnected"
     static let BATTERY_LEVEL: String = "batteryLevel"
     static let BATTERY_STATE: String = "batteryState"
+    static let VENDOR_NAME: String = "vendorName"
+    static let LAST_UPDATED: String = "lastUpdated"
+    static let WIDGET_KIND: String = "ControllersWidget"
     static let BATTERY_IDENTIFIER: String = "com.controller.battery"
 
     static let IS_SUBSCRIBED: String = "isSubscribed"
