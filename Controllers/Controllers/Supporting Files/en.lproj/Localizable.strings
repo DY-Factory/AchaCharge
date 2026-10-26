@@ -50,3 +50,13 @@
 "See Pro Plans" = "See Pro Plans";
 "Not Now" = "Not Now";
 "Pro No Ads" = "Use the app without ads.";
+
+// MARK: - Connection Guide
+"Connect Guide Title" = "Connect your controller";
+"Connect Guide Subtitle" = "Pair it once and the battery level shows up here.";
+"Connect Guide Step 1" = "Hold the PS and Create buttons together until the light bar blinks.";
+"Connect Guide Step 2" = "Go to Settings > Bluetooth and select \"DualSense Wireless Controller\".";
+"Connect Guide Step 3" = "Once connected, the battery level appears here automatically.";
+"Connect Guide Waiting" = "Waiting for connection…";
+"Connect Guide Support Note" = "Officially supported: DualSense. Other controllers may not show battery info.";
+"Charging" = "Charging";

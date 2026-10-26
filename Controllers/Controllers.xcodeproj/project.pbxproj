@@ -36,6 +36,7 @@
 		B58A16E52DE46D58005CEA4F /* TesterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58A16E42DE46D58005CEA4F /* TesterModel.swift */; };
 		B58A16E72DE46D98005CEA4F /* TriggerButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58A16E62DE46D98005CEA4F /* TriggerButtonView.swift */; };
 		B58AA1B32BFB4A7300EAC37F /* ControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58AA1B22BFB4A7300EAC37F /* ControllerView.swift */; };
+		ACDB0001000000000000A002 /* ConnectionGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDB0001000000000000A001 /* ConnectionGuideView.swift */; };
 		B5BE54242BF9D992009BD3EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BE54232BF9D992009BD3EF /* AppDelegate.swift */; };
 		B5BE54262BF9D992009BD3EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BE54252BF9D992009BD3EF /* ViewController.swift */; };
 		B5BE54282BF9D993009BD3EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5BE54272BF9D993009BD3EF /* Assets.xcassets */; };
@@ -138,6 +139,7 @@
 		B58A16E42DE46D58005CEA4F /* TesterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TesterModel.swift; sourceTree = "<group>"; };
 		B58A16E62DE46D98005CEA4F /* TriggerButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerButtonView.swift; sourceTree = "<group>"; };
 		B58AA1B22BFB4A7300EAC37F /* ControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerView.swift; sourceTree = "<group>"; };
+		ACDB0001000000000000A001 /* ConnectionGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionGuideView.swift; sourceTree = "<group>"; };
 		B5BE54212BF9D992009BD3EF /* Controllers-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Controllers-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5BE54232BF9D992009BD3EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5BE54252BF9D992009BD3EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 			children = (
 				B5E3BDC42DCF8C2A000622FD /* ControllerModel.swift */,
 				B58AA1B22BFB4A7300EAC37F /* ControllerView.swift */,
+				ACDB0001000000000000A001 /* ConnectionGuideView.swift */,
 				B5E3BDC62DCF901F000622FD /* ProgressBarView.swift */,
 			);
 			path = Controller;
@@ -652,6 +655,7 @@
 				B55974362ACDC33100FC01FE /* ProductIdentifiers.swift in Sources */,
 				EF9362382A9B4A860009E8E8 /* UIColor+.swift in Sources */,
 				B58AA1B32BFB4A7300EAC37F /* ControllerView.swift in Sources */,
+				ACDB0001000000000000A002 /* ConnectionGuideView.swift in Sources */,
 				B58A16DF2DE46D26005CEA4F /* ThumbstickView.swift in Sources */,
 				B58A16E32DE46D43005CEA4F /* ControllerButton.swift in Sources */,
 				EF789B742A24D6DC006EC6D8 /* SceneDelegate.swift in Sources */,

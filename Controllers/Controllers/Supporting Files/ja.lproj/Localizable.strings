@@ -51,3 +51,13 @@
 "See Pro Plans" = "Proプランを見る";
 "Not Now" = "あとで";
 "Pro No Ads" = "広告なしでご利用いただけます。";
+
+// MARK: - Connection Guide
+"Connect Guide Title" = "コントローラーを接続してください";
+"Connect Guide Subtitle" = "一度ペアリングすれば、バッテリー残量がここに表示されます。";
+"Connect Guide Step 1" = "ライトバーが点滅するまで、PSボタンとクリエイトボタンを同時に長押しします。";
+"Connect Guide Step 2" = "設定 > Bluetoothで「DualSense Wireless Controller」を選択します。";
+"Connect Guide Step 3" = "接続されると、ここにバッテリー残量が自動で表示されます。";
+"Connect Guide Waiting" = "接続を待っています…";
+"Connect Guide Support Note" = "公式サポート: DualSense。他のコントローラーではバッテリー情報が表示されない場合があります。";
+"Charging" = "充電中";
