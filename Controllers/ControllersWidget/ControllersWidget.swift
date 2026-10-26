@@ -33,12 +33,14 @@ struct Provider: TimelineProvider {
                                     isConnected: defaults.bool(forKey: StringKey.CONTROLLER_CONNECTED),
                                     batteryLevel: defaults.float(forKey: StringKey.BATTERY_LEVEL),
                                     isCharging: defaults.integer(forKey: StringKey.BATTERY_STATE) == BatteryState.charging.rawValue,
+                                    hasBatteryInfo: defaults.integer(forKey: StringKey.BATTERY_STATE) != BatteryState.unknown.rawValue,
                                     vendorName: defaults.string(forKey: StringKey.VENDOR_NAME),
                                     lastUpdated: updated > 0 ? Date(timeIntervalSince1970: updated) : nil)
         if let info = GameControllerManager.shared.getBatteryInfo(), info.state != BatteryState.unknown.rawValue {
             entry.isConnected = true
             entry.batteryLevel = info.level
             entry.isCharging = info.state == BatteryState.charging.rawValue
+            entry.hasBatteryInfo = true
             entry.lastUpdated = entry.date
         }
         return entry
@@ -50,6 +52,8 @@ struct ControllerEntry: TimelineEntry {
     var isConnected: Bool
     var batteryLevel: Float
     var isCharging: Bool
+    /// 배터리 상태가 unknown(-1)인 컨트롤러(가상 게임패드, 일부 비공식 컨트롤러)는 잔량을 믿을 수 없다. 0%라도 state 가 있으면 진짜 값이다.
+    var hasBatteryInfo = true
     var vendorName: String?
     var lastUpdated: Date?
 
@@ -58,6 +62,9 @@ struct ControllerEntry: TimelineEntry {
                         vendorName: "DualSense Wireless Controller", lastUpdated: Date())
     }
 
+    /// 잔량을 그려도 되는 상태
+    var showsLevel: Bool { isConnected && hasBatteryInfo }
+
     var percentText: String {
         "\(Int(batteryLevel * 100))%"
     }
@@ -65,6 +72,15 @@ struct ControllerEntry: TimelineEntry {
     var nameText: Text {
         if let vendorName, !vendorName.isEmpty { return Text(verbatim: vendorName) }
         return Text("widget.controller")
+    }
+
+    /// 좁은 곳(잠금 화면 직사각형)용 이름. "DualSense Wireless Controller" → "DualSense"
+    var shortNameText: Text {
+        guard let vendorName else { return nameText }
+        let short = [" Wireless Controller", " Controller"].reduce(vendorName) { name, suffix in
+            name.hasSuffix(suffix) ? String(name.dropLast(suffix.count)) : name
+        }
+        return short.isEmpty ? nameText : Text(verbatim: short)
     }
 
     /// "5분 전 갱신"
@@ -87,7 +103,7 @@ struct ControllersWidgetEntryView: View {
     var body: some View {
         if #available(iOS 17.0, *) {
             content.containerBackground(for: .widget) { Color(UIColor.systemBackground) }
-        } else if family == .systemSmall || family == .systemMedium {
+        } else if family.isSystem {
             content.padding()
         } else {
             content
@@ -100,7 +116,12 @@ struct ControllersWidgetEntryView: View {
             SmallWidgetView(entry: entry)
         case .systemMedium:
             MediumWidgetView(entry: entry)
+        case .systemLarge:
+            LargeWidgetView(entry: entry)
         default:
+            if #available(iOS 15.0, *), family == .systemExtraLarge {
+                LargeWidgetView(entry: entry)
+            } else
             if #available(iOS 16.0, *) {
                 AccessoryWidgetView(entry: entry)
             }
@@ -108,24 +129,34 @@ struct ControllersWidgetEntryView: View {
     }
 }
 
+private extension WidgetFamily {
+    var isSystem: Bool {
+        if #available(iOS 15.0, *), self == .systemExtraLarge { return true }
+        return self == .systemSmall || self == .systemMedium || self == .systemLarge
+    }
+}
+
 /// 잔량 링과 가운데 퍼센트. 미연결이면 흐린 컨트롤러 아이콘만 그린다.
 private struct BatteryRingView: View {
     let entry: ControllerEntry
+    var lineWidth: CGFloat = 8
+    var iconFont: Font = .caption
+    var percentFont: Font = .title2.bold()
 
     var body: some View {
         ZStack {
-            ProgressBar(progress: entry.isConnected ? entry.batteryLevel : 0, lineWidth: 8, color: color)
-            if entry.isConnected {
+            ProgressBar(progress: entry.showsLevel ? entry.batteryLevel : 0, lineWidth: lineWidth, color: color)
+            if entry.showsLevel {
                 VStack(spacing: 0) {
                     Image(systemName: entry.isCharging ? "bolt.fill" : "gamecontroller.fill")
-                        .font(.caption)
+                        .font(iconFont)
                     Text(verbatim: entry.percentText)
-                        .font(.title2.bold())
+                        .font(percentFont)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
                 }
             } else {
-                Image(systemName: "gamecontroller")
+                Image(systemName: entry.isConnected ? "gamecontroller.fill" : "gamecontroller")
                     .font(.title)
                     .foregroundColor(.secondary)
             }
@@ -134,7 +165,7 @@ private struct BatteryRingView: View {
 
     /// 충전 알림 기준값 이하면 빨간 링으로 보여 준다.
     private var color: Color {
-        guard entry.isConnected else { return .gray }
+        guard entry.showsLevel else { return .gray }
         return entry.batteryLevel * 100 <= Float(UserDefaults.shared.batteryNotificationThreshold) ? .red : .green
     }
 }
@@ -146,10 +177,13 @@ private struct SmallWidgetView: View {
         VStack(spacing: 6) {
             BatteryRingView(entry: entry)
                 .frame(width: 84, height: 84)
-            if entry.isConnected {
+            if entry.showsLevel {
                 entry.updatedText?
                     .font(.caption2)
                     .foregroundColor(.secondary)
+            } else if entry.isConnected {
+                Text("widget.noBatteryInfo")
+                    .font(.caption.bold())
             } else {
                 Text("widget.notConnected")
                     .font(.caption.bold())
@@ -173,7 +207,7 @@ private struct MediumWidgetView: View {
             VStack(alignment: .leading, spacing: 4) {
                 entry.nameText
                     .font(.headline)
-                if entry.isConnected {
+                if entry.showsLevel {
                     Text(verbatim: entry.percentText)
                         .font(.largeTitle.bold())
                     Group {
@@ -184,6 +218,9 @@ private struct MediumWidgetView: View {
                         }
                     }
                     .font(.subheadline)
+                } else if entry.isConnected {
+                    Text("widget.noBatteryInfo")
+                        .font(.title3.bold())
                 } else {
                     Text("widget.notConnected")
                         .font(.title3.bold())
@@ -198,6 +235,42 @@ private struct MediumWidgetView: View {
             .lineLimit(1)
             Spacer(minLength: 0)
         }
+    }
+}
+
+/// large·extraLarge 공용. 큰 링 아래에 이름·상태·갱신 시각을 쌓는다.
+private struct LargeWidgetView: View {
+    let entry: ControllerEntry
+
+    var body: some View {
+        VStack(spacing: 12) {
+            entry.nameText
+                .font(.title3.bold())
+            BatteryRingView(entry: entry, lineWidth: 16, iconFont: .title3, percentFont: .system(size: 44, weight: .bold))
+                .frame(width: 190, height: 190)
+            Group {
+                if entry.showsLevel {
+                    if entry.isCharging {
+                        Label("widget.charging", systemImage: "bolt.fill")
+                    } else {
+                        Text("widget.notCharging")
+                    }
+                } else if entry.isConnected {
+                    Text("widget.noBatteryInfo")
+                } else {
+                    Text("widget.notConnected")
+                    entry.lastLevelText?
+                        .foregroundColor(.secondary)
+                }
+            }
+            .font(.headline)
+            entry.updatedText?
+                .font(.footnote)
+                .foregroundColor(.secondary)
+        }
+        .lineLimit(1)
+        .minimumScaleFactor(0.8)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -218,7 +291,7 @@ private struct AccessoryWidgetView: View {
     }
 
     @ViewBuilder private var circular: some View {
-        if entry.isConnected {
+        if entry.showsLevel {
             Gauge(value: Double(entry.batteryLevel)) {
                 Image(systemName: "gamecontroller.fill")
             } currentValueLabel: {
@@ -245,9 +318,9 @@ private struct AccessoryWidgetView: View {
 
     private var rectangular: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Label { entry.nameText } icon: { Image(systemName: "gamecontroller.fill") }
+            Label { entry.shortNameText } icon: { Image(systemName: "gamecontroller.fill") }
                 .font(.headline)
-            if entry.isConnected {
+            if entry.showsLevel {
                 HStack(spacing: 2) {
                     Text(verbatim: entry.percentText)
                     if entry.isCharging {
@@ -256,6 +329,8 @@ private struct AccessoryWidgetView: View {
                 }
                 Gauge(value: Double(entry.batteryLevel)) { EmptyView() }
                     .gaugeStyle(.accessoryLinearCapacity)
+            } else if entry.isConnected {
+                Text("widget.noBatteryInfo")
             } else {
                 Text("widget.notConnected")
                 entry.lastLevelText?
@@ -267,7 +342,7 @@ private struct AccessoryWidgetView: View {
     }
 
     @ViewBuilder private var inline: some View {
-        if entry.isConnected {
+        if entry.showsLevel {
             Label {
                 entry.isCharging
                     ? Text(verbatim: entry.percentText) + Text(Image(systemName: "bolt.fill"))
@@ -275,6 +350,8 @@ private struct AccessoryWidgetView: View {
             } icon: {
                 Image(systemName: "gamecontroller.fill")
             }
+        } else if entry.isConnected {
+            Label("widget.noBatteryInfo", systemImage: "gamecontroller.fill")
         } else {
             Label("widget.notConnected", systemImage: "gamecontroller")
         }
@@ -292,10 +369,10 @@ struct ControllersWidget: Widget {
     }
 
     private var supportedFamilies: [WidgetFamily] {
-        if #available(iOS 16.0, *) {
-            return [.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular, .accessoryInline]
-        }
-        return [.systemSmall, .systemMedium]
+        var families: [WidgetFamily] = [.systemSmall, .systemMedium, .systemLarge]
+        if #available(iOS 15.0, *) { families.append(.systemExtraLarge) }
+        if #available(iOS 16.0, *) { families += [.accessoryCircular, .accessoryRectangular, .accessoryInline] }
+        return families
     }
 }
 

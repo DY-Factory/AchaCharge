@@ -7,3 +7,4 @@
 "widget.notCharging" = "充電していません";
 "widget.last %@" = "前回: %@";
 "widget.updated %@" = "%@前に更新";
+"widget.noBatteryInfo" = "バッテリー情報なし";

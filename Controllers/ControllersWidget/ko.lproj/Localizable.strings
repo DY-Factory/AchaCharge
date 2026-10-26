@@ -7,3 +7,4 @@
 "widget.notCharging" = "충전 중 아님";
 "widget.last %@" = "마지막: %@";
 "widget.updated %@" = "%@ 전 갱신";
+"widget.noBatteryInfo" = "배터리 정보 없음";
