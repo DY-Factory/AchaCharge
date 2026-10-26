@@ -15,7 +15,11 @@
 
 ### `docs/` 디렉토리 (보조)
 
-현재 본 인덱스 외에 다른 문서는 없습니다. 향후 다음과 같은 주제별 상세 문서가 추가될 수 있습니다:
+| 파일 | 역할 | 주 독자 |
+|---|---|---|
+| [store-listing.md](store-listing.md) | App Store 등록 정보 현지화 초안 (로케일별 이름·부제·키워드·설명, 영어 스크린샷 문구) | 운영자 |
+
+향후 다음과 같은 주제별 상세 문서가 추가될 수 있습니다:
 
 - `docs/iap-receipt-validation.md` — StoreKit 1 영수증 검증 흐름 상세 (`hotfix/1.0.12-iapverify` 머지 후)
 - `docs/widget-data-flow.md` — App ↔ Widget 데이터 동기화 시퀀스
