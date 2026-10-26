@@ -63,3 +63,14 @@
 "%@ connected" = "%@ 연결됨";
 "Controller not connected" = "컨트롤러 연결 안됨";
 "Upgrade to Pro" = "Pro로 업그레이드";
+
+// MARK: - Connection Guide
+"Connect Guide Title" = "컨트롤러를 연결하세요";
+"Connect Guide Subtitle" = "한 번만 페어링하면 배터리 잔량이 여기에 표시돼요.";
+"Connect Guide Step 1" = "라이트 바가 깜빡일 때까지 PS 버튼과 만들기(Create) 버튼을 함께 길게 누르세요.";
+"Connect Guide Step 2" = "설정 > Bluetooth에서 \"DualSense Wireless Controller\"를 선택하세요.";
+"Connect Guide Step 3" = "연결되면 여기에 배터리가 자동으로 표시돼요.";
+"Connect Guide Waiting" = "연결을 기다리는 중…";
+"Connect Guide Support Note" = "공식 지원: DualSense. 다른 컨트롤러는 배터리 정보가 표시되지 않을 수 있어요.";
+"No Battery Info" = "이 컨트롤러는 배터리 정보를 제공하지 않아요";
+"Charging" = "충전 중";
