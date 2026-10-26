@@ -9,8 +9,10 @@ import UIKit
 import SwiftUI
 
 struct MainTabView: View {
+    @State private var selection: TabType = MainTabView.initialTab
+
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             ForEach(TabType.allCases, id: \.self) { type in
                 tabView(for: type)
                     .tag(type)
@@ -37,6 +39,18 @@ struct MainTabView: View {
 }
 
 extension MainTabView {
+    /// 앱을 켰을 때 보이는 탭. DEBUG 에서는 스크린샷용 실행 인자(`-ACTab`)로 바꿀 수 있다.
+    private static var initialTab: TabType {
+        #if DEBUG
+        switch ScreenshotFixture.initialTab {
+        case "tester": return .tester
+        case "setting": return .setting
+        default: break
+        }
+        #endif
+        return .controlelr
+    }
+
     enum TabType: CaseIterable {
         case controlelr
         case tester

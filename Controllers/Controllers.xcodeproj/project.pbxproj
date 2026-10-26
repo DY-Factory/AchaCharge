@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ACDBACDB000000000000F002 /* ScreenshotFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBACDB000000000000F001 /* ScreenshotFixture.swift */; };
 		ADADADAD000000000000C004 /* AdConsentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADADADAD000000000000C003 /* AdConsentManager.swift */; };
 		ADADADAD000000000000C006 /* AppOpenAdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADADADAD000000000000C005 /* AppOpenAdManager.swift */; };
 		ADADADAD000000000000C008 /* ProPromotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADADADAD000000000000C007 /* ProPromotionManager.swift */; };
@@ -110,6 +111,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		ACDBACDB000000000000F001 /* ScreenshotFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotFixture.swift; sourceTree = "<group>"; };
 		ADADADAD000000000000C003 /* AdConsentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdConsentManager.swift; sourceTree = "<group>"; };
 		ADADADAD000000000000C005 /* AppOpenAdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOpenAdManager.swift; sourceTree = "<group>"; };
 		ADADADAD000000000000C007 /* ProPromotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProPromotionManager.swift; sourceTree = "<group>"; };
@@ -225,6 +227,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ACDBACDB000000000000F003 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				ACDBACDB000000000000F001 /* ScreenshotFixture.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
 		B511FEDE2B20C78F00742111 /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +349,7 @@
 			isa = PBXGroup;
 			children = (
 				B511FEDE2B20C78F00742111 /* Component */,
+				ACDBACDB000000000000F003 /* Debug */,
 				EF93623D2A9B9A010009E8E8 /* Extensions */,
 				EF93623E2A9B9A1E0009E8E8 /* Models */,
 				EF9362292A9645100009E8E8 /* MainTabView.swift */,
@@ -623,6 +634,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACDBACDB000000000000F002 /* ScreenshotFixture.swift in Sources */,
 				B58A16DD2DE46D19005CEA4F /* DPadView.swift in Sources */,
 				B511FEE02B20C7A600742111 /* ImageButton.swift in Sources */,
 				EF93624C2A9BA8DA0009E8E8 /* Array+.swift in Sources */,

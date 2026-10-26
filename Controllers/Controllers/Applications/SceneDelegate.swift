@@ -31,6 +31,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 제어 센터·알림 센터를 내렸다 올린 경우는 백그라운드를 거치지 않아 false다.
         let isReturningFromBackground = isBackground
         isBackground = false
+        #if DEBUG
+        // 스크린샷을 찍을 때는 광고 동의·ATT·광고·Pro 팝업을 모두 건너뛴다.
+        if ScreenshotFixture.isEnabled {
+            presentScreenshotPaywallIfNeeded()
+            return
+        }
+        #endif
         if launchTask == nil {
             launchTask = Task { await runLaunchFlow() }
         }
@@ -86,3 +93,19 @@ extension SceneDelegate {
     }
 }
 
+
+#if DEBUG
+// MARK: - Screenshot Fixture
+extension SceneDelegate {
+    /// `-ACPaywall YES` 로 실행하면 구매 화면을 한 번 띄운다.
+    private func presentScreenshotPaywallIfNeeded() {
+        guard ScreenshotFixture.showsPaywall,
+              launchTask == nil,
+              let rootViewController = window?.rootViewController else { return }
+        launchTask = Task {}
+        let onboardingVC = IAPOnboardingViewController()
+        onboardingVC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(onboardingVC, animated: false)
+    }
+}
+#endif

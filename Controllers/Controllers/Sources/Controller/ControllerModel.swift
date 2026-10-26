@@ -22,6 +22,9 @@ final class ControllerModel: ObservableObject {
     init() {
         UserDefaults.shared.setValue(false, forKey: StringKey.CONTROLLER_CONNECTED)
         addControllerObservers()
+        #if DEBUG
+        applyScreenshotFixture()
+        #endif
     }
     
     
@@ -31,6 +34,10 @@ final class ControllerModel: ObservableObject {
     
     // MARK: - Life Cycle
     public func updateControllerInfo() {
+        #if DEBUG
+        // 스크린샷용 모의 상태를 실제 조회(시뮬레이터에서는 항상 없음)로 덮어쓰지 않는다.
+        if ScreenshotFixture.mockController != nil { return }
+        #endif
         guard let info = manager.getControlelrInfo() else {
             batteryLevel = 0.0
             return
@@ -87,3 +94,19 @@ extension ControllerModel: GameControllerDelegate {
         LiveActivityManager.shared.end()
     }
 }
+
+#if DEBUG
+// MARK: - Screenshot Fixture
+extension ControllerModel {
+    /// 스크린샷용 실행 인자가 있으면 모의 컨트롤러 상태를 반영한다.
+    private func applyScreenshotFixture() {
+        guard ScreenshotFixture.isEnabled else { return }
+        if let mock = ScreenshotFixture.mockController {
+            isConnected = true
+            vendorName = mock.vendorName
+            batteryLevel = mock.batteryLevel
+        }
+        ScreenshotFixture.writeWidgetState()
+    }
+}
+#endif

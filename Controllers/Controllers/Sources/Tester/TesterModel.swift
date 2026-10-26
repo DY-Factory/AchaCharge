@@ -55,6 +55,14 @@ final class TesterModel: ObservableObject {
         if manager.getControlelrInfo() != nil {
             didConnectedController()
         }
+        #if DEBUG
+        // 스크린샷용 실행 인자가 있으면 모의 컨트롤러가 연결된 것처럼 보인다.
+        if let mock = ScreenshotFixture.mockController {
+            isConnected = true
+            vendorName = mock.vendorName
+            batteryLevel = mock.batteryLevel
+        }
+        #endif
     }
     
     func setupController() {
