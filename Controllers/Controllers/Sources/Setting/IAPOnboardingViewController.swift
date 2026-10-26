@@ -61,10 +61,12 @@ final class IAPOnboardingViewController: UIViewController {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Upgrade to Pro"
+        label.text = "Upgrade to Pro".localized
+        label.numberOfLines = 0
+        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
         label.textColor = .label
-        label.font = .systemFont(ofSize: 40)
+        label.font = IAPOnboardingViewController.boldFont(.largeTitle)
         
         return label
     }()
@@ -79,7 +81,8 @@ final class IAPOnboardingViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
         label.textColor = .label
-        label.font = .systemFont(ofSize: 26)
+        label.font = .preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -134,6 +137,8 @@ final class IAPOnboardingViewController: UIViewController {
         button.setTitle("termOfUse".localized, for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.setUnderline()
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.7
         
         return button
     }()
@@ -146,6 +151,8 @@ final class IAPOnboardingViewController: UIViewController {
         button.setTitle("privacy Policy".localized, for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.setUnderline()
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.7
         
         return button
     }()
@@ -213,10 +220,17 @@ final class IAPOnboardingViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
         label.textColor = .label
-        label.font = .systemFont(ofSize: 25)
+        label.font = .preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
+    
+    private static func boldFont(_ style: UIFont.TextStyle) -> UIFont {
+        let base = UIFont.preferredFont(forTextStyle: style)
+        let descriptor = base.fontDescriptor.withSymbolicTraits(.traitBold) ?? base.fontDescriptor
+        return UIFont(descriptor: descriptor, size: 0)
+    }
     
     // MARK: - Properties
     private let storKitManager: StoreKitManager = StoreKitManager.shared
@@ -271,6 +285,7 @@ extension IAPOnboardingViewController {
     }
     
     private func addConstraints() {
+        let readable = view.readableContentGuide
         NSLayoutConstraint.activate([
             dimmedView.topAnchor.constraint(equalTo: view.topAnchor),
             dimmedView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -305,8 +320,8 @@ extension IAPOnboardingViewController {
             premiumContentsView.heightAnchor.constraint(equalToConstant: 150),
             
             startPremiumButton.topAnchor.constraint(equalTo: premiumContentsView.safeAreaLayoutGuide.topAnchor, constant: 15),
-            startPremiumButton.leadingAnchor.constraint(equalTo: premiumContentsView.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            startPremiumButton.trailingAnchor.constraint(equalTo: premiumContentsView.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            startPremiumButton.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+            startPremiumButton.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
             startPremiumButton.heightAnchor.constraint(equalToConstant: 70),
             
             rewardedPassButton.topAnchor.constraint(equalTo: startPremiumButton.bottomAnchor, constant: 10),
@@ -321,35 +336,37 @@ extension IAPOnboardingViewController {
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: closeButton.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: scrollContentsView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: scrollContentsView.trailingAnchor, constant: -20),
+            titleLabel.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
             
             infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 50),
-            infoLabel.leadingAnchor.constraint(equalTo: scrollContentsView.leadingAnchor, constant: 15),
-            infoLabel.trailingAnchor.constraint(equalTo: scrollContentsView.trailingAnchor, constant: -15),
+            infoLabel.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+            infoLabel.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
             
             weeklyButton.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 50),
             weeklyButton.heightAnchor.constraint(equalToConstant: view.frame.height / 10),
-            weeklyButton.leadingAnchor.constraint(equalTo: scrollContentsView.leadingAnchor, constant: 15),
-            weeklyButton.trailingAnchor.constraint(equalTo: scrollContentsView.trailingAnchor, constant: -15),
+            weeklyButton.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+            weeklyButton.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
             weeklyButton.bottomAnchor.constraint(equalTo: monthlyButton.topAnchor, constant: -15),
             
             monthlyButton.heightAnchor.constraint(equalToConstant: view.frame.height / 10),
-            monthlyButton.leadingAnchor.constraint(equalTo: scrollContentsView.leadingAnchor, constant: 15),
-            monthlyButton.trailingAnchor.constraint(equalTo: scrollContentsView.trailingAnchor, constant: -15),
+            monthlyButton.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+            monthlyButton.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
             monthlyButton.bottomAnchor.constraint(equalTo: yearlyButton.topAnchor, constant: -15),
             
             yearlyButton.heightAnchor.constraint(equalToConstant: view.frame.height / 10),
-            yearlyButton.leadingAnchor.constraint(equalTo: scrollContentsView.leadingAnchor, constant: 15),
-            yearlyButton.trailingAnchor.constraint(equalTo: scrollContentsView.trailingAnchor, constant: -15),
+            yearlyButton.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+            yearlyButton.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
             yearlyButton.bottomAnchor.constraint(equalTo: termOfUseButton.safeAreaLayoutGuide.topAnchor, constant: -15),
             
             termOfUseButton.heightAnchor.constraint(equalTo: yearlyButton.heightAnchor, multiplier: 0.5),
             termOfUseButton.trailingAnchor.constraint(equalTo: yearlyButton.centerXAnchor, constant: -15),
+            termOfUseButton.leadingAnchor.constraint(greaterThanOrEqualTo: readable.leadingAnchor),
             termOfUseButton.bottomAnchor.constraint(equalTo: adPrivacyButton.topAnchor, constant: -4),
             
             privacyPolicyButton.heightAnchor.constraint(equalTo: yearlyButton.heightAnchor, multiplier: 0.5),
             privacyPolicyButton.leadingAnchor.constraint(equalTo: yearlyButton.centerXAnchor, constant: 15),
+            privacyPolicyButton.trailingAnchor.constraint(lessThanOrEqualTo: readable.trailingAnchor),
             privacyPolicyButton.bottomAnchor.constraint(equalTo: adPrivacyButton.topAnchor, constant: -4),
             
             adPrivacyButton.bottomAnchor.constraint(equalTo: scrollContentsView.bottomAnchor, constant: -16),
@@ -357,8 +374,8 @@ extension IAPOnboardingViewController {
         ])
         
         NSLayoutConstraint.activate([
-            priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            priceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            priceLabel.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
+            priceLabel.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
             priceLabel.bottomAnchor.constraint(equalTo: startPremiumButton.safeAreaLayoutGuide.topAnchor, constant: -20),
         ])
     }
