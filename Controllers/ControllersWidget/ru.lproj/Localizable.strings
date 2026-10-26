@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"widget.name" = "Заряд геймпада";
+"widget.description" = "Подключение и заряд геймпада — с первого взгляда.";
+"widget.controller" = "Геймпад";
+"widget.notConnected" = "Не подключён";
+"widget.charging" = "Зарядка";
+"widget.notCharging" = "Не заряжается";
+"widget.last %@" = "Последний: %@";
+"widget.updated %@" = "Обновлено %@ назад";
+"widget.noBatteryInfo" = "Нет данных о заряде";

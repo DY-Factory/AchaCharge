@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"Controllers" = "Ah Charge !";
+"Controller" = "Геймпад";
+"Tester" = "Тест";
+"Setting" = "Настройки";
+"Not connected.." = "Не подключён..";
+"Refresh" = "Обновить";
+"Premium" = "Премиум";
+"restorepurchase" = "Восстановить покупку";
+"Info" = "Инфо";
+"Battery is low %@" = "Низкий заряд: %@. Пора зарядить!";
+"Charge Alert Threshold" = "Порог уведомления о зарядке";
+"Charge Alert Threshold Message" = "Уведомим, когда заряд упадёт до выбранного уровня или ниже.";
+"Cancel" = "Отмена";
+"Ok!" = "Ок!";
+"Done" = "Готово";
+"Purchase is completed" = "Покупка завершена";
+"/week" = "/нед.";
+"/month" = "/мес.";
+"/year" = "/год";
+"No subscription to restore" = "Нет подписки для восстановления";
+"Watch Ad Pro Pass %@" = "Реклама — получить Pro на %@";
+"Pro Pass Active %@" = "Pro активен до %@";
+"Pro Pass Granted %@" = "Pro доступен на %@.";
+"Ad Not Completed" = "Посмотрите рекламу до конца, чтобы получить доступ.";
+"Ad Not Available" = "Сейчас нет доступной рекламы. Попробуйте позже.";
+"Ad Privacy Settings" = "Конфиденциальность рекламы";
+"Pro Promo Title" = "Уведомления о заряде во время игры";
+"Pro Promo Message %@" = "С Pro вы получите уведомление, когда заряд геймпада упадёт до %@ или ниже, даже если вы в другом приложении. И без рекламы.";
+"See Pro Plans" = "Тарифы Pro";
+"Not Now" = "Не сейчас";
+"Pro No Ads" = "Пользуйтесь приложением без рекламы.";
+"%@ connected" = "%@ подключён";
+"Controller not connected" = "Геймпад не подключён";
+"Upgrade to Pro" = "Перейти на Pro";
+"Already Subscribing !" = "Вы уже подписаны!";
+"Current Battery is %@" = "Текущий заряд: %@!";
+"Month Plan" = "Месячный тариф";
+"Notifications can also be sent to the controller's battery information during game play" = "Получайте уведомления о заряде геймпада, даже пока играете.";
+"privacy Policy" = "Политика конфиденциальности";
+"Start Premium" = "Начать Premium";
+"termOfUse" = "Условия использования";
+"Week Plan" = "Недельный тариф";
+"Year Plan" = "Годовой тариф";
+"Connect Guide Title" = "Подключите геймпад";
+"Connect Guide Subtitle" = "Подключите один раз — и здесь появится уровень заряда.";
+"Connect Guide Step 1" = "Удерживайте кнопки PS и Create одновременно, пока не замигает световая панель.";
+"Connect Guide Step 2" = "Откройте Настройки > Bluetooth и выберите \"DualSense Wireless Controller\".";
+"Connect Guide Step 3" = "После подключения уровень заряда появится здесь автоматически.";
+"Connect Guide Waiting" = "Ожидание подключения…";
+"Connect Guide Support Note" = "Официально поддерживается DualSense. Другие геймпады могут не показывать заряд.";
+"No Battery Info" = "Этот геймпад не передаёт данные о заряде";
+"Charging" = "Зарядка";

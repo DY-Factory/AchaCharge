@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"widget.name" = "Bateria do controle";
+"widget.description" = "Veja a conexão e a bateria do seu controle de relance.";
+"widget.controller" = "Controle";
+"widget.notConnected" = "Não conectado";
+"widget.charging" = "Carregando";
+"widget.notCharging" = "Não está carregando";
+"widget.last %@" = "Último: %@";
+"widget.updated %@" = "Atualizado há %@";
+"widget.noBatteryInfo" = "Sem info de bateria";

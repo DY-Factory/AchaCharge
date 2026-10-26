@@ -1,0 +1,7 @@
+/* 
+  InfoPlist.strings
+  Controllers
+  
+*/
+"CFBundleDisplayName" = "Ah Charge!";
+"NSUserTrackingUsageDescription" = "Используется, чтобы показывать более подходящую рекламу. Приложение и награды за рекламу работают одинаково, разрешите вы это или нет.";

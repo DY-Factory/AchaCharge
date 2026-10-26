@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"widget.name" = "Controller-Akku";
+"widget.description" = "Verbindung und Akkustand deines Controllers auf einen Blick.";
+"widget.controller" = "Controller";
+"widget.notConnected" = "Nicht verbunden";
+"widget.charging" = "Wird geladen";
+"widget.notCharging" = "Lädt nicht";
+"widget.last %@" = "Zuletzt: %@";
+"widget.updated %@" = "Vor %@ aktualisiert";
+"widget.noBatteryInfo" = "Keine Akkuinfo";
