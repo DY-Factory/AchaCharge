@@ -99,11 +99,12 @@ extension ControllerModel: GameControllerDelegate {
         isConnected = true
         updateControllerInfo()
         startLiveActivity()
+        // 횟수를 먼저 세야 Pro 팝업이 이번 실행에 평가 요청 차례인지 알 수 있다.
+        countConnectionAndRequestReview()
         // 유료 기능을 쓰지 않는 사용자에게 앱 실행 후 첫 연결 때 Pro 소개 팝업을 띄운다.
         Task { @MainActor in
             ProPromotionManager.shared.controllerDidConnect()
         }
-        countConnectionAndRequestReview()
     }
 
     func didDisConnectedController() {
@@ -115,33 +116,49 @@ extension ControllerModel: GameControllerDelegate {
 
 // MARK: - Review Request
 extension ControllerModel {
+    /// 누적 연결 3회 이상이고 이번 버전에 아직 요청하지 않았으면 true.
+    /// 이 값이 true인 실행은 Pro 팝업보다 평가 요청을 먼저 한다. (ProPromotionManager도 이 값을 본다)
+    static var isReviewRequestDue: Bool {
+        let defaults = UserDefaults.standard
+        return defaults.integer(forKey: StringKey.CONTROLLER_CONNECT_COUNT) >= 3
+            && defaults.string(forKey: StringKey.LAST_REVIEW_REQUEST_VERSION) != Bundle.main.versionString
+    }
+
     /// 연결 횟수를 세고, 세 번째 연결부터 버전당 한 번 평가를 요청한다.
     private func countConnectionAndRequestReview() {
         let defaults = UserDefaults.standard
         let count = defaults.integer(forKey: StringKey.CONTROLLER_CONNECT_COUNT) + 1
         defaults.set(count, forKey: StringKey.CONTROLLER_CONNECT_COUNT)
-        let version = Bundle.main.versionString
-        guard count >= 3, defaults.string(forKey: StringKey.LAST_REVIEW_REQUEST_VERSION) != version else { return }
+        guard Self.isReviewRequestDue else { return }
 
-        // 연결 직후 뜨는 Pro 팝업·시스템 팝업과 겹치지 않게 조금 기다린다.
+        // 연결 직후 2초 기다린 뒤, 시작 흐름(알림·광고 동의·ATT)·광고·다른 화면이 끝나기를 최대 30초 더 기다린다.
+        // 끝내 못 띄우면 횟수를 소모하지 않아 다음 연결에서 다시 시도한다.
         Task { @MainActor in
             try? await Task.sleep(nanoseconds: 2_000_000_000)
-            guard ProPromotionManager.shared.isLaunchFlowFinished,
-                  !ProPromotionManager.shared.didPresentAlert,
-                  !AppOpenAdManager.shared.isShowingAd,
-                  !RewardedPassManager.shared.isShowingAd,
-                  UIApplication.shared.applicationState == .active,
-                  let topViewController = UIApplication.topViewController(),
-                  topViewController.presentedViewController == nil,
-                  !(topViewController is UIAlertController),
-                  let windowScene = topViewController.view.window?.windowScene else {
-                NSLog("Review request skipped (connect count: \(count))")
-                return
+            for _ in 0..<60 {
+                if let windowScene = Self.reviewPresentableScene() {
+                    let version = Bundle.main.versionString
+                    defaults.set(version, forKey: StringKey.LAST_REVIEW_REQUEST_VERSION)
+                    NSLog("Review requested (connect count: \(count), version: \(version))")
+                    SKStoreReviewController.requestReview(in: windowScene)
+                    return
+                }
+                try? await Task.sleep(nanoseconds: 500_000_000)
             }
-            defaults.set(version, forKey: StringKey.LAST_REVIEW_REQUEST_VERSION)
-            NSLog("Review requested (connect count: \(count), version: \(version))")
-            SKStoreReviewController.requestReview(in: windowScene)
+            NSLog("Review request skipped (connect count: \(count))")
         }
+    }
+
+    /// 앱이 활성 상태이고 시작 흐름·광고·모달이 없을 때만 평가를 띄울 화면을 돌려준다.
+    @MainActor
+    private static func reviewPresentableScene() -> UIWindowScene? {
+        guard ProPromotionManager.shared.isLaunchFlowFinished,
+              !AppOpenAdManager.shared.isShowingAd,
+              !RewardedPassManager.shared.isShowingAd,
+              UIApplication.shared.applicationState == .active,
+              let topViewController = UIApplication.topViewController(),
+              topViewController.presentingViewController == nil else { return nil }
+        return topViewController.view.window?.windowScene
     }
 }
 
