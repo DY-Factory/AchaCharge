@@ -35,8 +35,8 @@ final class ControllerModel: ObservableObject {
     // MARK: - Life Cycle
     public func updateControllerInfo() {
         #if DEBUG
-        // 스크린샷용 모의 상태를 실제 조회(시뮬레이터에서는 항상 없음)로 덮어쓰지 않는다.
-        if ScreenshotFixture.mockController != nil { return }
+        // 스크린샷 모드에서는 실행 인자 상태를 실제 조회로 덮어쓰지 않는다.
+        if ScreenshotFixture.isEnabled { return }
         #endif
         guard let info = manager.getControlelrInfo() else {
             batteryLevel = 0.0
@@ -67,6 +67,10 @@ extension ControllerModel {
 
 extension ControllerModel {
     private func addControllerObservers() {
+        #if DEBUG
+        // 스크린샷 모드에서는 시뮬레이터가 넘겨주는 가상 컨트롤러("Gamepad")를 무시하고 실행 인자 상태만 보여 준다.
+        if ScreenshotFixture.isEnabled { return }
+        #endif
         manager.addDelegate(self)
         // 컨트롤러가 연결된 채로 광고 이용권을 받으면 바로 Live Activity 를 띄운다.
         NotificationCenter.default.addObserver(forName: .proPassGranted, object: nil, queue: .main) { [weak self] _ in
