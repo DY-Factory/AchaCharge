@@ -22,6 +22,8 @@ final class ProPromotionManager {
     private var isPending = false
     /// 이번 실행에서 이미 처리했으면 true. 앱을 완전히 종료했다 켜면 다시 띄운다.
     private var isDone = false
+    /// 이번 실행에서 팝업을 실제로 띄웠으면 true. 평가 요청이 겹치지 않게 본다.
+    private(set) var didPresentAlert = false
 
     private init() {}
 
@@ -56,6 +58,7 @@ final class ProPromotionManager {
     }
 
     private func presentAlert(from viewController: UIViewController) {
+        didPresentAlert = true
         let threshold = "\(UserDefaults.shared.batteryNotificationThreshold)%"
         let alert = UIAlertController(title: "Pro Promo Title".localized,
                                       message: "Pro Promo Message %@".localized(with: [threshold]),

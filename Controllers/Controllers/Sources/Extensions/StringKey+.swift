@@ -18,6 +18,8 @@ final class StringKey {
     static let IS_SUBSCRIBED: String = "isSubscribed"
     static let PRO_PASS_EXPIRATION: String = "proPassExpiration"
     static let LAST_APP_OPEN_AD_DATE: String = "lastAppOpenAdDate"
+    static let CONTROLLER_CONNECT_COUNT: String = "controllerConnectCount"
+    static let LAST_REVIEW_REQUEST_VERSION: String = "lastReviewRequestVersion"
 
     static let BATTERY_NOTIFICATION_THRESHOLD: String = "batteryNotificationThreshold"
 }

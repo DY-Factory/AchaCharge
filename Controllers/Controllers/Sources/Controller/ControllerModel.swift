@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 import ControllerKit
 
 final class ControllerModel: ObservableObject {
@@ -16,6 +17,7 @@ final class ControllerModel: ObservableObject {
     }
     @Published var batteryLevel: Float = 0.0
     @Published var vendorName: String = ""
+    @Published var isCharging: Bool = false
     
     private let manager = GameControllerManager.shared
     
@@ -24,6 +26,12 @@ final class ControllerModel: ObservableObject {
         addControllerObservers()
         #if DEBUG
         applyScreenshotFixture()
+        // -ACReviewTest YES: 누적 연결 횟수를 2로 맞추고 연결을 한 번 흉내 내 평가 요청 경로를 탄다.
+        if UserDefaults.standard.bool(forKey: "ACReviewTest") {
+            UserDefaults.standard.set(2, forKey: StringKey.CONTROLLER_CONNECT_COUNT)
+            UserDefaults.standard.removeObject(forKey: StringKey.LAST_REVIEW_REQUEST_VERSION)
+            countConnectionAndRequestReview()
+        }
         #endif
     }
     
@@ -40,12 +48,14 @@ final class ControllerModel: ObservableObject {
         #endif
         guard let info = manager.getControlelrInfo() else {
             batteryLevel = 0.0
+            isCharging = false
             return
         }
 
         NSLog("batteryLevel: \(info.batteryLevel)")
         vendorName = info.vendorName
         batteryLevel = info.batteryLevel
+        isCharging = info.batteryState == .charging
         UserDefaults.shared.setValue(info.batteryLevel, forKey: StringKey.BATTERY_LEVEL)
 
         // 활성화된 Live Activity 가 있으면 배터리 정보를 갱신한다.
@@ -79,6 +89,10 @@ extension ControllerModel {
 // MARK: - GameControllerDelegate Method
 extension ControllerModel: GameControllerDelegate {
     func didConnectedController() {
+        #if DEBUG
+        // 시뮬레이터가 알리는 가상 컨트롤러 대신 스크린샷용 모의 상태를 유지한다.
+        if ScreenshotFixture.isEnabled { return }
+        #endif
         isConnected = true
         updateControllerInfo()
         startLiveActivity()
@@ -86,12 +100,45 @@ extension ControllerModel: GameControllerDelegate {
         Task { @MainActor in
             ProPromotionManager.shared.controllerDidConnect()
         }
+        countConnectionAndRequestReview()
     }
 
     func didDisConnectedController() {
         isConnected = false
         updateControllerInfo()
         LiveActivityManager.shared.end()
+    }
+}
+
+// MARK: - Review Request
+extension ControllerModel {
+    /// 연결 횟수를 세고, 세 번째 연결부터 버전당 한 번 평가를 요청한다.
+    private func countConnectionAndRequestReview() {
+        let defaults = UserDefaults.standard
+        let count = defaults.integer(forKey: StringKey.CONTROLLER_CONNECT_COUNT) + 1
+        defaults.set(count, forKey: StringKey.CONTROLLER_CONNECT_COUNT)
+        let version = Bundle.main.versionString
+        guard count >= 3, defaults.string(forKey: StringKey.LAST_REVIEW_REQUEST_VERSION) != version else { return }
+
+        // 연결 직후 뜨는 Pro 팝업·시스템 팝업과 겹치지 않게 조금 기다린다.
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 2_000_000_000)
+            guard ProPromotionManager.shared.isLaunchFlowFinished,
+                  !ProPromotionManager.shared.didPresentAlert,
+                  !AppOpenAdManager.shared.isShowingAd,
+                  !RewardedPassManager.shared.isShowingAd,
+                  UIApplication.shared.applicationState == .active,
+                  let topViewController = UIApplication.topViewController(),
+                  topViewController.presentedViewController == nil,
+                  !(topViewController is UIAlertController),
+                  let windowScene = topViewController.view.window?.windowScene else {
+                NSLog("Review request skipped (connect count: \(count))")
+                return
+            }
+            defaults.set(version, forKey: StringKey.LAST_REVIEW_REQUEST_VERSION)
+            NSLog("Review requested (connect count: \(count), version: \(version))")
+            SKStoreReviewController.requestReview(in: windowScene)
+        }
     }
 }
 
@@ -105,6 +152,7 @@ extension ControllerModel {
             isConnected = true
             vendorName = mock.vendorName
             batteryLevel = mock.batteryLevel
+            isCharging = mock.isCharging
         }
         ScreenshotFixture.writeWidgetState()
     }
