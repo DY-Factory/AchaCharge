@@ -39,6 +39,7 @@ final class ControllerModel: ObservableObject {
         if ScreenshotFixture.mockController != nil { return }
         #endif
         guard let info = manager.getControlelrInfo() else {
+            WidgetSharedState.save(isConnected: false)
             batteryLevel = 0.0
             return
         }
@@ -46,7 +47,8 @@ final class ControllerModel: ObservableObject {
         NSLog("batteryLevel: \(info.batteryLevel)")
         vendorName = info.vendorName
         batteryLevel = info.batteryLevel
-        UserDefaults.shared.setValue(info.batteryLevel, forKey: StringKey.BATTERY_LEVEL)
+        WidgetSharedState.save(isConnected: true, batteryLevel: info.batteryLevel,
+                               batteryState: info.batteryState.rawValue, vendorName: info.vendorName)
 
         // 활성화된 Live Activity 가 있으면 배터리 정보를 갱신한다.
         LiveActivityManager.shared.update(batteryLevel: info.batteryLevel,

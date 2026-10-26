@@ -12,7 +12,7 @@
 
 #if DEBUG
 import Foundation
-import WidgetKit
+import ControllerKit
 
 enum ScreenshotFixture {
     /// 실행 인자는 UserDefaults 의 argument 도메인으로 들어온다.
@@ -49,10 +49,13 @@ enum ScreenshotFixture {
 
     /// 위젯도 같은 상태를 그리도록 App Group 에 쓰고 타임라인을 다시 읽게 한다.
     static func writeWidgetState() {
-        let mock = mockController
-        UserDefaults.shared.setValue(mock != nil, forKey: StringKey.CONTROLLER_CONNECTED)
-        UserDefaults.shared.setValue(mock?.batteryLevel ?? 0, forKey: StringKey.BATTERY_LEVEL)
-        WidgetCenter.shared.reloadAllTimelines()
+        guard let mock = mockController else {
+            WidgetSharedState.save(isConnected: false)
+            return
+        }
+        let state: BatteryState = mock.isCharging ? .charging : .discharging
+        WidgetSharedState.save(isConnected: true, batteryLevel: mock.batteryLevel,
+                               batteryState: state.rawValue, vendorName: mock.vendorName)
     }
 }
 #endif

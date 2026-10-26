@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ACDB0003000000000000B002 /* WidgetSharedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDB0003000000000000B001 /* WidgetSharedState.swift */; };
 		ACDBACDB000000000000F002 /* ScreenshotFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBACDB000000000000F001 /* ScreenshotFixture.swift */; };
 		ADADADAD000000000000C004 /* AdConsentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADADADAD000000000000C003 /* AdConsentManager.swift */; };
 		ADADADAD000000000000C006 /* AppOpenAdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADADADAD000000000000C005 /* AppOpenAdManager.swift */; };
@@ -111,6 +112,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		ACDB0003000000000000B001 /* WidgetSharedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSharedState.swift; sourceTree = "<group>"; };
 		ACDBACDB000000000000F001 /* ScreenshotFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotFixture.swift; sourceTree = "<group>"; };
 		ADADADAD000000000000C003 /* AdConsentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdConsentManager.swift; sourceTree = "<group>"; };
 		ADADADAD000000000000C005 /* AppOpenAdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOpenAdManager.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				ADADADAD000000000000C003 /* AdConsentManager.swift */,
 				ADADADAD000000000000C005 /* AppOpenAdManager.swift */,
 				ADADADAD000000000000C007 /* ProPromotionManager.swift */,
+				ACDB0003000000000000B001 /* WidgetSharedState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				ADADADAD000000000000C004 /* AdConsentManager.swift in Sources */,
 				ADADADAD000000000000C006 /* AppOpenAdManager.swift in Sources */,
 				ADADADAD000000000000C008 /* ProPromotionManager.swift in Sources */,
+				ACDB0003000000000000B002 /* WidgetSharedState.swift in Sources */,
 				EF38A0972A4C745A00DF1AF9 /* UserDefaults+.swift in Sources */,
 				B5E3BDC72DCF901F000622FD /* ProgressBarView.swift in Sources */,
 				B5C7FAE62DDE24C0009F6BD1 /* Bundle+.swift in Sources */,
