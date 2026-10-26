@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		ACDB0003000000000000B002 /* WidgetSharedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDB0003000000000000B001 /* WidgetSharedState.swift */; };
+		ACDB0003000000000000B004 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ACDB0003000000000000B003 /* Localizable.strings */; };
 		ACDBACDB000000000000F002 /* ScreenshotFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBACDB000000000000F001 /* ScreenshotFixture.swift */; };
 		ADADADAD000000000000C004 /* AdConsentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADADADAD000000000000C003 /* AdConsentManager.swift */; };
 		ADADADAD000000000000C006 /* AppOpenAdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADADADAD000000000000C005 /* AppOpenAdManager.swift */; };
@@ -113,6 +114,9 @@
 
 /* Begin PBXFileReference section */
 		ACDB0003000000000000B001 /* WidgetSharedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSharedState.swift; sourceTree = "<group>"; };
+		ACDB0003000000000000B005 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ACDB0003000000000000B006 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ACDB0003000000000000B007 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ACDBACDB000000000000F001 /* ScreenshotFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotFixture.swift; sourceTree = "<group>"; };
 		ADADADAD000000000000C003 /* AdConsentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdConsentManager.swift; sourceTree = "<group>"; };
 		ADADADAD000000000000C005 /* AppOpenAdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOpenAdManager.swift; sourceTree = "<group>"; };
@@ -331,6 +335,7 @@
 				EF789B942A30ABFA006EC6D8 /* ControllersWidget.swift */,
 				ACACACAC000000000000C001 /* ControllerLiveActivity.swift */,
 				369B34082A4C511E00DBCC29 /* ProgressBar.swift */,
+				ACDB0003000000000000B003 /* Localizable.strings */,
 				EF789B962A30ABFB006EC6D8 /* Assets.xcassets */,
 				EF789B982A30ABFB006EC6D8 /* Info.plist */,
 				ACACACAC000000000000E001 /* PrivacyInfo.xcprivacy */,
@@ -611,6 +616,7 @@
 			files = (
 				EF789B972A30ABFB006EC6D8 /* Assets.xcassets in Resources */,
 				ACACACAC000000000000E002 /* PrivacyInfo.xcprivacy in Resources */,
+				ACDB0003000000000000B004 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,6 +725,16 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		ACDB0003000000000000B003 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ACDB0003000000000000B005 /* en */,
+				ACDB0003000000000000B006 /* ja */,
+				ACDB0003000000000000B007 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		B5BE54292BF9D993009BD3EF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -1,0 +1,9 @@
+/* ControllersWidget */
+"widget.name" = "Controller Battery";
+"widget.description" = "See your controller's connection and battery at a glance.";
+"widget.controller" = "Controller";
+"widget.notConnected" = "Not connected";
+"widget.charging" = "Charging";
+"widget.notCharging" = "Not charging";
+"widget.last %@" = "Last: %@";
+"widget.updated %@" = "Updated %@ ago";
