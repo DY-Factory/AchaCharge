@@ -24,9 +24,16 @@ enum ScreenshotFixture {
     }
 
     /// `-ACMockBattery` 를 주면 그 잔량으로 컨트롤러가 연결된 것처럼 보인다. 없으면 미연결 상태다.
+    /// 음수(-1)면 배터리 정보를 주지 않는 컨트롤러다.
+    /// argument 도메인은 `-1` 을 값이 아닌 키로 읽어서, 이 값만 실행 인자에서 직접 꺼낸다.
     static var mockController: MockController? {
-        guard isEnabled, arguments.object(forKey: "ACMockBattery") != nil else { return nil }
-        return MockController(batteryLevel: arguments.float(forKey: "ACMockBattery"),
+        let launchArguments = ProcessInfo.processInfo.arguments
+        guard isEnabled,
+              let index = launchArguments.firstIndex(of: "-ACMockBattery"),
+              index + 1 < launchArguments.count,
+              let level = Float(launchArguments[index + 1]) else { return nil }
+        return MockController(batteryLevel: max(level, 0),
+                              hasBatteryInfo: level >= 0,
                               isCharging: arguments.bool(forKey: "ACMockCharging"),
                               vendorName: arguments.string(forKey: "ACMockVendor") ?? "DualSense Wireless Controller")
     }
@@ -43,6 +50,7 @@ enum ScreenshotFixture {
 
     struct MockController {
         let batteryLevel: Float
+        let hasBatteryInfo: Bool
         let isCharging: Bool
         let vendorName: String
     }

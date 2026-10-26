@@ -60,4 +60,5 @@
 "Connect Guide Step 3" = "接続されると、ここにバッテリー残量が自動で表示されます。";
 "Connect Guide Waiting" = "接続を待っています…";
 "Connect Guide Support Note" = "公式サポート: DualSense。他のコントローラーではバッテリー情報が表示されない場合があります。";
+"No Battery Info" = "このコントローラーはバッテリー情報を提供していません";
 "Charging" = "充電中";

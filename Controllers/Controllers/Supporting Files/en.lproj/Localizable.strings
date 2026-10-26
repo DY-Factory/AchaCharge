@@ -59,4 +59,5 @@
 "Connect Guide Step 3" = "Once connected, the battery level appears here automatically.";
 "Connect Guide Waiting" = "Waiting for connection…";
 "Connect Guide Support Note" = "Officially supported: DualSense. Other controllers may not show battery info.";
+"No Battery Info" = "This controller doesn't provide battery info";
 "Charging" = "Charging";

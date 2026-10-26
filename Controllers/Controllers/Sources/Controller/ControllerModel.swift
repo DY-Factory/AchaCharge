@@ -18,6 +18,8 @@ final class ControllerModel: ObservableObject {
     @Published var batteryLevel: Float = 0.0
     @Published var vendorName: String = ""
     @Published var isCharging: Bool = false
+    /// 상태 unknown·잔량 0이면 배터리 정보를 주지 않는 컨트롤러다. (시뮬레이터 가상 Gamepad, 일부 비공식 컨트롤러)
+    @Published var hasBatteryInfo: Bool = true
     
     private let manager = GameControllerManager.shared
     
@@ -56,6 +58,7 @@ final class ControllerModel: ObservableObject {
         vendorName = info.vendorName
         batteryLevel = info.batteryLevel
         isCharging = info.batteryState == .charging
+        hasBatteryInfo = !(info.batteryState == .unknown && info.batteryLevel == 0)
         UserDefaults.shared.setValue(info.batteryLevel, forKey: StringKey.BATTERY_LEVEL)
 
         // 활성화된 Live Activity 가 있으면 배터리 정보를 갱신한다.
@@ -153,6 +156,7 @@ extension ControllerModel {
             vendorName = mock.vendorName
             batteryLevel = mock.batteryLevel
             isCharging = mock.isCharging
+            hasBatteryInfo = mock.hasBatteryInfo
         }
         ScreenshotFixture.writeWidgetState()
     }

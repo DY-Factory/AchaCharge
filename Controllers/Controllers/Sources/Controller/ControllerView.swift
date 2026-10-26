@@ -39,27 +39,43 @@ struct ControllerView: View {
                             .frame(width: diameter * 0.45)
                             .foregroundColor(.primary)
 
-                        ProgressBarView(
-                            progress: $model.batteryLevel,
-                            isAnimating: true,
-                            lineWidth: max(diameter * 0.03, 6)
-                        )
-                    }
-                    .frame(width: diameter, height: diameter)
-
-                    HStack(spacing: 6) {
-                        Text("\(Int((model.batteryLevel) * 100)) %")
-                        if model.isCharging {
-                            Image(systemName: "bolt.fill")
-                                .foregroundColor(.green)
-                                .accessibilityLabel("Charging".localized)
+                        if model.hasBatteryInfo {
+                            ProgressBarView(
+                                progress: $model.batteryLevel,
+                                isAnimating: true,
+                                lineWidth: max(diameter * 0.03, 6)
+                            )
                         }
                     }
-                    .font(.largeTitle.bold())
+                    // 링이 없으면 아이콘 높이만큼만 차지한다.
+                    .frame(width: diameter, height: model.hasBatteryInfo ? diameter : diameter * 0.5)
+
+                    if model.hasBatteryInfo {
+                        HStack(spacing: 6) {
+                            Text("\(Int((model.batteryLevel) * 100)) %")
+                            if model.isCharging {
+                                Image(systemName: "bolt.fill")
+                                    .foregroundColor(.green)
+                                    .accessibilityLabel("Charging".localized)
+                            }
+                        }
+                        .font(.largeTitle.bold())
+                    } else {
+                        Text("No Battery Info".localized)
+                            .font(.title3.bold())
+                            .multilineTextAlignment(.center)
+                    }
 
                     Text(model.vendorName)
                         .font(.headline)
                         .multilineTextAlignment(.center)
+
+                    if !model.hasBatteryInfo {
+                        Text("Connect Guide Support Note".localized)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
 
                     Button(action: onRefresh) {
                         Label("Refresh".localized, systemImage: "arrow.clockwise")
