@@ -349,8 +349,9 @@ extension IAPOnboardingViewController {
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: closeButton.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: readable.trailingAnchor),
+            // 오른쪽 위 닫기 버튼과 겹치지 않게 양쪽을 같은 만큼 띄워 가운데를 유지한다. (긴 언어는 두 줄로 내려간다)
+            titleLabel.leadingAnchor.constraint(equalTo: readable.leadingAnchor, constant: 52),
+            titleLabel.trailingAnchor.constraint(equalTo: readable.trailingAnchor, constant: -52),
             
             infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 50),
             infoLabel.leadingAnchor.constraint(equalTo: readable.leadingAnchor),
