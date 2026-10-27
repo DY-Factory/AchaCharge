@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"Controllers" = "Ah Charge !";
+"Controller" = "Manette";
+"Tester" = "Testeur";
+"Setting" = "Réglages";
+"Not connected.." = "Non connectée..";
+"Refresh" = "Actualiser";
+"Premium" = "Premium";
+"restorepurchase" = "Restaurer l'achat";
+"Info" = "Infos";
+"Battery is low %@" = "Batterie faible : %@. Il est temps de recharger !";
+"Charge Alert Threshold" = "Seuil d'alerte de charge";
+"Charge Alert Threshold Message" = "Recevez une notification quand la batterie descend au niveau choisi ou en dessous.";
+"Cancel" = "Annuler";
+"Ok!" = "Ok !";
+"Done" = "Terminé";
+"Purchase is completed" = "Achat effectué";
+"/week" = "/semaine";
+"/month" = "/mois";
+"/year" = "/an";
+"No subscription to restore" = "Aucun abonnement à restaurer";
+"Watch Ad Pro Pass %@" = "Regardez une pub pour avoir Pro pendant %@";
+"Pro Pass Active %@" = "Pro actif jusqu'à %@";
+"Pro Pass Granted %@" = "Vous pouvez utiliser Pro pendant %@.";
+"Ad Not Completed" = "Regardez toute la pub pour obtenir le pass.";
+"Ad Not Available" = "Aucune pub disponible pour le moment. Réessayez plus tard.";
+"Ad Privacy Settings" = "Confidentialité des pubs";
+"Pro Promo Title" = "Alertes de batterie pendant que vous jouez";
+"Pro Promo Message %@" = "Avec Pro, vous êtes prévenu quand la batterie de la manette descend à %@ ou moins, même dans une autre app. Et sans pub.";
+"See Pro Plans" = "Voir les offres Pro";
+"Not Now" = "Plus tard";
+"Pro No Ads" = "Utilisez l'app sans pub.";
+"%@ connected" = "%@ connectée";
+"Controller not connected" = "Manette non connectée";
+"Upgrade to Pro" = "Passer à Pro";
+"Already Subscribing !" = "Vous êtes déjà abonné !";
+"Current Battery is %@" = "Batterie actuelle : %@ !";
+"Month Plan" = "Formule mensuelle";
+"Notifications can also be sent to the controller's battery information during game play" = "Soyez prévenu du niveau de batterie de votre manette même en jouant.";
+"privacy Policy" = "Politique de confidentialité";
+"Start Premium" = "Démarrer Premium";
+"termOfUse" = "Conditions d'utilisation";
+"Week Plan" = "Formule hebdomadaire";
+"Year Plan" = "Formule annuelle";
+"Connect Guide Title" = "Connectez votre manette";
+"Connect Guide Subtitle" = "Associez-la une fois et le niveau de batterie s'affiche ici.";
+"Connect Guide Step 1" = "Maintenez ensemble la touche PS et la touche Create jusqu'à ce que la barre lumineuse clignote.";
+"Connect Guide Step 2" = "Allez dans Réglages > Bluetooth et sélectionnez \"DualSense Wireless Controller\".";
+"Connect Guide Step 3" = "Une fois connectée, le niveau de batterie s'affiche ici automatiquement.";
+"Connect Guide Waiting" = "En attente de connexion…";
+"Connect Guide Support Note" = "Officiellement compatible : DualSense. Les autres manettes peuvent ne pas afficher la batterie.";
+"No Battery Info" = "Cette manette ne fournit pas d'infos de batterie";
+"Charging" = "En charge";

@@ -6,7 +6,6 @@
   
 */
 "Controllers" = "忘れないで！";
-"아차 충전 !" = "忘れないで！";
 "Controller" = "コントローラー";
 "Tester" = "テスター";
 "Setting" = "設定";
@@ -51,3 +50,27 @@
 "See Pro Plans" = "Proプランを見る";
 "Not Now" = "あとで";
 "Pro No Ads" = "広告なしでご利用いただけます。";
+
+// MARK: - Tester & Paywall
+"%@ connected" = "%@に接続中";
+"Controller not connected" = "コントローラー未接続";
+"Upgrade to Pro" = "Proにアップグレード";
+"Already Subscribing !" = "すでに登録済みです！";
+"Month Plan" = "月額プラン";
+"Notifications can also be sent to the controller's battery information during game play" = "ゲームのプレイ中でも、コントローラーのバッテリー残量を通知でお知らせします。";
+"privacy Policy" = "プライバシーポリシー";
+"Start Premium" = "プレミアムを始める";
+"termOfUse" = "利用規約";
+"Week Plan" = "週額プラン";
+"Year Plan" = "年額プラン";
+
+// MARK: - Connection Guide
+"Connect Guide Title" = "コントローラーを接続してください";
+"Connect Guide Subtitle" = "一度ペアリングすれば、バッテリー残量がここに表示されます。";
+"Connect Guide Step 1" = "ライトバーが点滅するまで、PSボタンとクリエイトボタンを同時に長押しします。";
+"Connect Guide Step 2" = "設定 > Bluetoothで「DualSense Wireless Controller」を選択します。";
+"Connect Guide Step 3" = "接続されると、ここにバッテリー残量が自動で表示されます。";
+"Connect Guide Waiting" = "接続を待っています…";
+"Connect Guide Support Note" = "公式サポート: DualSense。他のコントローラーではバッテリー情報が表示されない場合があります。";
+"No Battery Info" = "このコントローラーはバッテリー情報を提供していません";
+"Charging" = "充電中";

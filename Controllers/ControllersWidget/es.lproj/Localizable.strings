@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Controllers
+  
+*/
+"widget.name" = "Batería del mando";
+"widget.description" = "Consulta de un vistazo la conexión y la batería de tu mando.";
+"widget.controller" = "Mando";
+"widget.notConnected" = "No conectado";
+"widget.charging" = "Cargando";
+"widget.notCharging" = "Sin cargar";
+"widget.last %@" = "Último: %@";
+"widget.updated %@" = "Actualizado hace %@";
+"widget.noBatteryInfo" = "Sin info de batería";

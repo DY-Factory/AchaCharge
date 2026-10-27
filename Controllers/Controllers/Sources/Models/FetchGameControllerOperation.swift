@@ -24,6 +24,9 @@ class FetchGameControllerOperation: Operation {
 
         let level = Int(info.batteryLevel * 100)
 
+        WidgetSharedState.save(isConnected: true, batteryLevel: info.batteryLevel,
+                               batteryState: info.batteryState.rawValue, vendorName: info.vendorName)
+
         // 백그라운드에서도 잠금화면 Live Activity 가 최신 배터리 정보를 반영하도록 갱신한다.
         LiveActivityManager.shared.update(batteryLevel: info.batteryLevel,
                                           batteryState: info.batteryState.rawValue)

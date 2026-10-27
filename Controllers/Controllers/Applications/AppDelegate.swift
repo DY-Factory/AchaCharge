@@ -34,6 +34,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        #if DEBUG
+        // 스크린샷을 찍을 때는 알림 권한 팝업을 띄우지 않는다.
+        if ScreenshotFixture.isEnabled {
+            isNotificationAuthorizationAnswered = true
+            return true
+        }
+        #endif
         Task {
             await requestNotificationAuthorization()
             isNotificationAuthorizationAnswered = true

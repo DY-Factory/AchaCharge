@@ -27,6 +27,12 @@ final class ProPromotionManager {
 
     func controllerDidConnect() {
         guard !isDone else { return }
+        // 평가 요청은 버전당 한 번이라, 그 차례인 실행에서는 Pro 팝업을 건너뛴다.
+        if ControllerModel.isReviewRequestDue {
+            NSLog("Pro promo skipped for review request")
+            finish()
+            return
+        }
         isPending = true
         presentIfNeeded()
     }

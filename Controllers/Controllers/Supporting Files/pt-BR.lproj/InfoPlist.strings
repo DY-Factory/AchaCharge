@@ -1,0 +1,7 @@
+/* 
+  InfoPlist.strings
+  Controllers
+  
+*/
+"CFBundleDisplayName" = "Ah Charge!";
+"NSUserTrackingUsageDescription" = "Usado para mostrar anúncios mais relevantes. O app e as recompensas dos anúncios funcionam da mesma forma, você permitindo ou não.";

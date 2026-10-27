@@ -44,6 +44,7 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 - `ControllersTests` 타깃은 있지만 `Controllers` scheme의 TestAction에 등록되어 있지 않아 `xcodebuild test`가 실패합니다.
 - 백그라운드 알림 테스트 (LLDB, 앱 일시정지 상태에서):
   `e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWithIdentifier:@"com.controller.battery"]`
+- 스크린샷·화면 확인용 DEBUG 실행 인자 ([ScreenshotFixture.swift](Controllers/Controllers/Sources/Debug/ScreenshotFixture.swift)): `-ACScreenshot YES`(시작 팝업·광고 생략, 실제 컨트롤러 이벤트 무시) + `-ACMockBattery 0.42`(`-1`이면 배터리 정보 없는 컨트롤러) `-ACMockCharging YES` `-ACMockVendor "<이름>"` `-ACTab controller|tester|setting` `-ACPaywall YES`. 시뮬레이터에는 컨트롤러를 연결할 수 없어 연결 상태는 이것으로 만듭니다. iOS 27 시뮬레이터는 배터리 정보 없는 가상 "Gamepad"를 연결된 것으로 넘겨줍니다
 
 ### CI
 
@@ -129,7 +130,9 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 
 ### 위젯 ↔ 앱 데이터 공유
 - App Group `UserDefaults`를 단방향(앱 → 위젯)으로 사용
-- 위젯이 읽는 키: `StringKey.CONTROLLER_CONNECTED`, `StringKey.BATTERY_LEVEL`
+- 쓰기는 [WidgetSharedState](Controllers/Controllers/Sources/Models/WidgetSharedState.swift)`.save(...)` 한곳에서 합니다. 연결 여부·잔량·`BATTERY_STATE`·`VENDOR_NAME`·`LAST_UPDATED`를 쓰고, 상태가 바뀔 때만 타임라인을 다시 읽게 합니다
+- 위젯은 `batteryState`가 unknown(-1)이면 "배터리 정보 없음"으로, 미연결이면 마지막 값과 함께 "Not connected"로 표시합니다
+- 시뮬레이터에서 App Group을 공유하려면 로컬 서명으로 빌드해야 합니다(`CODE_SIGN_IDENTITY=- CODE_SIGNING_ALLOWED=YES`). `CODE_SIGNING_ALLOWED=NO` 빌드는 위젯이 앱 값을 못 읽습니다
 - 위젯에서 Push를 보내던 코드는 제거됨 (커밋 `ba362d5`). 위젯 → 앱 통신을 다시 넣지 마세요
 
 ### 백그라운드 알림 (구독자·광고 이용권 사용자 전용)
@@ -160,14 +163,15 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 - **앱 오프닝 광고** ([AppOpenAdManager.swift](Controllers/Controllers/Sources/Models/AppOpenAdManager.swift)): 백그라운드에서 돌아올 때만(콜드 스타트·제어 센터 제외), 마지막 노출 후 `minimumInterval`(15분)이 지나야 표시. AdMob 정책상 앱을 열거나 돌아오는 시점에는 전면(interstitial) 광고를 쓰면 안 됩니다
 - **Pro 팝업** ([ProPromotionManager.swift](Controllers/Controllers/Sources/Models/ProPromotionManager.swift)): 앱 실행 후 첫 컨트롤러 연결 때 1회. 광고 이용권 받기 / 구매 화면 / 나중에
 - 앱이 사용자를 밖으로 보내는 코드(`UIApplication.shared.open` 등)를 추가하면 그 직전에 `AppOpenAdManager.shared.skipNextAd()`를 부르세요. 안 그러면 돌아오자마자 광고가 뜹니다
+- **평가 요청** ([ControllerModel.swift](Controllers/Controllers/Sources/Controller/ControllerModel.swift) `isReviewRequestDue`): 누적 연결 3회째부터 앱 버전당 한 번. 차례인 실행에서는 Pro 팝업을 건너뛰고 평가를 먼저 띄우며, 시작 흐름·광고·모달이 끝나기를 최대 30초 기다립니다
 - DEBUG 빌드는 Google 테스트 광고 단위를 씀. 실제 광고 단위로 개발 중 광고를 누르지 마세요(AdMob 무효 트래픽)
 - AdMob 앱 ID `ca-app-pub-7469152743628808~7969925639`(Info.plist `GADApplicationIdentifier`), 보상형 `pro_pass_rewarded` `.../7469653173`, 앱 오프닝 `app_open_foreground` `.../3611967519`
 - 광고 SDK가 데이터를 수집하므로 App Store 개인정보 라벨(추적 포함)과 dy-solution.kr 개인정보처리방침을 같이 관리. 근거는 ARCHITECTURE.md 결정 #12, #13
 
 ### 로컬라이제이션
-- ko / en / ja `Localizable.strings` + `InfoPlist.strings`
-- 접근: `"key".localized`, `"key %@".localized(with: [arg])` ([String+.swift](Controllers/Controllers/Sources/Extensions/String+.swift))
-- 신규 문구는 세 언어 모두 추가. `TesterView`, 위젯 등 일부 SwiftUI 문구는 아직 한국어 하드코딩 상태
+- ko / en / ja / es / pt-BR / ru / tr / fr / de `Localizable.strings` + `InfoPlist.strings` (앱), 위젯은 `ControllersWidget/*.lproj/Localizable.strings`를 따로 가짐
+- 접근: `"key".localized`, `"key %@".localized(with: [arg])` ([String+.swift](Controllers/Controllers/Sources/Extensions/String+.swift)). 위젯은 `Text("key")`/`NSLocalizedString`
+- 신규 문구는 9개 언어 모두 추가하고 키 집합을 ko와 맞추세요. 사용자에게 보이는 문구를 하드코딩하지 마세요
 
 ### 컬러
 - 컬러셋은 `ColorAsset.xcassets`에 정의하고 UIKit에서는 `UIColor.color(name:)` ([UIColor+.swift](Controllers/Controllers/Sources/Extensions/UIColor+.swift))로 접근. 현재 탭바 컬러 2개뿐
@@ -201,4 +205,4 @@ xcodebuild build -project Controllers/Controllers.xcodeproj -scheme Controllers 
 
 ---
 
-*기준: `develop` + PR #15 + `Feature/charge-alert-enhancements` 작업 트리 · 최종 갱신: 2026-10-04*
+*기준: `Feature/develop-dev` (UI/UX 개편) · 최종 갱신: 2026-10-27*

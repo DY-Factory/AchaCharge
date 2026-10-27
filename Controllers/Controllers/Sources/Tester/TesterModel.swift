@@ -48,6 +48,17 @@ final class TesterModel: ObservableObject {
     private let manager = GameControllerManager.shared
     
     init() {
+        #if DEBUG
+        // 스크린샷 모드에서는 시뮬레이터의 가상 컨트롤러를 무시하고 실행 인자 상태만 보여 준다.
+        if ScreenshotFixture.isEnabled {
+            if let mock = ScreenshotFixture.mockController {
+                isConnected = true
+                vendorName = mock.vendorName
+                batteryLevel = mock.batteryLevel
+            }
+            return
+        }
+        #endif
         manager.addDelegate(self)
         manager.inputDelegate = self
         setupController()
